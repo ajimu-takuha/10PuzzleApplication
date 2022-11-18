@@ -224,6 +224,8 @@
             symValue: ["+", "+", "+", "+"],
             clearCount: 0,
             clearedFormula: [],
+            reloadFormula: [],
+            reloadAnswerFormula:[],
             // createCount: 0,
             reloadCount: 0,
             answerFormula: "",
@@ -270,6 +272,10 @@
                         console.log("The problems you have solved is\n");
                         for (let i = 0; i < this.clearedFormula.length; i++) {
                             console.log(this.clearedFormula[i] + "\n");
+                        }
+                        for (let i = 0; i < this.reloadFormula.length; i++) {
+                            console.log(this.reloadFormula[i] + "\n");
+                            console.log("Answer:" + this.reloadAnswerFormula[i] + "\n");
                         }
                         this.resetNumBraSym();
                         this.clearedFormula = [];
@@ -360,7 +366,72 @@
                         setTimeout(this.createNum, 1000);
                         return;
                     }
-                } else if (ansVal == this.target) {
+                } else if (ansVal == 10) {
+                    //以下、ネットからコピペ
+                    var dbName = 'rankingDB';
+                    var openReq = indexedDB.open(dbName);
+                    //　DB名を指定して接続。DBがなければ新規作成される。
+
+                    openReq.onupgradeneeded = function (event) {
+                        //onupgradeneededは、DBのバージョン更新(DBの新規作成も含む)時のみ実行
+                        console.log('db upgrade');
+                    }
+                    openReq.onsuccess = function (event) {
+                        //onupgradeneededの後に実行。更新がない場合はこれだけ実行
+                        console.log('db open success');
+                        var db = event.target.result;
+                        // 接続を解除する
+                        db.close();
+                    }
+                    openReq.onerror = function (event) {
+                        // 接続に失敗
+                        console.log('db open error');
+                    }
+                    var storeName = 'rankingStore';
+                    var openReq = indexedDB.open(dbName, dbVersion);
+                    // オブジェクトストアの作成・削除はDBの更新時しかできないので、バージョンを指定して更新
+
+                    openReq.onupgradeneeded = function (event) {
+                        var db = event.target.result;
+                        db.createObjectStore(storeName, { keyPath: 'id' })
+                    }
+                    var data = { id: 'A1', name: 'test' };
+
+                    var openReq = indexedDB.open(dbName);
+
+                    openReq.onsuccess = function (event) {
+                        var db = event.target.result;
+                        var trans = db.transaction(storeName, 'readwrite');
+                        var store = trans.objectStore(storeName);
+                        var putReq = store.put(data);
+
+                        putReq.onsuccess = function () {
+                            console.log('put data success');
+                        }
+
+                        trans.oncomplete = function () {
+                            // トランザクション完了時(putReq.onsuccessの後)に実行
+                            console.log('transaction complete');
+                        }
+
+                    }
+                    var keyValue = 'A1';
+
+                    var openReq = indexedDB.open(dbName);
+
+                    openReq.onsuccess = function (event) {
+                        var db = event.target.result;
+                        var trans = db.transaction(storeName, 'readonly');
+                        var store = trans.objectStore(storeName);
+                        var getReq = store.get(keyValue);
+
+                        getReq.onsuccess = function (event) {
+                            console.log(event.target.result); // {id : 'A1', name : 'test'}
+                        }
+                    }
+
+
+                    //ここまでコピペ
                     const correctCube = document.getElementById("correctCube");
                     correctCube.style.display = "block";
                     setTimeout(() => {
@@ -372,7 +443,6 @@
             }
         },
         computed: {
-
             answer() {
                 let text = "return (" + this.brackets[0] + this.addSym[0] + this.numbers[0] + this.symValue[0] + this.brackets[1] + this.numbers[1] + this.brackets[2] + this.symValue[1] + this.brackets[3] + this.numbers[2] + this.brackets[4] + this.symValue[2] + this.numbers[3] + this.brackets[5] + ")";
                 try {
@@ -480,7 +550,9 @@
                         return;
                     }
                     let [TrueOrFalse, make10Ans] = make10(nums, 10);
-                    if (TrueOrFalse) {
+                    if ((make10Ans.match(/-/g) || []).length == 1) {
+                        this.createNum();
+                    } else if (TrueOrFalse) {
                         for (let i = 0; i < this.numbers.length; i++) {
                             this.numbers.splice(i, 1, nums[i]);
                         }
@@ -529,6 +601,11 @@
                     } else {
                         this.createNum();
                     }
+                } 
+                let plusCount = (this.answerFormula.match(/\+/g) || []).length;
+                if(plusCount >= 2 && this.answerFormula.indexOf("(") == -1) {
+                    console.log(this.answerFormula + "は1か所しか変更しないのでやり直し");
+                    this.createNum();
                 }
                 this.firstSym.splice(0, 1, "+");
                 this.secondSym.splice(0, 1, "+");
@@ -695,6 +772,8 @@
                 if (this.startFlag == true) {
                     this.reloadCount++;
                 }
+                this.reloadFormula.push(this.numbers[i]);
+                this.reloadAnswerFormula.push(this.answerFormula);
             },
             startClick() {
                 this.clearCount = 0;
@@ -725,8 +804,8 @@
             },
             showAns() {
                 this.answerFormula = this.answerFormula.substr(6);
-                this.answerFormula = this.answerFormula.replace("*", "×");
-                this.answerFormula = this.answerFormula.replace("/", "÷");
+                this.answerFormula = this.answerFormula.replace(/\*/, "×");
+                this.answerFormula = this.answerFormula.replace(/\//, "÷");
                 const answerFormula = document.getElementById("answerFormula");
                 answerFormula.style.display = "block";
                 const answerNoChange = document.getElementById("answerNoChange");
@@ -802,9 +881,9 @@
                 this.setButtonStateStopped();
                 clearTimeout(this.timeoutId);
                 this.erapsedTime += Date.now() - this.startTime;
-                console.log(this.erapsedTime);
-                this.erapsedTime = (Math.round((this.erapsedTime - 9000) / 100)/10);
-                console.log(this.erapsedTime);
+                // console.log(this.erapsedTime);
+                this.erapsedTime = (Math.round((this.erapsedTime - 9000) / 100) / 10);
+                // console.log(this.erapsedTime);
                 this.score = 1000 - (this.erapsedTime + 10 * this.reloadCount);
             },
             reset() {
