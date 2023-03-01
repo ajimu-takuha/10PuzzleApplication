@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Quattrocento+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital@1&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Barlow:ital@1&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap');
 @import url("https://fonts.googleapis.com/css?family=Creepster");
@@ -10,10 +10,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Are+You+Serious&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Griffy&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
+@font-face {
+  font-family: "DSEG7Modern-Regular";
+  src: url(DSEG7Modern-Regular.woff);
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Frijole&display=swap');
 
-html {
+ html {
   height: 100%;
   width: 100vw;
   overflow: hidden;
@@ -22,6 +27,7 @@ html {
 body {
   height: 100%;
   width: 100vw;
+  margin: 0;
   /* display: flex;
   justify-content: center;
   align-items: center;
@@ -29,12 +35,31 @@ body {
   position: relative;
 }
 
-.all {
+.area {
+  /* background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8); */
+  width: 100%;
+  height: 100vh;
+  /* z-index: -1; */
+}
+
+
+#all {
   height: 100vh;
   width: 100vw;
 }
 
+#particles-js{ 
+  /*�`��Œ�*/
+	position:fixed;
+	z-index:-1;/* �`�����ԉ��� */
+	width: 100%;
+	height: 100%;
+  /*�w�i�F*/
+	background-color:#000000;
+}
+
 .contentWrapper {
+  z-index: 1;
   height: 900px;
   width: 1500px;
   position: absolute;
@@ -84,7 +109,7 @@ body {
   line-height: 38px;
   top: 50%;
   left: 50%;
-  margin-top: -465px;
+  margin-top: -455px;
   margin-left: -510px;
   padding: 20px;
   z-index: 100;
@@ -103,9 +128,7 @@ line-height: 60px;
   width: 150px;
   height: 70px;
   margin-top: 10px;
-  border: 3px solid rgb(0, 0, 0);
-  text-shadow: 1px 1px 1px rgb(0, 0, 0);
-  border-radius: 15%;
+  color: white;
   font-family: 'Arial', sans-serif;
   cursor: pointer;
   box-shadow: 2px 2px 2px rgb(0, 0, 0);
@@ -118,12 +141,79 @@ line-height: 60px;
   background: black;
 }
 
+.rankingClose:hover {
+  color: white;
+  background: black;
+}
+
 .result {
   position: absolute;
   width: 900px;
   height: 700px;
   font-size: 40px;
-  background: radial-gradient(rgb(255, 150, 150) 5%, rgba(130, 0, 0, 0.98) 70%, rgba(185, 0, 0, 1) 80%, rgba(180, 90, 90, 0.9));
+  color: white;
+  background: #000000;
+  font-family: 'Orbitron', sans-serif;
+  top: 50%;
+  left: 50%;
+  margin-top: -415px;
+  margin-left: -515px;
+  padding: 0%;
+  z-index: 100;
+  text-align: center;
+  user-select: none;
+  background-image: linear-gradient(0deg, transparent calc(100% - 1px), rgba(185, 214, 255, 0.4) calc(100% - 1px)),
+  linear-gradient(90deg, transparent calc(100% - 1px), rgba(185, 214, 255, 0.4) calc(100% - 1px));
+  background-size: 25px 25px;
+  background-repeat: repeat;
+  background-position: center center;
+  overflow: scroll;
+}
+
+#registScreen {
+  font-family: 'Orbitron', sans-serif;
+  top: 50%;
+  left: 50%;
+  margin-top: -415px;
+  margin-left: -515px;
+  z-index: 100;
+  text-align: center;
+  border-radius: 0;
+  user-select: none;
+  overflow: auto;
+  /* background-image: linear-gradient(0deg, transparent calc(100% - 1px), rgba(185, 214, 255, 0.753) calc(100% - 1px)),
+  linear-gradient(90deg, transparent calc(100% - 1px), rgba(185, 214, 255, 0.753) calc(100% - 1px)); */
+  background-size: 25px 25px;
+  background-repeat: repeat;
+  background-position: center center;
+}
+
+
+#registName {
+  width: 500px;
+  height: 70px;
+  font-size: 50px;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#warningWrapper {
+  width: 500px;
+  height: 70px;
+  margin: auto;
+}
+
+#warning {
+  font-size: 40px;
+  color: red;
+}
+
+.ranking {
+  position: absolute;
+  width: 900px;
+  height: 700px;
+  font-size: 40px;
   border: outset 15px rgb(150, 50, 50, 0.6);
   color: white;
   text-shadow: 2px 3px 3px rgb(0, 0, 0);
@@ -135,13 +225,139 @@ line-height: 60px;
   font-family: 'Orbitron', sans-serif;
   top: 50%;
   left: 50%;
-  margin-top: -415px;
-  margin-left: -515px;
+  /* margin-top: -415px;
+  margin-left: -515px; */
   z-index: 100;
   text-align: center;
   border-radius: 10%;
   user-select: none;
-  display: none;
+}
+
+.rankingTitle {
+  font-size: 40px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+#rankingItem {
+  display: flex;
+  height: 40px;
+  width: 100%;  
+  justify-content: center;
+  margin: 0;
+  font-size: 30px;
+}
+
+.items {
+  /* border: solid white 3px; */
+}
+
+#space {
+  width: 5%;
+  margin: 3px;
+  border: none;
+}
+
+#nameItem {
+  width: 40%;
+  margin: 3px;
+}
+
+#scoreItem {
+  width: 25%;
+  margin: 3px;
+}
+
+#dateItem {
+  width: 25%;
+  margin: 3px;
+}
+
+.rankVal {
+  height: 40px;
+  font-size: 30px;
+  margin: 1px;
+  border: solid 3px;
+  border-color: white;
+}
+
+.rankingContent {
+  overflow: scroll;
+}
+
+.rankDetail {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#rankNum {
+  flex-basis: 5%;
+}
+
+#rankName {
+  flex-basis: 40%;
+}
+
+#rankScore {
+  flex-basis: 25%;
+}
+
+#rankDate {
+  flex-basis: 25%;
+}
+
+#resultDetailTitle {
+  display: block;
+  font-size: 50px;
+  margin-top: 0.5%;
+  margin-bottom: 1.3%;
+}
+
+#detailWrapper {
+  display: flex;
+  width: 100%;
+  margin: 5px;
+  justify-content: center;
+  border-bottom: solid white 1px;
+  /* border-bottom: dashed 3px; */
+  font-family: 'Roboto Condensed', sans-serif;
+  margin: 0;
+}
+
+.solvedNum {
+  vertical-align: baseline;
+  width: 10%;
+  font-size: 30px;
+  margin: auto;
+}
+
+.solvedFormula {
+  width: 30%;
+  font-size: 35px;
+  margin: auto;
+}
+
+.detailAnswerFormula {
+  width: 40%;
+  font-size: 35px;
+  margin: auto;
+}
+
+.intervalTime {
+  width: 15%;
+  font-size: 35px;
+  margin: auto;
+}
+
+.reloadCheck {
+  width: 5%;
+  font-size: 30px;
+  margin: auto;
 }
 
 .answerFormula {
@@ -208,51 +424,99 @@ line-height: 60px;
 #evaluation {
   font-family: 'Henny Penny', cursive;
   font-size: 110px;
-  color: rgb(100, 0, 20);
+  color: rgb(180, 0, 36);
   text-shadow: 1px 0px 2px rgb(255, 255, 255);
   line-height: 110px;
 }
 
 #evalComment {
-  color: rgb(100, 0, 20);
-  text-shadow: 0px 0px 3px rgb(255, 255, 255);
-  text-shadow: 0px 0px 3px rgb(255, 255, 255);
-  text-shadow: 0px 0px 3px rgb(255, 255, 255);
+  color: rgb(180, 0, 36);
   font-size: 25px;
   line-height: 70px;
 }
 
-.tryButton {
-  font-size: 50px;
-  width: 300px;
-  height: 80px;
-  margin-top: 20px;
-  border: solid rgba(100, 0, 20);
-  background: radial-gradient(rgba(255, 70, 70, 0.7)40%, rgb(100, 0, 20));
-  text-shadow: 0px 0px 5px rgb(255, 255, 255);
-  text-shadow: 0px 0px 5px rgb(255, 255, 255);
-  text-shadow: 0px 0px 5px rgb(255, 255, 255);
-  border-width: 5px;
-  border-radius: 5%;
-  font-family: 'Electrolize', sans-serif;
-  cursor: pointer;
-  box-shadow: 0px 3px 10px rgb(200, 200, 200);
-  box-shadow: 0px 3px 10px rgb(200, 200, 200);
-  user-select: none;
-  cursor: pointer;
+#resultButtonWrapper {
+  display: flex;
+  justify-content: space-around;
 }
 
-.tryButton:hover {  
-  opacity: 0.5;
-  transform: translateY(2px);
-  box-shadow: 0, 1px, 1px white ;
+.resultButton {
+  width: 200px;
+  height: 60px;
+  margin-top: 20px;
+  color: white;
+  background-color: #00000000;
+  border: solid 1px rgb(255, 255, 255);
+  border-radius: 6%;
+  font-family: 'Electrolize', sans-serif;
+  font-size: 30px;
+  cursor: pointer;
+  user-select: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+/* 
+#detailScreen {
+  font-family: 'Orbitron', sans-serif;
+  top: 50%;
+  left: 50%;
+  margin-top: -415px;
+  margin-left: -515px;
+  z-index: 100;
+  text-align: center;
+  border-radius: 0;
+  user-select: none;
+  overflow: auto;
+  background-image: linear-gradient(0deg, transparent calc(100% - 1px), rgba(185, 214, 255, 0.753) calc(100% - 1px)),
+  linear-gradient(90deg, transparent calc(100% - 1px), rgba(185, 214, 255, 0.753) calc(100% - 1px));
+  background-size: 25px 25px;
+  background-repeat: repeat;
+  background-position: center center;
+} */
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.resultButton:hover { 
+  color: black;
+  background-color: white; 
+  opacity: 0.8;
+  transform: translateY(1px);
+}
+
+#tryButton {
+  font-size: 35px;
+}
+
+#inputUser {
+  font-size: 30px;
+}
+
+#checkDetail {
+  font-size: 35px;
 }
 
 .title {
-  font-family: 'Sacramento', cursive;
+  font-family: 'Electrolize', sans-serif;
+  /* font-family: 'Sacramento', cursive; */
   font-size: 180px;
-  color: black;
+  color: rgb(255, 255, 255);
   user-select: none;
+  cursor: pointer;
 }
 
 .overDriveTitle {
@@ -261,8 +525,9 @@ line-height: 60px;
   /* font-family: 'Frijole', cursive; */
   font-family: 'Nosifer', cursive;
   font-size: 130px;
-  color: rgb(100, 0, 0);
-  user-select: none;
+  color: rgb(185, 0, 0);
+  /* user-select: none; */
+  cursor: pointer;
 }
 
 .clearCount {
@@ -271,7 +536,7 @@ line-height: 60px;
   align-items: center;
   font-size: 30px;
   font-family: 'Electrolize', sans-serif;
-  color: rgb(78, 84, 200);
+  color: rgb(255, 255, 255);
   user-select: none;
 }
 
@@ -281,7 +546,7 @@ line-height: 60px;
   align-items: center;
   font-size: 80px;
   font-family: 'Creepster', cursive;
-  color: rgb(100, 20, 20);
+  color: rgb(185, 0, 0);
   text-shadow: 3px 3px rgb(0, 0, 0);
   user-select: none;
 }
@@ -298,20 +563,18 @@ line-height: 60px;
 
 .numbers {
   margin: 2px;
-  height: 100px;
-  width: 100px;
-  font-size: 90px;
-  border: solid rgb(78, 84, 200, 0.3);
-  border-radius: 30%;
+  height: 90px;
+  width: 90px;
+  font-size: 80px;
+  border-radius: 5%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Quicksand', sans-serif;
   user-select: none;
   cursor: pointer;
-  color: black;
-  border: dashed rgb(78, 84, 200, 0.5);
-  text-shadow: 3px 3px rgb(78, 84, 200, 0.3);
+  color: rgb(255, 255, 255);
+  /* border: inset rgb(255, 255, 255); */
 }
 
 
@@ -334,8 +597,9 @@ line-height: 60px;
 
 
 .numbers:hover {
-  background: rgb(78, 84, 200);
-  opacity: 0.7;
+  background: rgb(255, 255, 255);
+  color: black;
+  /* opacity: 0.7; */
 }
 
 .overDriveNum:hover {
@@ -346,19 +610,16 @@ line-height: 60px;
   margin: 1px;
   height: 95px;
   width: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   font-size: 90px;
   border-radius: 10%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Roboto Slab', serif;
-  border: dashed rgb(78, 84, 200, 0.5);
-  color: rgb(0, 0, 0);
-  text-shadow: 0 0 1px rgb(0, 0, 0);
-  text-shadow: 0 0 1px rgb(0, 0, 0);
-  text-shadow: 0 0 1px rgb(0, 0, 0);
-  /* color: rgb(255, 255, 255);
-  border: dashed rgb(255, 255, 255, 0.5); */
+  /* border: inset rgb(255, 255, 255); */
+  color: rgb(255, 255, 255);
   padding-bottom: 10px;
   user-select: none;
   cursor: pointer;
@@ -376,50 +637,91 @@ line-height: 60px;
   font-family: 'Griffy', cursive;
   border: dashed rgba(100, 0, 0, 0.5);
   color: rgb(150, 0, 0);
-  text-shadow: 0 0 1px rgb(0, 0, 0);
-  text-shadow: 0 0 1px rgb(0, 0, 0);
-  text-shadow: 0 0 1px rgb(0, 0, 0);
-  /* color: rgb(255, 255, 255);
-  border: dashed rgb(255, 255, 255, 0.5); */
   padding-top: 15px;
   user-select: none;
   cursor: pointer;
 }
 
+.hovered0 {
+  background-color: white;
+  color: black;
+}
 
-.brackets:hover {
-  background: rgb(78, 84, 200);
+.hovered1 {
+  background-color: white;
+  color: black;
+}
+
+.hovered2 {
+  background-color: white;
+  color: black;
+}
+
+.hovered3 {
+  background-color: white;
+  color: black;
+}
+
+.hovered4 {
+  background-color: white;
+  color: black;
 }
 
 .overDriveBra:hover {
-  background:  rgba(100, 0, 0);
+  background:  rgb(255, 0, 0);
 }
 
 .clickAct {
-  background-color: rgb(78, 84, 200);
+  background-color: rgb(255, 255, 255);
+  color: black;
 }
 
 .overDriveCAct {
-  background-color: rgb(150, 0, 0);
+  background-color: rgb(255, 0, 0);
 }
 
 .symbol {
-  width: 50px;
-  height: 50px;
-  margin: 3px;
-  font-size: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  /* margin: 3px; */
+  font-size: 90px;
   padding-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: black;
-  text-shadow: 3px 3px rgb(78, 84, 200, 0.5);
-  border: double rgb(78, 84, 200, 0.5);
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0);
+  /* border: inset rgb(255, 255, 255); */
   font-family: 'Quattrocento Sans', sans-serif;
   pointer-events: auto;
   user-select: none;
 }
 
+.dragging {
+  opacity: 0.8;
+}
+
+.draggable {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  background-color: gray;
+  color: white;
+  font-size: 36px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dragging {
+  background: rgb(255, 255, 255);
+  color: #000000;
+}
 
 .overDriveSym {
   width: 50px;
@@ -430,7 +732,7 @@ line-height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(150, 0, 0);
+  color: rgb(255, 0, 0);
   text-shadow: 3px 3px rgb(100, 0, 0);
   border: double rgba(100, 0, 0, 0.5);
   font-family: 'Griffy', cursive;
@@ -439,19 +741,20 @@ line-height: 60px;
 }
 
 .symbol:hover {
-  background: rgb(78, 84, 200);
-  opacity: 0.7;
+  background: rgb(255, 255, 255);
+  color: #000000;
 }
 
 
 .overDriveSym:hover {
-  background:  rgba(100, 0, 0);
+  background:  rgb(255, 255, 255);
+  color: red;
 }
 
 
 .ecole {
-  font-size: 110px;
-  text-shadow: 3px 3px rgb(78, 84, 200, 0.3);
+  font-size: 100px;
+  color: white;
   font-family: 'Quattrocento Sans', sans-serif;
   display: flex;
   align-items: center;
@@ -460,8 +763,8 @@ line-height: 60px;
 }
 
 .overDriveEcole {
-  font-size: 110px;
-  color: rgba(150, 0, 0);
+  font-size: 100px;
+  color: rgb(255, 0, 0);
   font-family: 'Griffy', cursive;
   display: flex;
   align-items: center;
@@ -474,9 +777,9 @@ line-height: 60px;
   height: 150px;
   margin-left: 10px;
   font-size: 110px;
-  border: 5px dashed rgb(78, 84, 200, 0.3);
+  /* border: 5px inset rgb(255, 255, 255); */
+  color: white;
   border-radius: 5%;
-  text-shadow: 3px 3px rgb(78, 84, 200, 0.3);
   display: flex;
   align-items: center;
   font-family: 'Quicksand', sans-serif;
@@ -489,7 +792,7 @@ line-height: 60px;
   height: 150px;
   margin-left: 5px;
   font-size: 120px;
-  color: rgb(150, 0, 0);
+  color: rgb(255, 0, 0);
   border: 5px dashed rgba(100, 0, 0, 0.5);
   text-shadow: 3px 3px rgb(0, 0, 0);
   border-radius: 5%;  
@@ -537,23 +840,42 @@ line-height: 60px;
 
 .buttons {
   font-size: 30px;
-  width: 180px;
-  height: 90px;
+  width: 200px;
+  height: 60px;
   margin-left: 15px;
   margin-right: 15px;
-  border: outset rgb(78, 84, 200);
-  border-width: 10px;
-  border-radius: 50%;
-  background-color: rgb(140, 150, 255);
-  color: rgb(240, 240, 240);
+  border: outset 1px rgb(255, 255, 255);
+  border-radius: 1%;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   font-family: 'Electrolize', sans-serif;
   cursor: pointer;
   box-shadow: 0 4px 5px black;
   text-shadow: 1px 1px 0 black;
   user-select: none;
-  transition: .3s;
+  transition: 0.3s;
 }
 
+.closeButton {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  width:7%;
+  height: 7%;
+  top: 3px;
+  right: 3px;
+  background:transparent;
+  border-left: solid 1px;
+  border-bottom: solid 1px;
+  border-radius: 6%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.closeButton:hover {
+  opacity: 0.5;
+}
 
 .overDriveButtons {
   font-size: 30px;
@@ -571,11 +893,12 @@ line-height: 60px;
   box-shadow: 0 4px 5px black;
   text-shadow: 1px 1px 0 black;
   user-select: none;
+  transition: 0.3s;
 }
 
 .buttons:hover {
-  opacity: 0.7;
-  transform: translateY(3px);
+  color: black;
+  background-color: white;
 }
 
 #resetButton {
@@ -587,11 +910,11 @@ line-height: 60px;
   font-size: 28px;
   line-height: 25px;
 }
-
+/* 
 #showAnsButton {
   font-size: 28px;
   line-height: 25px;
-}
+} */
 
 #modeWrapper {
   margin-top: 20px;
@@ -607,39 +930,39 @@ line-height: 60px;
   width: 250px;
   height: 50px;
   margin-top: 20px;
-  border: solid rgb(140, 150, 255);
-  border-width: 5px;
+  border: outset 1px rgb(255, 255, 255);
   border-radius: 1%;
   color: rgb(240, 240, 240);
+  background-color: black;
   font-family: 'Orbitron', sans-serif;
   cursor: pointer;
-  box-shadow: 0 2px 5px black;
-  text-shadow: 3px 3px 1px black;
   user-select: none;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .modeButtons:hover {
-  opacity: 0.7;
-  transform: translateY(3px);
+  color: black;
+  background-color: white;
 }
 
-.digitButton {
+/* .digitButton {
   background: radial-gradient(rgb(40, 50, 110), rgb(60, 70, 155));
 }
 
 .teensButton {
   background: radial-gradient(rgb(40, 50, 110), rgb(60, 70, 155));
-}
+} */
 
 #overDriveButton {
   font-size: 30px;
-  background: rgb(85, 20, 20);
-  border: solid rgb(110, 0, 0);
+  background: rgb(0, 0, 0);
+  border: solid 1px rgb(110, 0, 0);
+  box-shadow: 0 4px 5px black;
   color: rgb(200, 0, 40);
   font-family: 'Henny Penny', cursive;
   pointer-events: none;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 
@@ -654,19 +977,23 @@ line-height: 60px;
   background-color: rgb(0, 0, 0);
   color: rgb(110, 0, 0);
   font-family: 'Henny Penny', cursive;
+  transition: 0.3s;
 }
 
 .btnNoSelect {
   pointer-events: none;
   opacity: 0.6;
+  transition: 0.3s;
   transform: translateY(3px);
   box-shadow: 0 1px 1px black;
 }
 
 .btnIsSelect {
-  opacity: 0.6;
-  transform: translateY(3px);
+  opacity: 0.8;
+  transition: 0.3s;
   box-shadow: 0 1px 1px black;
+  color: black;
+  background-color: white;
 }
 
 #controls {
@@ -679,8 +1006,11 @@ line-height: 60px;
   margin-top: 30px;
   width: 370px;
   height: 80px;
-  font-size: 80px;
-  font-family: 'Barlow', sans-serif;
+  font-size: 60px;
+  color: rgb(235, 235, 235);
+  text-shadow: #fff;
+  /* font-family: 'Barlow', sans-serif; */
+  font-family: 'DSEG7Modern-Regular', sans-serif;
   user-select: none;
   margin-bottom: 70px;
 }
@@ -697,7 +1027,7 @@ line-height: 60px;
   text-shadow: 3px 3px rgb(0, 0, 0);
 }
 
-@import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+/* @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
 * {
   margin: 0px;
   padding: 0px;
@@ -715,14 +1045,6 @@ line-height: 60px;
   font-size: 50px;
 }
 
-.area {
-  background: rgba(120, 130, 255, 0.5);
-  background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
-  width: 100%;
-  height: 100vh;
-  /* z-index: -1; */
-}
-
 .circles {
   position: absolute;
   top: 0;
@@ -738,7 +1060,8 @@ line-height: 60px;
   list-style: none;
   width: 20px;
   height: 20px;
-  background: rgba(240, 240, 255, 0.3);
+  background: rgb(255, 255, 255);
+  border:solid 1px rgb(186, 186, 186);
   animation: animate 25s linear infinite;
   bottom: -150px;
 }
@@ -822,30 +1145,30 @@ line-height: 60px;
   0% {
     transform: translateY(0) rotate(0deg);
     opacity: 1;
-    border-radius: 0;
+    border-radius: 0%;
   }
   100% {
     transform: translateY(-1500px) rotate(720deg);
     opacity: 0;
-    border-radius: 50%;
+    border-radius: 100%;
   }
 }
+ */
 
 
 
 
+/*========= wave��`�悷��G���A��?? ===============*/
 
-/*========= waveを描画するエリア設定 ===============*/
-
-
+/* 
 #wave{
   position:relative;
   position: absolute;
   bottom: 0;
   left:0;
-  height:100%;/*何も表示されない場合は各波の親要素に高さを持たせましょう。*/
+  height:100%;
   width: 100%;
-  background:rgb(0, 0, 0);/*背景を塗りつぶして重ねた波を表現したい場合は、波を描画する親要素に波と同じ背景色を設定しましょう。*/
+  background:rgb(0, 0, 0);
   z-index: -10;
   overflow: hidden;
   display: none;
@@ -866,4 +1189,4 @@ line-height: 60px;
   height: 0;
   padding: 0;
   margin: 0;
-}
+} */

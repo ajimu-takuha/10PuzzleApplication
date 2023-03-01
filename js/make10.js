@@ -36,7 +36,7 @@ function make10(nums, target) {
   var exps = {};
 
   // すべて加算の場合：素直に入力順に計算
-  exps[nums.join("+")] = null;
+  // exps[nums.join("+")] = null;
   // 加減算混合の場合：カッコは関係ない。最初の文字のみ考慮する。
   var opes = ["+", "-"];
   for (var nm_ in 数字の並び替えパターンA) {
@@ -199,11 +199,11 @@ function make10(nums, target) {
     exp = "return " + exp;
     if (Function(exp)() == target) {
       // console.log(exp + "で成功");
-      console.log(target + "に計算成功");
+      // console.log(target + "に計算成功");
       return [true, exp];
     }
   }
-  console.log( target + "にできませんでした");
+  // console.log( target + "にできませんでした");
   return [false, "-1"];
 }
 
