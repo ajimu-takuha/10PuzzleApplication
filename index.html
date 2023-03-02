@@ -811,7 +811,7 @@
                     (plusCount >= 2 && this.answerFormula.indexOf("(") == -1) ||
                     (plusCount == 1 && minusCount == 2)
                 ) {
-                    console.log(this.answerFormula + " は簡単なので??り直??");
+                    console.log(this.answerFormula + "は簡単なのでやり直し");
                     this.createNum();
                     return false;
                 }
@@ -1126,7 +1126,7 @@
                     this.resultFlag = false;
 
                     // Airtable利用
-                    const url = `"https://api.airtable.com/v0/{this.baseId}/{this.tableName}" \-H "Authorization: Bearer patLECZIq2tF3NhKk.e5c426974a99e1e06e1d6e6122d6a76cdb76996c9115fb96316c1471092e11d1"`;
+                    const url = `"https://api.airtable.com/v0/{this.baseId}/{this.tableName}" \ -H "Authorization: Bearer patLECZIq2tF3NhKk.e5c426974a99e1e06e1d6e6122d6a76cdb76996c9115fb96316c1471092e11d1"`;
 
                     try {
                         const response = await axios.post(
