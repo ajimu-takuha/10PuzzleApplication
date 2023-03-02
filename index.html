@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="js/make10.js"></script>
+    <!-- <script src="js/index.js"></script> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="css/style.css">
@@ -292,12 +293,12 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- <script src="js/backgroundCSS.js"></script> -->
     <script type="text/javascript" src="js/particles.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
+    <script src="airtable.js"></script>
 </body>
 <script>
     "use strict"
@@ -920,7 +921,7 @@
                     this.symValue.splice(i, 1, "+");
                 }
             },
-            //選択した数字同士の場所を置換す??
+            //選択した数字同士の場所を置換する
             numReplace(received) {
                 if (this.selectedNumTF == false) {
                     for (let i = 0; i < this.numbers.length; i++) {
@@ -1126,28 +1127,73 @@
                     this.resultFlag = false;
 
                     // Airtable利用
-                    const url = `"https://api.airtable.com/v0/{this.baseId}/{this.tableName}" \ -H "Authorization: Bearer patLECZIq2tF3NhKk.e5c426974a99e1e06e1d6e6122d6a76cdb76996c9115fb96316c1471092e11d1"`;
-
-                    try {
-                        const response = await axios.post(
-                            url,
-                            {
-                                records: this.answerDetail.map((item) => ({
-                                    fields: item,
-                                })),
-                            },
-                            {
-                                headers: {
-                                    Authorization: `Bearer ${this.apiKey}`,
-                                    "Content-Type": "application/json",
-                                },
-                            }
-                        );
-                        console.log(response.data);
-                    } catch (error) {
-                        console.log(error);
-                    }
+                    this.saveToAirtable();
                 }
+            },
+            saveToAirtable() {
+                // Airtableのクライアントライブラリを初期化
+                var Airtable = require('airtable');
+                var base = new Airtable({ apiKey: 'keyqw2LBx6N2Ijdr2' }).base('app1MxnFrdKWBio9q');
+
+
+                // データをAirtableに保存
+                var data = {
+                    name: "よんばんめ",
+                    score: 999.5,
+                    date: "22/02/15",
+                    question: "What is the capital of France?"
+                };
+                base('RankingDetail').create(data, function (err, record) {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    console.log(record.getId());
+                });
+
+                // score順にソートする
+                const table = base('RankingDetail');
+
+                table.select({
+                    view: 'Grid view',
+                    sort: [{ field: 'score', direction: 'desc' }]
+                }).firstPage(function (err, records) {
+                    if (err) { console.error(err); return; }
+                    records.forEach(function (record) {
+                        console.log('Score:', record.get('score'));
+                    });
+                });
+
+                // 101列目以降のデータを取得するためのquery
+                const query = { fields: [], maxRecords: 100, view: 'YOUR_VIEW_NAME' };
+                for (let i = 101; i <= 200; i++) {
+                    query.fields.push(`Column ${i}`);
+                }
+
+                // テーブルの全レコードを取得
+                const records = [];
+                base('RankingDetail').select(query).eachPage(function page(records, fetchNextPage) {
+                    // 取得したレコードを配列に追加
+                    records.forEach(record => {
+                        records.push(record);
+                    });
+                    fetchNextPage();
+                }, function done(err) {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    // 取得したレコードを削除
+                    records.forEach(record => {
+                        record.destroy((err, deletedRecord) => {
+                            if (err) {
+                                console.error(err);
+                                return;
+                            }
+                            console.log('Deleted record:', deletedRecord.id);
+                        });
+                    });
+                });
             },
             showRanking() {
                 this.rankingFlag = true;
