@@ -162,11 +162,11 @@ line-height: 60px;
   z-index: 100;
   text-align: center;
   user-select: none;
-  background-image: linear-gradient(0deg, transparent calc(100% - 1px), rgba(185, 214, 255, 0.4) calc(100% - 1px)),
+  /* background-image: linear-gradient(0deg, transparent calc(100% - 1px), rgba(185, 214, 255, 0.4) calc(100% - 1px)),
   linear-gradient(90deg, transparent calc(100% - 1px), rgba(185, 214, 255, 0.4) calc(100% - 1px));
   background-size: 25px 25px;
   background-repeat: repeat;
-  background-position: center center;
+  background-position: center center; */
   overflow: scroll;
 }
 
@@ -233,6 +233,12 @@ line-height: 60px;
   user-select: none;
 }
 
+.itemCovor {
+  position: sticky;
+  background-color: #000000;
+  top: 0;
+}
+
 .rankingTitle {
   font-size: 40px;
   margin-top: 50px;
@@ -243,6 +249,7 @@ line-height: 60px;
   display: flex;
   height: 40px;
   width: 100%;  
+  background-color: black;
   justify-content: center;
   margin: 0;
   font-size: 30px;
@@ -563,8 +570,8 @@ line-height: 60px;
 
 .numbers {
   margin: 2px;
-  height: 90px;
-  width: 90px;
+  height: 85px;
+  width: 85px;
   font-size: 80px;
   border-radius: 5%;
   display: flex;
@@ -609,7 +616,7 @@ line-height: 60px;
 .brackets {
   margin: 1px;
   height: 95px;
-  width: 40px;
+  width: 55px;
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 90px;
@@ -685,8 +692,8 @@ line-height: 60px;
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   /* margin: 3px; */
   font-size: 90px;
@@ -856,7 +863,41 @@ line-height: 60px;
   transition: 0.3s;
 }
 
+.titleAndClose {
+  display: relative;
+}
+
+.closeWrapper {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.closeWrapper:hover + .closeButton {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .closeButton {
+  position: absolute;
+  top: 30%;
+  right: 1%;
+  display: inline-block;
+  vertical-align: middle;
+  color: #ffffff;
+  line-height: 1;
+  width: 40px;
+  height: 2%;
+  background: currentColor;
+  border-radius: 2px;  
+  cursor: pointer;
+  user-select: none;
+  z-index: -1;
+}
+
+.backButton {
   position: absolute;
   font-size: 20px;
   font-weight: bold;
@@ -873,8 +914,27 @@ line-height: 60px;
   user-select: none;
 }
 
-.closeButton:hover {
+.backButton:hover {
   opacity: 0.5;
+}
+
+.modeChangeButton {
+  position: sticky;
+  bottom: 0;
+  font-size: 30px;
+  width: 100%;
+  height: 50px;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.3s;
+}
+
+.modeChangeButton:hover {
+  color: black;
+  background-color: white;
 }
 
 .overDriveButtons {
