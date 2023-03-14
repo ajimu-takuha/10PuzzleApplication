@@ -34,7 +34,7 @@
                         If you want to replace the numbers, click on the two numbers you want to replace.<br>
                         If you want to switch between the four arithmetic operators,<br>
                         click where you want to switch.<br>
-                        The order in which they are switched is "+, -, �?, ÷".<br>
+                        The order in which they are switched is "+, -, ?��?, ÷".<br>
                         If you want to know the answer to the equation, click the "Show Answer" button,<br> and the
                         challenge will be aborted,<br>
                         but you will be able to see the equation for the answer.<br>
@@ -61,7 +61,7 @@
                         </button>
                         <button id="checkDetail" class="resultButton" v-on:click="checkDetail()">Details</button>
                     </div>
-                    <button id="closeDetail" class="closeButton" v-on:click="closeResult()">✕
+                    <button id="closeResult" class="backButton" v-on:click="closeResult()">
                     </button>
                 </div>
                 <template v-if="checkDetailFlag">
@@ -81,18 +81,18 @@
                                 "÷")).split('').join(' ') }}
                             </div>
                             <!-- <div class="reloadCheck">
-                                {{ detail.reload == true ? "�?" : ""}}
+                                {{ detail.reload == true ? "?��?" : ""}}
                             </div> -->
                             <div class="intervalTime">
                                 {{ detail.intervalTime + "s"}}
                             </div>
                         </div>
-                        <button id="closeDetail" class="closeButton" v-on:click="closeDetail()">←
+                        <button id="closeDetail" class="backButton" v-on:click="closeDetail()">←
                         </button>
                 </template>
                 <div v-if="registFlag">
                     <div id="registScreen" class="result">
-                        <button id="closeRegist" class="closeButton" v-on:click="closeRegist()">←
+                        <button id="closeRegist" class="backButton" v-on:click="closeRegist()">←
                         </button>
                         <span id="registTitle">Ranking Registration</span>
                         <div><br>　Score : {{score}}　</div>
@@ -109,25 +109,33 @@
                     </div>
                 </div>
                 <div id="ranking" class="result" v-if="rankingFlag">
-                    <span id="rankingTitle" class="rankingTitle">
-                        Ranking
-                    </span>
-                    <div id="rankingItem">
-                        <div id="space" class="items">
+                    <div class="itemCovor">
+                        <div class="titleAndClose">
+                            <span id="rankingTitle" class="rankingTitle">
+                                Ranking
+                            </span>
+                            <div class="closeWrapper" v-on:click="closeRanking()">
+                            </div>
+                            <button id="closeRanking" class="closeButton"></button>
+                        </div>
+                        <div id="rankingItem">
+                            <div id="space" class="items">
 
-                        </div>
-                        <div id="nameItem" class="items">
-                            Name
-                        </div>
-                        <div id="scoreItem" class="items">
-                            Score
-                        </div>
-                        <div id="dateItem" class="items">
-                            Date
+                            </div>
+                            <div id="nameItem" class="items">
+                                Name
+                            </div>
+                            <div id="scoreItem" class="items">
+                                Score
+                            </div>
+                            <div id="dateItem" class="items">
+                                Date
+                            </div>
                         </div>
                     </div>
-                    <div id="rankingContent" class="rankingContent">
-                        <div id="rankDetail" class="rankDetail" v-for="(data, index, key) in rankingData" :key="key">
+                    <div id="rankingContentDigit" class="rankingContent" v-if="showRankingDigit">
+                        <div id="rankDetail" class="rankDetail" v-for="(data, index) in rankingDataDigit.data"
+                            v-on:click="showUserQuestion(index)">
                             <div id="rankNum" class="rankVal">
                                 <span>
                                     {{ index + 1 }}
@@ -135,22 +143,95 @@
                             </div>
                             <div id="rankName" class="rankVal">
                                 <span>
-                                    {{ data.key }}
+                                    {{ data[0] }}
                                 </span>
                             </div>
                             <div id="rankScore" class="rankVal">
                                 <span>
-                                    {{ data.value[0].score }}
+                                    {{ data[1] }}
                                 </span>
                             </div>
                             <div id="rankDate" class="rankVal">
                                 <span>
-                                    {{ data.value[0].date }}
+                                    {{ data[2] }}
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <button id="closeRanking" class="closeButton" v-on:click="closeRanking()">✕
+                    <div id="rankingContentTeen" class="rankingContent" v-if="showRankingTeen">
+                        <div id="rankDetailTeen" class="rankDetail" v-for="(data, index) in rankingDataTeen.data"
+                            v-on:click="showUserQuestion(index)">
+                            <div id="rankNum" class="rankVal">
+                                <span>
+                                    {{ index + 1 }}
+                                </span>
+                            </div>
+                            <div id="rankName" class="rankVal">
+                                <span>
+                                    {{ data[0] }}
+                                </span>
+                            </div>
+                            <div id="rankScore" class="rankVal">
+                                <span>
+                                    {{ data[1] }}
+                                </span>
+                            </div>
+                            <div id="rankDate" class="rankVal">
+                                <span>
+                                    {{ data[2] }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rankingContentOD" class="rankingContent" v-if="showRankingOD">
+                        <div id="rankDetailOD" class="rankDetail" v-for="(data, index) in rankingDataOD.data"
+                            v-on:click="showUserQuestion(index)">
+                            <div id="rankNum" class="rankVal">
+                                <span>
+                                    {{ index + 1 }}
+                                </span>
+                            </div>
+                            <div id="rankName" class="rankVal">
+                                <span>
+                                    {{ data[0] }}
+                                </span>
+                            </div>
+                            <div id="rankScore" class="rankVal">
+                                <span>
+                                    {{ data[1] }}
+                                </span>
+                            </div>
+                            <div id="rankDate" class="rankVal">
+                                <span>
+                                    {{ data[2] }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="rankngModeChange" class="modeChangeButton" v-on:click="rankingModeChange()">Display: {{
+                        rankingDisplayMode }}
+                    </button>
+                </div>
+                <div v-if="rankingDetailFlag" class="result">
+                    <span id="rankingDetailTitle">User Details</span>
+                    <div v-for="(detail, index) in rankingUserDetail"
+                        v-bind:style="{ backgroundColor: detail.reload == true ? 'rgba(255, 0, 51, 0.6)' : '' }"
+                        id="detailWrapper">
+                        <div class="solvedNum">
+                            {{"Q." + (Number(index) + 1 + "")}}
+                        </div>
+                        <div class="solvedFormula">
+                            {{ (detail.formula).join(" : ").split('').join("") }}
+                        </div>
+                        <div class="detailAnswerFormula">
+                            {{ (detail.answer.replace("return", "").replace(/\*/g, "×").replace(/\//g,
+                            "÷")).split('').join(' ') }}
+                        </div>
+                        <div class="intervalTime">
+                            {{ detail.intervalTime + "s"}}
+                        </div>
+                    </div>
+                    <button id="closeRankingDetail" class="backButton" v-on:click="closeRankingDetail()">←
                     </button>
                 </div>
                 <div id="answerFormula" class="answerFormula">
@@ -269,10 +350,10 @@
                     <!-- <button type="button" id="showAnsButton" v-on:click="showAns()"
                         v-bind:class="{'inactive': isStart, 'overDriveButtons overDriveStartButton':mode == 'OverDrive', 'buttons startButton':mode != 'OverDrive'}">Show
                         Answer</button> -->
-                    <button type="button" id="startButton"
-                        v-on:click="isStart? giveUp() : createNum(); start(); startClick()"
-                        v-bind:class="{'overDriveButtons overDriveStartButton':mode == 'OverDrive', 'buttons startButton':mode != 'OverDrive'}"><span
-                            v-if="isStart">Give Up</span><span v-else>Start</span></button>
+                    <button type="button" id="startButton" v-on:click="startOrGiveUp()"
+                        v-bind:class=" {'overDriveButtons overDriveStartButton':mode=='OverDrive'
+                        , 'buttons startButton' :mode !='OverDrive' }"><span v-if="isStart">Give Up</span><span
+                            v-else>Start</span></button>
                     <button type="button"
                         v-bind:class="{'overDriveButtons overDriveReloadButton':mode == 'OverDrive', 'buttons reloadButton':mode != 'OverDrive'}"
                         id="reloadButton" v-on:click="reloadClick(); createNum()">Reload</button>
@@ -303,6 +384,7 @@
 <script>
     "use strict"
     // import axios from "axios";
+    const eventBus = new Vue();
 
     var all = new Vue({
         el: "#all",
@@ -359,7 +441,6 @@
             score: 0,
             evaluation: "",
             evalComment: "",
-            // ネットから?
             time: "00:00:000",
             startTime: 0,
             solveTime: 0,
@@ -369,21 +450,30 @@
             isReset: true,
             timeoutId: 0,
             rankingFlag: false,
-            resultFlag: true,
-            checkDetailFlag: true,
+            resultFlag: false,
+            checkDetailFlag: false,
             registFlag: false,
             answerChangeFlag: false,
+            rankingDetailFlag: false,
             rankingData: [],
+            rankingUserDetail: [],
             isDragging: false,
             startPosition: { x: 0, y: 0 },
             position: { x: 0, y: 0 },
             lastMousePos: null,
-            mouseThreshold: 10,
+            mouseThreshold: 7,
             selectedSym: null,
             apiKey:
                 "patLECZIq2tF3NhKk.e5c426974a99e1e06e1d6e6122d6a76cdb76996c9115fb96316c1471092e11d1",
             baseId: "app1MxnFrdKWBio9q",
             tableName: "name",
+            rankingDataDigit: [],
+            rankingDataTeen: [],
+            rankingDataOD: [],
+            showRankingDigit: true,
+            showRankingTeen: false,
+            showRankingOD: false,
+            rankingDisplayMode: "Digit"
         },
         watch: {
             answer: function (ansVal) {
@@ -403,17 +493,10 @@
                         currentNums.push(this.numbers[i]);
                     }
                     this.clearedFormula.splice(this.clearCount, 0, currentNums);
-                    if (this.clearCount == 1) {
+                    if (this.clearCount == 10) {
                         this.stop();
                         this.startFlag = false;
-                        console.log("The problems you have solved is\n");
-                        for (let i = 0; i < this.clearedFormula.length; i++) {
-                            console.log(this.clearedFormula[i] + "\n");
-                        }
-                        for (let i = 0; i < this.reloadFormula.length; i++) {
-                            console.log(this.reloadFormula[i] + "\n");
-                            console.log("Answer:" + this.reloadAnswerFormula[i] + "\n");
-                        }
+
                         this.resetNumBraSym();
                         this.clearedFormula = [];
                         this.ansNoChange();
@@ -425,7 +508,7 @@
                             this.evaluation = "Slug";
                             if (this.mode == "digit") {
                                 this.evalComment = "Try More...";
-                            } else if (this.mode == "under20") {
+                            } else if (this.mode == "teen") {
                                 this.evalComment = "Try More...";
                             } else {
                                 this.evalComment =
@@ -435,7 +518,7 @@
                             this.evaluation = "Hermit Crab";
                             if (this.mode == "digit") {
                                 this.evalComment = "Keep it Up!!!";
-                            } else if (this.mode == "under20") {
+                            } else if (this.mode == "teen") {
                                 this.evalComment = "Keep it Up!";
                             } else {
                                 this.evalComment = "You are doing well.";
@@ -444,7 +527,7 @@
                             this.evaluation = "Gentoo Penguin";
                             if (this.mode == "digit") {
                                 this.evalComment = "You were almost there! Come on, man!";
-                            } else if (this.mode == "under20") {
+                            } else if (this.mode == "teen") {
                                 this.evalComment = "Good luck in the next mode!";
                                 document.getElementById("overDriveButton").style.pointerEvents = "auto";
                                 document.getElementById("overDriveButton").style.cursor = "pointer";
@@ -459,7 +542,7 @@
                             this.evaluation = "Black Mamba";
                             if (this.mode == "digit") {
                                 this.evalComment = "Congratu! You are now ready to take on new levels!";
-                            } else if (this.mode == "under20") {
+                            } else if (this.mode == "teen") {
                                 this.evalComment = "Excellent! You are now ready to take on new levels!";
                             } else {
                                 this.evalComment = "You have a great talent. I envy you.";
@@ -471,7 +554,7 @@
                             this.evaluation = "Springbok";
                             if (this.mode == "digit") {
                                 this.evalComment = "Are you Human? You have to play OverDrive mode.";
-                            } else if (this.mode == "under20") {
+                            } else if (this.mode == "teen") {
                                 this.evalComment = "WTF Great score. Please play in the new mode.";
                             } else {
                                 this.evalComment = "You're getting closer to God...";
@@ -484,7 +567,7 @@
                             this.evaluation = "Alian";
                             if (this.mode == "digit") {
                                 this.evalComment = "You are Not Human... Welcome OverDrive.";
-                            } else if (this.mode == "under20") {
+                            } else if (this.mode == "teen") {
                                 this.evalComment = "HOLY... Welcome OverDrive.";
                             } else {
                                 this.evalComment =
@@ -506,9 +589,9 @@
                         return;
                     }
                 } else if (ansVal == 10) {
-                    //以下、Local Storageによるランキング保??
+                    //以下、Local Storageによるランキング�???
 
-                    //ここまでコピ???
+                    //ここまでコ�????
                     const correctCube = document.getElementById("correctCube");
                     correctCube.style.display = "block";
                     setTimeout(() => {
@@ -567,7 +650,71 @@
             },
         },
         mounted() {
-            this.getItems();
+            this.eventBus = new Vue();
+            eventBus.$on('dataChanged', () => {
+                // Airtable APIの初期化
+                const Airtable = require('airtable');
+
+                const base = new Airtable({
+                    apiKey: 'keyqw2LBx6N2Ijdr2'
+                }).base('app1MxnFrdKWBio9q');
+
+                // テーブルの選択
+                const table = base('RankingDetail');
+
+                // データの取得と加工
+                table.select({
+                    filterByFormula: 'mode = "digit"',
+                    sort: [{ field: 'score', direction: 'desc' }]
+                }).firstPage((err, records) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    // 各レコードの要素を配列に格納する
+                    const data = records.map(record => {
+                        return [record.get('name'), record.get('score'), record.get('date'), record.get('question'), record.get('mode')];
+                    });
+                    // 連想配列にデータを格納する
+                    this.rankingDataDigit = { data: data };
+                });
+
+                // データの取得と加工
+                table.select({
+                    filterByFormula: 'mode = "teen"',
+                    sort: [{ field: 'score', direction: 'desc' }]
+                }).firstPage((err, records) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    // 各レコードの要素を配列に格納する
+                    const data = records.map(record => {
+                        return [record.get('name'), record.get('score'), record.get('date'), record.get('question'), record.get('mode')];
+                    });
+                    // 連想配列にデータを格納する
+                    this.rankingDataTeen = { data: data };
+                });
+
+                // データの取得と加工
+                table.select({
+                    filterByFormula: 'mode = "OverDrive"',
+                    sort: [{ field: 'score', direction: 'desc' }]
+                }).firstPage((err, records) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    // 各レコードの要素を配列に格納する
+                    const data = records.map(record => {
+                        return [record.get('name'), record.get('score'), record.get('date'), record.get('question'), record.get('mode')];
+                    });
+                    // 連想配列にデータを格納する
+                    this.rankingDataOD = { data: data };
+                });
+                // this.getItems();
+            });
+            this.eventBus = eventBus;
         },
         // mounted: function () {
         //     if (localStorage.getItem('mode')) {
@@ -575,6 +722,7 @@
         //         document.getElementById("overDriveButton").style.cursor = "pointer";
         //     }
         // },
+
         methods: {
             startDrag(index, event) {
                 this.isDragging = true;
@@ -687,7 +835,7 @@
                 waveCanvas.style.display = "none";
             },
             modeChangeTeens() {
-                this.mode = "under20";
+                this.mode = "teen";
                 this.title = "Ten Puzzle";
                 this.btnIsSelect.splice(3, 1, false);
                 this.btnIsSelect.splice(4, 1, true);
@@ -739,13 +887,11 @@
                         nums[i] = Math.floor(Math.random() * 9) + 1;
                     }
                     if (nums[0] + nums[1] + nums[2] + nums[3] == this.target) {
-                        console.log("足し算で終わったのでもう一度算出");
                         this.createNum();
                         return;
                     }
                     let [TrueOrFalse, make10Ans] = make10(nums, 10);
                     if (TrueOrFalse) {
-                        console.log(TrueOrFalse);
                         for (let i = 0; i < this.numbers.length; i++) {
                             this.numbers.splice(i, 1, nums[i]);
                         }
@@ -754,7 +900,7 @@
                     } else {
                         this.createNum();
                     }
-                } else if (this.mode == "under20") {
+                } else if (this.mode == "teen") {
                     let nums = [];
                     for (let i = 0; i < this.numbers.length; i++) {
                         nums[i] = Math.floor(Math.random() * 19) + 1;
@@ -804,7 +950,7 @@
                 }
                 this.resetBra();
             },
-            // 記号??1か所変更のみで正解する場合??2??所を???イナスにするのみで正解する場合???数字???抽選をやり直??
+            // 記号??1か所変更のみで正解する場�???2??所�????イナスにするのみで正解する場�????数�????抽選をやり直??
             ansCheck() {
                 let plusCount = (this.answerFormula.match(/\+/g) || []).length;
                 let minusCount = (this.answerFormula.match(/\-/g) || []).length;
@@ -812,7 +958,6 @@
                     (plusCount >= 2 && this.answerFormula.indexOf("(") == -1) ||
                     (plusCount == 1 && minusCount == 2)
                 ) {
-                    console.log(this.answerFormula + "は簡単なのでやり直し");
                     this.createNum();
                     return false;
                 }
@@ -882,7 +1027,7 @@
                 } else {
                     this.resetBra();
                 }
-                //二番目に選択した括弧も??????selectedBraに反映し、Bracktsと差し替えて画面に反映
+                //二番目に選択した括弧�???????selectedBraに反映し、Bracktsと差し替えて画面に反映
                 // else if (this.selectFlag == true) {
                 //     for (let i = 0; i < this.bracketNames.length; i++) {
                 //         if (this.bracketNames[i] == braNumber) {
@@ -903,7 +1048,7 @@
                 //     }
                 // }
             },
-            // 全ての括弧を削除し、clickActクラスを???てfalseに
+            // 全ての括弧を削除し、clickActクラス�????てfalseに
             resetBra() {
                 for (let i = 0; i < this.brackets.length; i++) {
                     this.selectedBra.splice(i, 1, "");
@@ -921,7 +1066,7 @@
                     this.symValue.splice(i, 1, "+");
                 }
             },
-            //選択した数字同士の場所を置換する
+            //選択した数字同士の場所を置換す�?
             numReplace(received) {
                 if (this.selectedNumTF == false) {
                     for (let i = 0; i < this.numbers.length; i++) {
@@ -1011,51 +1156,59 @@
                 this.resetNumBraSym();
                 this.ansChange();
             },
-            giveUp() {
-                this.isStart = false;
-                this.isStop = true;
-                this.isReset = false;
-                clearTimeout(this.timeoutId);
-                this.time = "00:00:000";
-                this.isStart = false;
-                this.isStop = true;
-                this.isReset = true;
-                this.score = 0;
-                this.erapsedTime = 0;
-                let currentNums = [];
-                for (let i = 0; i < this.numbers.length; i++) {
-                    currentNums.push(this.numbers[i]);
-                }
-                let data_tmp = {};
-                data_tmp.formula = currentNums;
-                data_tmp.answer = this.answerFormula;
+            startOrGiveUp() {
+                if (this.isStart == true) {
+                    this.startFlag = false;
+                    this.isStart = false;
+                    this.isStop = true;
+                    this.isReset = false;
+                    this.stop();
+                    this.time = "00:00:000";
+                    clearTimeout(this.timeoutId);
+                    this.isStop = true;
+                    this.isReset = true;
+                    this.score = 0;
+                    this.erapsedTime = 0;
+                    let currentNums = [];
+                    for (let i = 0; i < this.numbers.length; i++) {
+                        currentNums.push(this.numbers[i]);
+                    }
+                    let data_tmp = {};
+                    data_tmp.formula = currentNums;
+                    data_tmp.answer = this.answerFormula;
 
-                let endTime = Date.now();
-                let intervalTime = endTime - this.questionsolveTime;
-                this.questionsolveTime = endTime;
-                intervalTime = (Math.round(intervalTime / 100) / 10).toFixed(1);
-                data_tmp.intervalTime = intervalTime;
+                    let endTime = Date.now();
+                    let intervalTime = endTime - this.questionsolveTime;
+                    this.questionsolveTime = endTime;
+                    intervalTime = (Math.round(intervalTime / 100) / 10).toFixed(1);
+                    data_tmp.intervalTime = intervalTime;
 
-                data_tmp.reload = "";
-                this.answerDetail.push(data_tmp);
-                this.answerDetail[this.questionCount].reload = true;
-                this.checkDetailFlag = true;
-                this.firstSym.splice(0, 1, "+");
-                this.secondSym.splice(0, 1, "+");
-                this.thirdSym.splice(0, 1, "+");
-                this.addSym.splice(0, 1, "+");
-                for (let i = 0; i < this.symValue.length; i++) {
-                    this.symValue.splice(i, 1, "+");
+                    data_tmp.reload = "";
+                    this.answerDetail.push(data_tmp);
+                    this.answerDetail[this.questionCount].reload = true;
+                    this.checkDetailFlag = true;
+                    this.firstSym.splice(0, 1, "+");
+                    this.secondSym.splice(0, 1, "+");
+                    this.thirdSym.splice(0, 1, "+");
+                    this.addSym.splice(0, 1, "+");
+                    for (let i = 0; i < this.symValue.length; i++) {
+                        this.symValue.splice(i, 1, "+");
+                    }
+                    for (let i = 0; i < this.numbers.length; i++) {
+                        this.numbers.splice(i, 1, "");
+                    }
+                    for (let i = 0; i < 3; i++) {
+                        this.btnIsSelect[i] = false;
+                    }
+                    this.selectedNumIndexF = -1;
+                    this.selectedNumTF = false;
+                    this.clearedFormula = [];
+                    this.isStart = false;
+                } else {
+                    this.createNum();
+                    this.start();
+                    this.startClick();
                 }
-                for (let i = 0; i < this.numbers.length; i++) {
-                    this.numbers.splice(i, 1, "");
-                }
-                for (let i = 0; i < 3; i++) {
-                    this.btnIsSelect[i] = false;
-                }
-                this.selectedNumIndexF = -1;
-                this.selectedNumTF = false;
-                this.clearedFormula = [];
             },
             close() {
                 this.ansChange();
@@ -1093,6 +1246,9 @@
                 this.checkDetailFlag = false;
                 this.registFlag = false;
             },
+            closeRankingDetail() {
+                this.rankingDetailFlag = false;
+            },
             moveRegistScreen() {
                 this.registFlag = true;
             },
@@ -1103,118 +1259,154 @@
             closeRanking() {
                 this.rankingFlag = false;
             },
-            async regist() {
+            regist() {
+                // Airtableのクライアントライブラリ使用
+                var Airtable = require('airtable');
+                var base = new Airtable({ apiKey: 'keyqw2LBx6N2Ijdr2' }).base('app1MxnFrdKWBio9q');
+
+                // 入力された名前
                 let userName = document.getElementById("registName").value;
                 if (userName == "") {
                     document.getElementById("warning").style.display = "block";
                     return;
                 } else {
-                    // 入力内容を送信する
+                    // 入力内容
                     const date = new Date(); // 現在時刻
                     const year = date.getFullYear().toString().slice(-2);
                     const month = ("0" + (date.getMonth() + 1)).slice(-2);
                     const day = ("0" + date.getDate()).slice(-2);
                     const nowStr = `${year}/${month}/${day}`;
-                    this.answerDetail.userName = userName;
-                    this.answerDetail[0].score = this.score;
-                    this.answerDetail[0].date = nowStr;
 
-                    // 配列をJSONに変換してlocalStorageに保存する?
-                    // console.log(this.answerDetail);
-                    // localStorage.setItem(userName, JSON.stringify(this.answerDetail));
+                    // プレイヤーのスコア
+                    let strScore = this.score.toString();
 
-                    this.registFlag = false;
-                    this.resultFlag = false;
+                    // プレイヤーのmode
+                    let strMode = this.mode.toString();
 
-                    // Airtable利用
-                    this.saveToAirtable();
-                }
-            },
-            saveToAirtable() {
-                // Airtableのクライアントライブラリを初期化
-                var Airtable = require('airtable');
-                var base = new Airtable({ apiKey: 'keyqw2LBx6N2Ijdr2' }).base('app1MxnFrdKWBio9q');
+                    // プレイヤーの解いた問題
+                    const answerDetailString = JSON.stringify(this.answerDetail);
 
-
-                // データをAirtableに保存
-                var data = {
-                    name: "よんばんめ",
-                    score: 999.5,
-                    date: "22/02/15",
-                    question: "What is the capital of France?"
-                };
-                base('RankingDetail').create(data, function (err, record) {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-                    console.log(record.getId());
-                });
-
-                // score順にソートする
-                const table = base('RankingDetail');
-
-                table.select({
-                    view: 'Grid view',
-                    sort: [{ field: 'score', direction: 'desc' }]
-                }).firstPage(function (err, records) {
-                    if (err) { console.error(err); return; }
-                    records.forEach(function (record) {
-                        console.log('Score:', record.get('score'));
+                    // データをAirtableに保存
+                    var data = {
+                        name: userName,
+                        score: strScore,
+                        date: nowStr,
+                        question: answerDetailString,
+                        mode: strMode,
+                    };
+                    base('RankingDetail').create(data, function (err, record) {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
                     });
-                });
 
-                // 101列目以降のデータを取得するためのquery
-                const query = { fields: [], maxRecords: 100, view: 'Grid view' };
-                for (let i = 101; i <= 200; i++) {
-                    query.fields.push(`Column ${i}`);
-                }
+                    // score順にソート
+                    const table = base('RankingDetail');
 
-                // テーブルの全レコードを取得
-                const records = [];
-                base('RankingDetail').select(query).eachPage(function page(records, fetchNextPage) {
-                    // 取得したレコードを配列に追加
-                    records.forEach(record => {
-                        records.push(record);
-                    });
-                    fetchNextPage();
-                }, function done(err) {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-                    // 取得したレコードを削除
-                    records.forEach(record => {
-                        record.destroy((err, deletedRecord) => {
-                            if (err) {
-                                console.error(err);
-                                return;
-                            }
-                            console.log('Deleted record:', deletedRecord.id);
+                    table.select({
+                        view: 'Grid view',
+                        sort: [{ field: 'score', direction: 'desc' }]
+                    }).firstPage(function (err, records) {
+                        if (err) { console.error(err); return; }
+                        records.forEach(function (record) {
+                            console.log('Score:', record.get('score'));
                         });
                     });
-                });
+
+                    // 101列目以降のデータを取得する
+                    const query = { fields: [], maxRecords: 100, view: 'Grid view' };
+                    for (let i = 101; i <= 200; i++) {
+                        query.fields.push(`Column ${i}`);
+                    }
+                    // テーブルの全データを取得
+                    const records = [];
+                    base('RankingDetail').select(query).eachPage(function page(records, fetchNextPage) {
+                        // 取得したレコードを配列に追加
+                        records.forEach(record => {
+                            records.push(record);
+                        });
+                        fetchNextPage();
+                    }, function done(err) {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+                        // 取得したレコードを削除
+                        records.forEach(record => {
+                            record.destroy((err, deletedRecord) => {
+                                if (err) {
+                                    console.error(err);
+                                    return;
+                                }
+                                console.log('Deleted record:', deletedRecord.id);
+                            });
+                        });
+                    });
+                }
+                this.registFlag = false;
+                this.resultFlag = false;
             },
             showRanking() {
+                this.eventBus.$emit('dataChanged'); // データを初期化するために dataChanged イベントを発生させる
                 this.rankingFlag = true;
-                this.getItems();
-                // localStorageの全??ータ表示
-                for (var i = 0; i < localStorage.length; i++) {
-                    // console.log(localStorage.key(i) + "の??ータは" + localStorage.getItem(localStorage.key(i)) + "\n");
-                    console.log(localStorage.key(i) + localStorage.getItem(localStorage.key(i)));
+                // this.getItems();
+            },
+            showUserQuestion(index) {
+                this.rankingDetailFlag = true;
+                let userDetailTmp = [];
+                switch (this.rankingDisplayMode) {
+                    case "Digit":
+                        userDetailTmp = this.rankingDataDigit.data[index];
+                        this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
+                        eventBus.$emit('dataChanged');
+                        break;
+                    case "Under20":
+                        userDetailTmp = this.rankingDataTeen.data[index];
+                        this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
+                        eventBus.$emit('dataChanged');
+                        break;
+                    case "OverDrive":
+                        userDetailTmp = this.rankingDataOD.data[index];
+                        this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
+                        eventBus.$emit('dataChanged');
+                        break;
                 }
-                console.log(this.rankingData);
-
-                // localStorage.clear();
+                // userDetailTmp = this.rankingDataDigit.data[index];
+                // console.log(userDetailTmp);
+                // this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
+                // console.log(this.rankingUserDetail);
+                // eventBus.$emit('dataChanged');
+            },
+            rankingModeChange() {
+                switch (this.rankingDisplayMode) {
+                    case "Digit":
+                        this.rankingDisplayMode = "Under20";
+                        this.showRankingOD = false;
+                        this.showRankingDigit = false;
+                        this.showRankingTeen = true;
+                        break;
+                    case "Under20":
+                        this.rankingDisplayMode = "OverDrive"
+                        this.showRankingDigit = false;
+                        this.showRankingTeen = false;
+                        this.showRankingOD = true;
+                        break;
+                    case "OverDrive":
+                        this.rankingDisplayMode = "Digit"
+                        this.showRankingOD = false;
+                        this.showRankingTeen = false;
+                        this.showRankingDigit = true;
+                        break;
+                }
             },
             getItems() {
                 const storage = window.localStorage;
                 let rankingData = Object.entries(storage)
-                    .sort(([key1], [key2]) => key2 - key1) // キーを降??に並び替??
-                    .map(([key, value]) => ({ key, value: JSON.parse(value) })); // キー??に並び替??
+                    .sort(([key1], [key2]) => key2 - key1)
+                    .map(([key, value]) => ({ key, value: JSON.parse(value) }));
                 this.rankingData = rankingData;
                 let rankingDisplayData = this.rankingData.key;
-                console.log(rankingDisplayData);
             },
             ansChange() {
                 this.answerChangeFlag = false;
@@ -1222,7 +1414,7 @@
             ansNoChange() {
                 this.answerChangeFlag = true;
             },
-            // ネットか??
+            // ネットから
             countUp() {
                 const d = new Date(Date.now() - this.startTime + this.erapsedTime);
                 const m = String(d.getMinutes()).padStart(2, "0");
