@@ -1416,6 +1416,8 @@
                 let repNums = this.numbers.concat();
                 this.reloadFormula.push(repNums);
                 this.reloadAnswerFormula.push(this.answerFormula);
+                // ボタンを無効化する
+                this.disableButton = true;
                 setTimeout(() => {
                     this.disableButton = false;
                 }, 1000);
