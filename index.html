@@ -3,7 +3,7 @@
 
 <head>
     <title>10PUZZLE(make10Application)</title>
-    <meta charset="Shift-jis">
+    <meta charset="UTF-8">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -28,7 +28,6 @@
 
             <div v-if="isLoading" class="overlay"></div>
             <div class="contentWrapper">
-                <!-- ‚±‚±‚ÉƒtƒF[ƒhƒCƒ“EƒtƒF[ƒhƒAƒEƒg‚³‚¹‚½‚¢—v‘f‚ğ”z’u -->
                 <transition name="fade">
                     <div v-if="showCorrect" class="correct-text">
                         {{ correctText }}
@@ -79,7 +78,7 @@
                         If you want to replace the numbers, click on the two numbers you want to replace.<br>
                         If you want to switch between the four arithmetic operators,<br>
                         click where you want to switch.<br>
-                        The order in which they are switched is "+, -, ????, €".<br>
+                        The order in which they are switched is "+, -, ????, ï¿½ï¿½".<br>
                         If you want to know the answer to the equation, click the "Show Answer" button,<br> and the
                         challenge will be aborted,<br>
                         but you will be able to see the equation for the answer.<br>
@@ -90,10 +89,10 @@
                 <div id="result" class="result" v-if="resultFlag">
                     <br>
                     <div id="scoreWrap">
-                        <span id="modeText">@Mode : {{mode}}@</span>
-                        <div><br>@Time : {{elapsedTime}}@</div>
-                        <div><br>@Reload : {{20 - reloadCount}}@</div>
-                        <div><br>@Score : {{score}}@</div>
+                        <span id="modeText">ã€€Mode : {{mode}}ã€€</span>
+                        <div><br>ã€€Time : {{elapsedTime}}ã€€</div>
+                        <div><br>ã€€Reload : {{20 - reloadCount}}ã€€</div>
+                        <div><br>ã€€Score : {{score}}ã€€</div>
                     </div>
                     <br><span id="evaluation">{{evaluation}}</span>
                     <span id="evalComment">
@@ -106,7 +105,7 @@
                         </button>
                         <button id="checkDetail" class="resultButton" v-on:click="checkDetail()">Details</button>
                     </div>
-                    <!-- <button id="closeResult" class="backButton" v-on:click="closeResult()" style="font-size: 40px;">~
+                    <!-- <button id="closeResult" class="backButton" v-on:click="closeResult()" style="font-size: 40px;">ï¿½~
                     </button> -->
                     <div class="closeWrapper" v-on:click="closeResult()">
                     </div>
@@ -125,27 +124,27 @@
                                 {{ (detail.formula).join(" : ").split('').join("") }}
                             </div>
                             <div class="detailAnswerFormula">
-                                {{ (detail.answer.replace("return", "").replace(/\*/g, "~").replace(/\//g,
-                                "€")).split('').join(' ') }}
+                                {{ (detail.answer.replace("return", "").replace(/\*/g, "Ã—").replace(/\//g,
+                                "Ã·")).split('').join(' ') }}
                             </div>
                             <div class="intervalTime">
                                 {{ detail.intervalTime + "s"}}
                             </div>
                         </div>
-                        <button id="closeDetail" class="backButton" v-on:click="closeDetail()">©
+                        <button id="closeDetail" class="backButton" v-on:click="closeDetail()">â†
                         </button>
                 </template>
                 <div v-if="registFlag">
                     <div id="registScreen" class="result">
-                        <button id="closeRegist" class="backButton " v-on:click="closeRegist()">©
+                        <button id="closeRegist" class="backButton " v-on:click="closeRegist()">â†
                         </button>
                         <div id="registTitle" cless="registTitle">Ranking Registration</div>
-                        <div style="margin-top: 40px;">@Score : {{score}}@</div>
+                        <div style="margin-top: 40px;">ã€€Score : {{score}}ã€€</div>
                         <div>
                             <input type="text" id="registName" name="registName" maxlength="12" required>
                         </div>
                         <div id="warningWrapper">
-                            <div id="normalText" style="font-size: 30px" style="font-size: 20px">1`12 characters can be
+                            <div id="normalText" style="font-size: 30px" style="font-size: 20px">1ï½12 characters can be
                                 input
                             </div>
                             <p id="warning" style="display: none">
@@ -275,14 +274,14 @@
                             {{ (detail.formula).join(" : ").split('').join("") }}
                         </div>
                         <div class="detailAnswerFormula">
-                            {{ (detail.answer.replace("return", "").replace(/\*/g, "~").replace(/\//g,
-                            "€")).split('').join(' ') }}
+                            {{ (detail.answer.replace("return", "").replace(/\*/g, "Ã—").replace(/\//g,
+                            "Ã·")).split('').join(' ') }}
                         </div>
                         <div class="intervalTime">
                             {{ detail.intervalTime + "s"}}
                         </div>
                     </div>
-                    <button id="closeRankingDetail" class="backButton" v-on:click="closeRankingDetail()">©
+                    <button id="closeRankingDetail" class="backButton" v-on:click="closeRankingDetail()">â†
                     </button>
                 </div>
                 <div id="answerFormula" class="answerFormula">
@@ -298,10 +297,10 @@
                 </div>
                 <div id="clearCount"
                     v-bind:class="{'overDriveCount':mode == 'OverDrive', 'clearCount':mode != 'OverDrive'}">
-                    Clear:@{{ clearCount }}/10@Reload:@{{ reloadCount }}
+                    Clear:ã€€{{ clearCount }}/10ã€€Reload:ã€€{{ reloadCount }}
                     <p id="targetNum"
                         v-bind:class="{'overDriveCount':mode == 'OverDrive', 'targetNum':mode != 'OverDrive'}">
-                        @Target:@{{target}}</p>
+                        ã€€Target:ã€€{{target}}</p>
                 </div>
                 <div id="formulaBody">
                     <div id="firstBra" @mouseenter="isHovered0 = true" @mouseleave="isHovered0 = false"
@@ -538,8 +537,8 @@
             ],
             index: 0,
             disableButton: false,
-            showCorrect: false, // ƒtƒF[ƒhƒCƒ“EƒtƒF[ƒhƒAƒEƒg‚Ì•\¦§Œä
-            correctText: "Correct!", // •\¦‚·‚éƒeƒLƒXƒg
+            showCorrect: false,
+            correctText: "Correct!",
             isLoading: false,
             actions: {
                 first: ['d', 'x'],
@@ -549,9 +548,7 @@
                 fifth: ['s', 't'],
             },
             activeMapping: null,
-            activeMappingText: 'Š„‚è“–‚Ä‚éƒL[‚ğ‘I‘ğ',
-            activeMapping: null,
-            activeMappingText: 'Š„‚è“–‚Ä‚éƒL[‚ğ‘I‘ğ',
+            activeMappingText: 'ã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ä¸‹ã•ã„',
         },
         watch: {
             answer: function (ansVal) {
@@ -571,7 +568,7 @@
                         currentNums.push(this.numbers[i]);
                     }
                     this.clearedFormula.splice(this.clearCount, 0, currentNums);
-                    if (this.clearCount == 3) {
+                    if (this.clearCount == 10) {
                         this.elapsedTime = Date.now() - this.startTime - this.totalPausedTime;
                         this.stop();
                         this.startFlag = false;
@@ -734,17 +731,17 @@
             window.addEventListener('keydown', this.handleKeyInput);
             this.eventBus = new Vue();
             eventBus.$on('dataChanged', () => {
-                // Airtable API‚Ì‰Šú‰»
+                // Airtable APIã®åˆæœŸåŒ–
                 const Airtable = require('airtable');
 
                 const base = new Airtable({
                     apiKey: 'keyqw2LBx6N2Ijdr2'
                 }).base('app1MxnFrdKWBio9q');
 
-                // ƒe[ƒuƒ‹‚Ì‘I‘ğ
+                // ãƒ†ãƒ¼ãƒ–ãƒ«ã®é¸æŠ
                 const table = base('RankingDetail');
 
-                // ƒf[ƒ^‚Ìæ“¾‚Æ‰ÁH
+                // ãƒ‡ãƒ¼ã‚¿ã®å–å¾—ã¨åŠ å·¥
                 table.select({
                     filterByFormula: 'mode = "digit"',
                     sort: [{ field: 'score', direction: 'desc' }]
@@ -753,15 +750,15 @@
                         console.error(err);
                         return;
                     }
-                    // ŠeƒŒƒR[ƒh‚Ì—v‘f‚ğ”z—ñ‚ÉŠi”[‚·‚é
+                    // å„ãƒ¬ã‚³ãƒ¼ãƒ‰ã®è¦ç´ ã‚’é…åˆ—ã«æ ¼ç´ã™ã‚‹
                     const data = records.map(record => {
                         return [record.get('name'), record.get('score'), record.get('date'), record.get('question'), record.get('mode')];
                     });
-                    // ˜A‘z”z—ñ‚Éƒf[ƒ^‚ğŠi”[‚·‚é
+                    // é€£æƒ³é…åˆ—ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹
                     this.rankingDataDigit = { data: data };
                 });
 
-                // ƒf[ƒ^‚Ìæ“¾‚Æ‰ÁH
+                // ãƒ‡ãƒ¼ã‚¿ã®å–å¾—ã¨åŠ å·¥
                 table.select({
                     filterByFormula: 'mode = "teen"',
                     sort: [{ field: 'score', direction: 'desc' }]
@@ -770,15 +767,15 @@
                         console.error(err);
                         return;
                     }
-                    // ŠeƒŒƒR[ƒh‚Ì—v‘f‚ğ”z—ñ‚ÉŠi”[‚·‚é
+                    // å„ãƒ¬ã‚³ãƒ¼ãƒ‰ã®è¦ç´ ã‚’é…åˆ—ã«æ ¼ç´ã™ã‚‹
                     const data = records.map(record => {
                         return [record.get('name'), record.get('score'), record.get('date'), record.get('question'), record.get('mode')];
                     });
-                    // ˜A‘z”z—ñ‚Éƒf[ƒ^‚ğŠi”[‚·‚é
+                    // é€£æƒ³é…åˆ—ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹
                     this.rankingDataTeen = { data: data };
                 });
 
-                // ƒf[ƒ^‚Ìæ“¾‚Æ‰ÁH
+                // ãƒ‡ãƒ¼ã‚¿ã®å–å¾—ã¨åŠ å·¥
                 table.select({
                     filterByFormula: 'mode = "OverDrive"',
                     sort: [{ field: 'score', direction: 'desc' }]
@@ -787,11 +784,11 @@
                         console.error(err);
                         return;
                     }
-                    // ŠeƒŒƒR[ƒh‚Ì—v‘f‚ğ”z—ñ‚ÉŠi”[‚·‚é
+                    // å„ãƒ¬ã‚³ãƒ¼ãƒ‰ã®è¦ç´ ã‚’é…åˆ—ã«æ ¼ç´ã™ã‚‹
                     const data = records.map(record => {
                         return [record.get('name'), record.get('score'), record.get('date'), record.get('question'), record.get('mode')];
                     });
-                    // ˜A‘z”z—ñ‚Éƒf[ƒ^‚ğŠi”[‚·‚é
+                    // é€£æƒ³é…åˆ—ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹
                     this.rankingDataOD = { data: data };
                 });
                 // this.getItems();
@@ -812,7 +809,7 @@
         methods: {
             setActiveMapping(action) {
                 this.activeMapping = action;
-                this.activeMappingText = 'Š„‚è“–‚Ä‚éƒL[‚ğ‘I‘ğ';
+                this.activeMappingText = 'ã‚­ãƒ¼ã‚’é¸æŠ';
             },
             saveMappings(event) {
                 if (this.activeMapping) {
@@ -822,17 +819,17 @@
                     }
                     this.activeMapping[index] = event.key;
                     this.activeMapping = null;
-                    this.activeMappingText = 'Š„‚è“–‚Ä‚éƒL[‚ğ‘I‘ğ';
+                    this.activeMappingText = 'ã‚­ãƒ¼ã‚’é¸æŠ';
                 }
             },
             getMappedKey(action, index) {
-                return action[index] ? action[index] : '–¢Š„‚è“–‚Ä';
+                return action[index] ? action[index] : 'æœªå‰²å½“';
             },
             isActiveMapping(action) {
                 return this.activeMapping === action;
             },
             handleKeyDown(event) {
-                if (this.startFlag) {
+                if (this.startFlag && !this.isPaused) {
                     if (event.key === 'e') {
                         if (this.addSym[0] == "+") {
                             this.addSym.splice(0, 1, "-");
@@ -841,27 +838,27 @@
                         }
                     } else if (event.key === 'r') {
                         this.symValue[0] = this.getNextSymbol(this.symValue[0]);
-                        if (this.symValue[0] == "~") {
+                        if (this.symValue[0] == "Ã—") {
                             this.firstSym.splice(0, 1, "*");
-                        } else if (this.symValue[0] == "€") {
+                        } else if (this.symValue[0] == "Ã·") {
                             this.firstSym.splice(0, 1, "/");
                         } else {
                             this.firstSym.splice(0, 1, this.symValue[0]);
                         };
                     } else if (event.key === 'u') {
                         this.symValue[1] = this.getNextSymbol(this.symValue[1]);
-                        if (this.symValue[1] == "~") {
+                        if (this.symValue[1] == "Ã—") {
                             this.secondSym.splice(0, 1, "*");
-                        } else if (this.symValue[1] == "€") {
+                        } else if (this.symValue[1] == "Ã·") {
                             this.secondSym.splice(0, 1, "/");
                         } else {
                             this.secondSym.splice(0, 1, this.symValue[1]);
                         };
                     } else if (event.key === 'i') {
                         this.symValue[2] = this.getNextSymbol(this.symValue[2]);
-                        if (this.symValue[2] == "~") {
+                        if (this.symValue[2] == "Ã—") {
                             this.thirdSym.splice(0, 1, "*");
-                        } else if (this.symValue[2] == "€") {
+                        } else if (this.symValue[2] == "Ã·") {
                             this.thirdSym.splice(0, 1, "/");
                         } else {
                             this.thirdSym.splice(0, 1, this.symValue[2]);
@@ -905,19 +902,19 @@
                         this.startOrGiveUp();
                     }
                 } else if (event.key === 'z') {
-                    this.startColorChange();
+                    // this.startColorChange();
                 }
             },
             correctProcess() {
-                this.showCorrect = true; // ƒtƒF[ƒhƒCƒ“ŠJn
-                // 1•bŒã‚ÉƒtƒF[ƒhƒCƒ“‚ğI—¹
+                this.showCorrect = true; // ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³é–‹å§‹
+                // 1ç§’å¾Œã«ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã‚’çµ‚äº†
                 setTimeout(() => {
-                    this.showCorrect = false; // —v‘f‚ğ”ñ•\¦‚É‚·‚é
+                    this.showCorrect = false; // è¦ç´ ã‚’éè¡¨ç¤ºã«ã™ã‚‹
                 }, 1000);
 
             },
             getNextSymbol(symbol) {
-                const symbols = ["-", "~", "€", "+"];
+                const symbols = ["-", "Ã—", "Ã·", "+"];
                 const currentIndex = symbols.indexOf(symbol);
                 const nextIndex = (currentIndex + 1) % symbols.length;
                 return symbols[nextIndex];
@@ -971,7 +968,7 @@
                         const deltaY = event.clientY - this.lastMousePos.y;
                         if (Math.abs(deltaY) >= this.mouseThreshold) {
                             if (deltaY > 0) {
-                                this.symValue[this.selectedSym] = "€";
+                                this.symValue[this.selectedSym] = "Ã·";
                                 switch (this.selectedSym) {
                                     case 0:
                                         this.firstSym.splice(0, 1, "/");
@@ -984,7 +981,7 @@
                                         break;
                                 }
                             } else {
-                                this.symValue[this.selectedSym] = "~";
+                                this.symValue[this.selectedSym] = "Ã—";
                                 switch (this.selectedSym) {
                                     case 0:
                                         this.firstSym.splice(0, 1, "*");
@@ -1038,15 +1035,15 @@
                 this.btnIsSelect.splice(5, 1, true);
                 this.tryAgain();
             },
-            //startƒ{ƒ^ƒ“‰Ÿ‰ºA‚à‚µ‚­‚Íanswer==10‚Ì‚É”’l‚ğƒ‰ƒ“ƒ_??‚É•ÏX
+            //startãƒœã‚¿ãƒ³æŠ¼ä¸‹æ™‚ã€ã‚‚ã—ãã¯answer==10ã®æ™‚ã«æ•°å€¤ã‚’ãƒ©ãƒ³ãƒ€??ã«å¤‰æ›´
             matchCreateNum(nums) {
                 if (this.checkEasyAnswer(nums, this.target)) {
                     return false;
                 }
 
-                // ”z—ñ‚ğ¬‚³‚¢‡‚É•À‚×‘Ö‚¦‚é
+                // é…åˆ—ã‚’å°ã•ã„é †ã«ä¸¦ã¹æ›¿ãˆã‚‹
                 nums.sort((a, b) => a - b);
-                // ‰ß‹‚Ì–â‘è‚Æd•¡‚ª–³‚¢‚©Šm‚©‚ß‚é
+                // éå»ã®å•é¡Œã¨é‡è¤‡ãŒç„¡ã„ã‹ç¢ºã‹ã‚ã‚‹
                 for (let i = 0; i < this.checkDupNums.length; i++) {
                     if (this.areArraysEqual(nums, this.checkDupNums[i])) {
                         return false;
@@ -1057,40 +1054,40 @@
 
             }, checkEasyAnswer(nums, target) {
                 if (nums[0] + nums[1] + nums[2] + nums[3] == target ||
-                    // ˆø‚«Zƒ`ƒFƒbƒN
+                    // å¼•ãç®—ãƒã‚§ãƒƒã‚¯
                     - nums[0] + nums[1] + nums[2] + nums[3] == target ||
                     nums[0] - nums[1] + nums[2] + nums[3] == target ||
                     nums[0] + nums[1] - nums[2] + nums[3] == target ||
                     nums[0] + nums[1] + nums[2] - nums[3] == target ||
-                    // ˆø‚«Z2‰ÓŠƒ`ƒFƒbƒN
+                    // å¼•ãç®—2ç®‡æ‰€ãƒã‚§ãƒƒã‚¯
                     - nums[0] - nums[1] + nums[2] + nums[3] == target ||
                     - nums[0] + nums[1] - nums[2] + nums[3] == target ||
                     - nums[0] + nums[1] + nums[2] - nums[3] == target ||
                     nums[0] - nums[1] - nums[2] + nums[3] == target ||
                     nums[0] - nums[1] + nums[2] - nums[3] == target ||
                     nums[0] + nums[1] - nums[2] - nums[3] == target ||
-                    // Š|‚¯Zƒ`ƒFƒbƒN
+                    // æ›ã‘ç®—ãƒã‚§ãƒƒã‚¯
                     nums[0] * nums[1] + nums[2] + nums[3] == target ||
                     nums[0] * nums[2] + nums[1] + nums[3] == target ||
                     nums[0] * nums[3] + nums[2] + nums[1] == target ||
                     nums[0] + nums[1] * nums[2] + nums[3] == target ||
                     nums[0] + nums[1] * nums[3] + nums[2] == target ||
                     nums[0] + nums[1] + nums[2] * nums[3] == target ||
-                    // Š„‚èZƒ`ƒFƒbƒNi”Ô†--¬€‘åj
+                    // å‰²ã‚Šç®—ãƒã‚§ãƒƒã‚¯ï¼ˆç•ªå·--å°Ã·å¤§ï¼‰
                     nums[0] / nums[1] + nums[2] + nums[3] == target ||
                     nums[0] / nums[2] + nums[1] + nums[3] == target ||
                     nums[0] / nums[3] + nums[2] + nums[1] == target ||
                     nums[0] + nums[1] / nums[2] + nums[3] == target ||
                     nums[0] + nums[1] / nums[3] + nums[2] == target ||
                     nums[0] + nums[1] + nums[2] / nums[3] == target ||
-                    // Š„‚èZƒ`ƒFƒbƒNi”Ô†--‘å€¬j
+                    // å‰²ã‚Šç®—ãƒã‚§ãƒƒã‚¯ï¼ˆç•ªå·--å¤§Ã·å°ï¼‰
                     nums[1] / nums[0] + nums[2] + nums[3] == target ||
                     nums[2] / nums[0] + nums[1] + nums[3] == target ||
                     nums[3] / nums[0] + nums[2] + nums[1] == target ||
                     nums[0] + nums[2] / nums[1] + nums[3] == target ||
                     nums[0] + nums[3] / nums[1] + nums[2] == target ||
                     nums[0] + nums[1] + nums[3] / nums[2] == target) {
-                    // console.log(nums + "check¸”s");
+                    // console.log(nums + "checkå¤±æ•—");
                     return false;
                 };
             },
@@ -1116,7 +1113,7 @@
                         }
                         this.answerFormula = make10Ans;
 
-                        // d•¡‚ª–³‚©‚Á‚½‚Ì‚Å’Ç‰Á
+                        // é‡è¤‡ãŒç„¡ã‹ã£ãŸã®ã§è¿½åŠ 
                         this.checkDupNums.push(nums);
                     } else {
                         this.createNum();
@@ -1138,7 +1135,7 @@
                         }
                         this.answerFormula = make10Ans;
 
-                        // d•¡‚ª–³‚©‚Á‚½‚Ì‚Å’Ç‰Á
+                        // é‡è¤‡ãŒç„¡ã‹ã£ãŸã®ã§è¿½åŠ 
                         this.checkDupNums.push(nums);
                     } else {
                         this.createNum();
@@ -1161,7 +1158,7 @@
                         }
                         this.answerFormula = make10Ans;
 
-                        // d•¡‚ª–³‚©‚Á‚½‚Ì‚Å’Ç‰Á
+                        // é‡è¤‡ãŒç„¡ã‹ã£ãŸã®ã§è¿½åŠ 
                         this.checkDupNums.push(nums);
                     } else {
                         this.createNum();
@@ -1199,7 +1196,6 @@
                 }
                 return true;
             },
-            // ‹L†1‚©Š•ÏX‚Ì‚İ‚Å³‰ğ‚·‚éê‡‚Í’Š‘I‚ğ‚â‚è’¼‚·
             // ansCheck(make10Ans) {
             //     let plusCount = (make10Ans.match(/\+/g) || []).length;
             //     let minusCount = (make10Ans.match(/\-/g) || []).length;
@@ -1215,10 +1211,10 @@
             changeBackgroundColor(element) {
                 let opacity = 0;
                 const targetOpacity = 0.5;
-                const transitionDuration = 200; // ”wŒiF‚Ì•Ï‰»‚É‚©‚¯‚éŠÔiƒ~ƒŠ•bj
-                const revertDuration = 100; // Œ³‚É–ß‚·ŠÔiƒ~ƒŠ•bj
+                const transitionDuration = 200; // èƒŒæ™¯è‰²ã®å¤‰åŒ–ã«ã‹ã‘ã‚‹æ™‚é–“ï¼ˆãƒŸãƒªç§’ï¼‰
+                const revertDuration = 100; // å…ƒã«æˆ»ã™æ™‚é–“ï¼ˆãƒŸãƒªç§’ï¼‰
 
-                const originalBackgroundColor = element.style.backgroundColor; // Œ³‚Ì”wŒiF‚ğ•Û‚·‚é
+                const originalBackgroundColor = element.style.backgroundColor; // å…ƒã®èƒŒæ™¯è‰²ã‚’ä¿æŒã™ã‚‹
 
                 const startTimeProcess = performance.now();
 
@@ -1226,23 +1222,23 @@
                     const elapsedTime = performance.now() - startTimeProcess;
                     const progress = elapsedTime / transitionDuration;
 
-                    opacity = progress * targetOpacity; // ƒIƒpƒVƒeƒB‚ğ™X‚É‘‰Á‚³‚¹‚é
+                    opacity = progress * targetOpacity; // ã‚ªãƒ‘ã‚·ãƒ†ã‚£ã‚’å¾ã€…ã«å¢—åŠ ã•ã›ã‚‹
                     element.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
 
                     if (progress >= 1) {
-                        clearInterval(changeTimer); // ”wŒiF‚Ì•Ï‰»ƒ^ƒCƒ}[‚ğ’â~‚·‚é
+                        clearInterval(changeTimer); // èƒŒæ™¯è‰²ã®å¤‰åŒ–ã‚¿ã‚¤ãƒãƒ¼ã‚’åœæ­¢ã™ã‚‹
 
-                        // Œ³‚É–ß‚·ƒ^ƒCƒ}[‚ğŠJn‚·‚é
+                        // å…ƒã«æˆ»ã™ã‚¿ã‚¤ãƒãƒ¼ã‚’é–‹å§‹ã™ã‚‹
                         const revertTimer = setInterval(() => {
                             const elapsedTime = performance.now() - (startTimeProcess + transitionDuration);
                             const progress = elapsedTime / revertDuration;
 
-                            opacity = targetOpacity - progress * targetOpacity; // ƒIƒpƒVƒeƒB‚ğ™X‚ÉŒ¸­‚³‚¹‚é
+                            opacity = targetOpacity - progress * targetOpacity; // ã‚ªãƒ‘ã‚·ãƒ†ã‚£ã‚’å¾ã€…ã«æ¸›å°‘ã•ã›ã‚‹
                             element.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
 
                             if (progress >= 1) {
-                                clearInterval(revertTimer); // Œ³‚É–ß‚·ƒ^ƒCƒ}[‚ğ’â~‚·‚é
-                                element.style.backgroundColor = originalBackgroundColor; // Œ³‚Ì”wŒiF‚É–ß‚·
+                                clearInterval(revertTimer); // å…ƒã«æˆ»ã™ã‚¿ã‚¤ãƒãƒ¼ã‚’åœæ­¢ã™ã‚‹
+                                element.style.backgroundColor = originalBackgroundColor; // å…ƒã®èƒŒæ™¯è‰²ã«æˆ»ã™
                             }
                         }, 10);
                     }
@@ -1257,7 +1253,7 @@
                         this.changeNextElementColor(index + 1);
                     }, 40);
                 } else {
-                    // ‘S‚Ä‚Ì—v‘f‚Ì”wŒiF•ÏX‚ªŠ®—¹‚µ‚½Œã‚É correctProcess ‚ğŒÄ‚Ño‚·
+                    // å…¨ã¦ã®è¦ç´ ã®èƒŒæ™¯è‰²å¤‰æ›´ãŒå®Œäº†ã—ãŸå¾Œã« correctProcess ã‚’å‘¼ã³å‡ºã™
                     this.correctProcess();
                 }
             },
@@ -1328,7 +1324,6 @@
                 } else {
                     this.resetBra();
                 }
-                //“ñ”Ô–Ú‚É‘I‘ğ‚µ‚½Š‡ŒÊ????????selectedBra‚É”½‰f‚µABrackts‚Æ·‚µ‘Ö‚¦‚Ä‰æ–Ê‚É”½‰f
                 // else if (this.selectFlag == true) {
                 //     for (let i = 0; i < this.bracketNames.length; i++) {
                 //         if (this.bracketNames[i] == braNumber) {
@@ -1349,7 +1344,7 @@
                 //     }
                 // }
             },
-            // ‘S‚Ä‚ÌŠ‡ŒÊ‚ğíœ‚µAclickActƒNƒ‰ƒX?????‚Äfalse‚É
+
             resetBra() {
                 for (let i = 0; i < this.brackets.length; i++) {
                     this.selectedBra.splice(i, 1, "");
@@ -1367,7 +1362,6 @@
                     this.symValue.splice(i, 1, "+");
                 }
             },
-            //‘I‘ğ‚µ‚½”š“¯m‚ÌêŠ‚ğ’uŠ·‚·‚é
             numReplace(received) {
                 if (this.selectedNumTF == false) {
                     for (let i = 0; i < this.numbers.length; i++) {
@@ -1378,21 +1372,16 @@
                             } else {
                                 this.overDriveNBChange.splice(i, 1, true);
                             }
-                            // n‚ß‚É‘I‘ğ‚µ‚½”’l‚Ì”Ô†‚ğselectedNumIndexF‚É‘ã“ü
                             this.selectedNumIndexF = i;
                         }
                     }
                     this.selectedNumTF = true;
-                    // ‘I‘ğ‚³‚ê‚½”’l‚ÆˆÊ’u‚ÍselectedNum‚ÉŠi”[‚³‚ê‚é
                 } else if (this.selectedNumTF == true) {
                     for (let i = 0; i < this.numbers.length; i++) {
                         if (this.passNum[i] == received) {
                             this.selectedNum[i] = this.numbers[i];
-                            // n‚ß‚É‘I‘ğ‚µ‚½”’l‚ğfirstValue‚ÉŠi??
                             let firstValue = this.selectedNum[this.selectedNumIndexF];
-                            // n‚ß‚É‘I‘ğ‚µ‚½”’l‚ğŒã‚É‘I‘ğ‚µ‚½”’l‚É’u‚«Š·??
                             this.numbers.splice(this.selectedNumIndexF, 1, this.selectedNum[i]);
-                            // Œã‚É‘I‘ğ‚µ‚½”’l(”Ô† = i)‚ğn‚ß‚É‘I‘ğ‚µ‚½”’l‚É’u‚«Š·??
                             this.numbers.splice(i, 1, firstValue);
                         }
                     }
@@ -1427,13 +1416,9 @@
                 let repNums = this.numbers.concat();
                 this.reloadFormula.push(repNums);
                 this.reloadAnswerFormula.push(this.answerFormula);
-                // ƒ{ƒ^ƒ“‚ğ–³Œø‰»‚·‚é
-                // this.disableButton = true;
-
-                // ˆê’èŠÔŒã‚Éƒ{ƒ^ƒ“‚ğ—LŒø‰»‚·‚é
-                // setTimeout(() => {
-                //     this.disableButton = false;
-                // }, 1000);
+                setTimeout(() => {
+                    this.disableButton = false;
+                }, 1000);
             },
             tryAgain() {
                 this.btnIsSelect.splice(0, 1, false);
@@ -1560,34 +1545,34 @@
                 this.rankingFlag = false;
             },
             regist() {
-                // Airtable‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒ‰ƒCƒuƒ‰ƒŠg—p
+                // Airtableã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ©ã‚¤ãƒ–ãƒ©ãƒªä½¿ç”¨
                 var Airtable = require('airtable');
                 var base = new Airtable({ apiKey: 'keyqw2LBx6N2Ijdr2' }).base('app1MxnFrdKWBio9q');
 
-                // “ü—Í‚³‚ê‚½–¼‘O
+                // å…¥åŠ›ã•ã‚ŒãŸåå‰
                 let userName = document.getElementById("registName").value;
                 if (userName == "") {
                     document.getElementById("warning").style.display = "block";
                     document.getElementById("normalText").style.display = "none";
                     return;
                 } else {
-                    // “ü—Í“à—e
-                    const date = new Date(); // Œ»İ
+                    // å…¥åŠ›å†…å®¹
+                    const date = new Date(); // ç¾åœ¨æ™‚åˆ»
                     const year = date.getFullYear().toString().slice(-2);
                     const month = ("0" + (date.getMonth() + 1)).slice(-2);
                     const day = ("0" + date.getDate()).slice(-2);
                     const nowStr = `${year}/${month}/${day}`;
 
-                    // ƒvƒŒƒCƒ„[‚ÌƒXƒRƒA
+                    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ã‚³ã‚¢
                     let strScore = this.score.toString();
 
-                    // ƒvƒŒƒCƒ„[‚Ìmode
+                    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®mode
                     let strMode = this.mode.toString();
 
-                    // ƒvƒŒƒCƒ„[‚Ì‰ğ‚¢‚½–â‘è
+                    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è§£ã„ãŸå•é¡Œ
                     const answerDetailString = JSON.stringify(this.answerDetail);
 
-                    // ƒf[ƒ^‚ğAirtable‚É•Û‘¶
+                    // ãƒ‡ãƒ¼ã‚¿ã‚’Airtableã«ä¿å­˜
                     var data = {
                         name: userName,
                         score: strScore,
@@ -1602,7 +1587,7 @@
                         }
                     });
 
-                    // score‡‚Éƒ\[ƒg
+                    // scoreé †ã«ã‚½ãƒ¼ãƒˆ
                     const table = base('RankingDetail');
 
                     table.select({
@@ -1615,15 +1600,15 @@
                         });
                     });
 
-                    // 101—ñ–ÚˆÈ~‚Ìƒf[ƒ^‚ğæ“¾‚·‚é
+                    // 101åˆ—ç›®ä»¥é™ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
                     const query = { fields: [], maxRecords: 100, view: 'Grid view' };
                     for (let i = 101; i <= 200; i++) {
                         query.fields.push(`Column ${i}`);
                     }
-                    // ƒe[ƒuƒ‹‚Ì‘Sƒf[ƒ^‚ğæ“¾
+                    // ãƒ†ãƒ¼ãƒ–ãƒ«ã®å…¨ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—
                     const records = [];
                     base('RankingDetail').select(query).eachPage(function page(records, fetchNextPage) {
-                        // æ“¾‚µ‚½ƒŒƒR[ƒh‚ğ”z—ñ‚É’Ç‰Á
+                        // å–å¾—ã—ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’é…åˆ—ã«è¿½åŠ 
                         records.forEach(record => {
                             records.push(record);
                         });
@@ -1633,7 +1618,7 @@
                             console.error(err);
                             return;
                         }
-                        // æ“¾‚µ‚½ƒŒƒR[ƒh‚ğíœ
+                        // å–å¾—ã—ãŸãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤
                         records.forEach(record => {
                             record.destroy((err, deletedRecord) => {
                                 if (err) {
@@ -1649,7 +1634,7 @@
                 this.resultFlag = false;
             },
             showRanking() {
-                this.eventBus.$emit('dataChanged'); // ƒf[ƒ^‚ğ‰Šú‰»‚·‚é‚½‚ß‚É dataChanged ƒCƒxƒ“ƒg‚ğ”­¶‚³‚¹‚é
+                this.eventBus.$emit('dataChanged'); // ãƒ‡ãƒ¼ã‚¿ã‚’åˆæœŸåŒ–ã™ã‚‹ãŸã‚ã« dataChanged ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹
                 this.rankingFlag = true;
                 // this.getItems();
             },
@@ -1715,10 +1700,9 @@
             ansNoChange() {
                 this.answerChangeFlag = true;
             },
-            // ƒlƒbƒg‚©‚ç
             countUp() {
                 if (this.isPaused) {
-                    return; // ƒ^ƒCƒ}[‚ªˆê’â~’†‚Íˆ—‚ğ’†’f
+                    return; // ã‚¿ã‚¤ãƒãƒ¼ãŒä¸€æ™‚åœæ­¢ä¸­ã¯å‡¦ç†ã‚’ä¸­æ–­
                 }
 
                 const elapsedTime = Date.now() - this.totalPausedTime;
@@ -1743,7 +1727,7 @@
                 } else {
                     this.pausedTimeEnd = Date.now();
                     this.totalPausedTime += this.pausedTimeEnd - this.pausedTimeStart
-                    // console.log("‘’â~ŠÔ‚Í" + this.totalPausedTime)
+                    // console.log("ç·åœæ­¢æ™‚é–“ã¯" + this.totalPausedTime)
                 }
                 this.isPaused = false;
                 this.countUp();
