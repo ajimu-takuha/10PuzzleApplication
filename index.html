@@ -882,7 +882,7 @@
                     } else if (event.key === ';') {
                         this.braChange(5);
                     } else if (event.key === 'Escape') {
-                        if (!this.disableButton) {
+                        if (!this.disableButton && this.reloadCount !== 0) {
                             this.reloadClick();
                             this.createNum();
                         }
@@ -1088,7 +1088,7 @@
                     nums[0] + nums[3] / nums[1] + nums[2] == target ||
                     nums[0] + nums[1] + nums[3] / nums[2] == target) {
                     // console.log(nums + "check失敗");
-                    return false;
+                    return true;
                 };
             },
 
