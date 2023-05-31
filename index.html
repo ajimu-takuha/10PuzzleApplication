@@ -1387,7 +1387,7 @@
                         currentNums.push(this.numbers[i]);
                     }
                     this.clearedFormula.splice(this.clearCount, 0, currentNums);
-                    if (this.clearCount == 1) {
+                    if (this.clearCount == 10) {
                         this.elapsedTime = Date.now() - this.startTime - this.totalPausedTime;
                         if (this.clearEffectFlag == "on") {
                             this.isLoading = true;
@@ -1594,46 +1594,46 @@
                 // this.ansNoChange();
                 if (this.mode == "Easy") {
                     if (this.score < 800) {
-                        this.evaluation = "Rank : D";
+                        this.evaluation = "Rank - D -";
                         this.evalComment =
                             "Try More...";
                     } else if (this.score < 850) {
-                        this.evaluation = "Rank : C";
+                        this.evaluation = "Rank - C -";
                         this.evalComment =
                             "Rome was not built in a day.";
                     } else if (this.score < 900) {
-                        this.evaluation = "Rank : B";
+                        this.evaluation = "Rank - B -";
                         this.evalComment =
                             "Getting used to it?";
                     } else if (this.score < 950) {
-                        this.evaluation = "Rank : A";
+                        this.evaluation = "Rank - A -";
                         this.evalComment =
                             "There's always someone better.";
                     } else {
-                        this.evaluation = "Rank : S"
+                        this.evaluation = "Rank - S -";
                         this.evalComment =
                             "Good score! Please try Next mode!";
                     }
                 } else if (this.mode == "Normal") {
 
                     if (this.score < 600) {
-                        this.evaluation = "Rank : D";
+                        this.evaluation = "Rank - D -";
                         this.evalComment =
                             "NORMAL, but this is difficult for many people...";
                     } else if (this.score < 700) {
-                        this.evaluation = "Rank : C";
+                        this.evaluation = "Rank - C -";
                         this.evalComment =
                             "Persistence pays off.";
                     } else if (this.score < 820) {
-                        this.evaluation = "Rank : B";
+                        this.evaluation = "Rank - B -";
                         this.evalComment =
                             "Perhaps you like to do mental arithmetic?";
                     } else if (this.score < 930) {
-                        this.evaluation = "Rank : A";
+                        this.evaluation = "Rank - A -";
                         this.evalComment =
                             "You are in the top 5% or so...Maybe.";
                     } else {
-                        this.evaluation = "Rank - S -"
+                        this.evaluation = "Rank - S -";
                         this.evalComment =
                             "Welcome Lunatic... And It's Lunatic Time!";
                         document.getElementById("lunaticButton").style.pointerEvents = "auto";
@@ -1643,23 +1643,23 @@
                 } else if (this.mode == "Hard") {
 
                     if (this.score < 550) {
-                        this.evaluation = "Rank : D";
+                        this.evaluation = "Rank - D -";
                         this.evalComment =
                             "Was this mode harder than Normal?";
                     } else if (this.score < 650) {
-                        this.evaluation = "Rank : C";
+                        this.evaluation = "Rank - C -";
                         this.evalComment =
                             "Patience is a virtue.";
                     } else if (this.score < 780) {
-                        this.evaluation = "Rank : B";
+                        this.evaluation = "Rank - B -";
                         this.evalComment =
                             "Did you play the abacus?";
                     } else if (this.score < 910) {
-                        this.evaluation = "Rank : A";
+                        this.evaluation = "Rank - A -";
                         this.evalComment =
                             "You are great, but fall just one step short...";
                     } else {
-                        this.evaluation = "Rank : S"
+                        this.evaluation = "Rank - S -";
                         this.evalComment =
                             "Welcome Lunatic... And It's Lunatic Time!";
                         document.getElementById("lunaticButton").style.pointerEvents = "auto";
@@ -1670,28 +1670,28 @@
                 } else if (this.mode == "Lunatic") {
 
                     if (this.score < 400) {
-                        this.evaluation = "Rank : D";
+                        this.evaluation = "Rank - D -";
                         this.evalComment =
                             "It's not your fault.";
                     } else if (this.score < 550) {
-                        this.evaluation = "Rank : C";
+                        this.evaluation = "Rank - C -";
                         this.evalComment =
                             "Adversity makes a man wise.";
                     } else if (this.score < 600) {
-                        this.evaluation = "Rank : B";
+                        this.evaluation = "Rank - B -";
                         this.evalComment =
                             "Do you remember how many times you tried?";
                     } else if (this.score < 800) {
-                        this.evaluation = "Rank : A";
+                        this.evaluation = "Rank - A -";
                         this.evalComment =
                             "Excuse me, are you a Mensa member?"
 
                     } else if (this.score < 950) {
-                        this.evaluation = "Rank : S";
+                        this.evaluation = "Rank - S -";
                         this.evalComment =
                             "This game is a battle against luck and yourself.";
                     } else {
-                        this.evaluation = "Game Clear"
+                        this.evaluation = "Game Clear";
                         this.evalComment =
                             "Did you enjoy this game?";
                     }
