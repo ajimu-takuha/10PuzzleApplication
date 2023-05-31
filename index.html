@@ -8,7 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="js/make10.js"></script>
-    <!-- <script src="js/index.js"></script> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="css/style.css">
@@ -20,14 +19,11 @@
         </div>
 
 
-        <div id="all" v-bind:class="{allOverDrive:mode == 'OverDrive', all:mode != 'OverDrive'}">
-
-
-
-
-
+        <div id="all" class="all">
             <div v-if="isLoading" class="overlay"></div>
             <div class="contentWrapper">
+
+                <div id="subMenuOverlay" v-if="subMenuFlag" class="subMenuOverlay"></div>
                 <transition name="fade">
                     <div v-if="showCorrect" class="correct-text">
                         {{ correctText }}
@@ -36,77 +32,779 @@
 
 
 
-                <!-- <template>
-                    <div class="container">
-                      <div class="row">
-                        <div class="mapping-container">
-                          <div class="mapping-content" @click="setActiveMapping('first', 0)">
-                            <span class="mapping-text">{{ getMappedKey('first', 0) }}</span>
-                            <span class="mapping-input" v-if="isActiveMapping('first', 0)">{{ activeMappingText }}</span>
-                          </div>
-                          <div class="mapping-content" @click="setActiveMapping('first', 1)">
-                            <span class="mapping-text">{{ getMappedKey('first', 1) }}</span>
-                            <span class="mapping-input" v-if="isActiveMapping('first', 1)">{{ activeMappingText }}</span>
-                          </div>
+                <div id="menu" class="result" v-if="menuFlag">
+                    <div id="itemCovorMenu">
+                        <div id="titleAndCloseMenu" class="titleAndClose">
+                            <div id="menuTitle">
+                                <span style="color: rgb(255, 255, 255)">
+                                    Menu
+                                </span>
+                            </div>
+                            <div class="closeWrapper" v-on:click="closeMenu()">
+                            </div>
+                            <button id="closeMenu" class="closeButton"></button>
                         </div>
-                        <div class="mapping-container">
-                          <div class="mapping-content" @click="setActiveMapping('second', 0)">
-                            <span class="mapping-text">{{ getMappedKey('second', 0) }}</span>
-                            <span class="mapping-input" v-if="isActiveMapping('second', 0)">{{ activeMappingText }}</span>
-                          </div>
-                          <div class="mapping-content" @click="setActiveMapping('second', 1)">
-                            <span class="mapping-text">{{ getMappedKey('second', 1) }}</span>
-                            <span class="mapping-input" v-if="isActiveMapping('second', 1)">{{ activeMappingText }}</span>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                  </template> -->
+                    <button id="rankingButton" class="menuContent" v-on:click="showRanking()">Ranking</button>
+                    <button id="configButton" class="menuContent" v-on:click="showConfig()">
+                        Config
+                    </button>
+                    <button id="showHTPButton" class="menuContent" v-on:click="showHowToPlay()">
+                        How to Play
+                    </button>
+                </div>
+
+
+
+                <div id="config" class="result" v-if="configFlag">
+                    <div class="itemCovor">
+                        <div class="titleAndClose">
+                            <div id="configTitle" class="rankingTitle" style="color: rgb(255, 255, 255)">Config
+                            </div>
+                            <div class="closeWrapper" v-on:click="closeConfig()">
+                            </div>
+                            <button id="closeConfig" class="closeButton"></button>
+                        </div>
+                        <div class="configItem">
+                            <div id="configSpace" class="items">
+
+                            </div>
+                            <div class="changePart items">
+                                Changes
+                            </div>
+                            <div class="assigned items">
+                                Key 1
+                            </div>
+                            <div class="assigned items">
+                                Key 2
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            <span class="changes"> + </span> ○ + ○ + ○ + ○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(0,0)">
+                            {{ getEventKeyValue(0, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(0,1)">
+                            {{ getEventKeyValue(0, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + ○<span class="changes"> + </span>○ + ○ + ○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(1,0)">
+                            {{ getEventKeyValue(1, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(1,1)">
+                            {{ getEventKeyValue(1, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + ○ + ○<span class="changes"> + </span>○ + ○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(2,0)">
+                            {{ getEventKeyValue(2, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(2,1)">
+                            {{ getEventKeyValue(2, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + ○ + ○ + ○<span class="changes"> + </span>○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(3,0)">
+                            {{ getEventKeyValue(3, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(3,1)">
+                            {{ getEventKeyValue(3, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + <span class="changes">○</span> + ○ + ○ + ○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(4,0)">
+                            {{ getEventKeyValue(4, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(4,1)">
+                            {{ getEventKeyValue(4, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + ○ + <span class="changes">○</span> + ○ + ○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(5,0)">
+                            {{ getEventKeyValue(5, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(5,1)">
+                            {{ getEventKeyValue(5, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + ○ + ○ + <span class="changes">○</span> + ○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(6,0)">
+                            {{ getEventKeyValue(6, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(6,1)">
+                            {{ getEventKeyValue(6, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + ○ + ○ + ○ + <span class="changes">○</span>
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(7,0)">
+                            {{ getEventKeyValue(7, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(7,1)">
+                            {{ getEventKeyValue(7, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            <span class="changes"> ( </span>+ ○ + ○ <span class="changes"> ) </span> + ○ + ○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(8,0)">
+                            {{ getEventKeyValue(8, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(8,1)">
+                            {{ getEventKeyValue(8, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            <span class="changes"> ( </span>+ ○ + ○ + ○<span class="changes"> ) </span> + ○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(9,0)">
+                            {{ getEventKeyValue(9, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(9,1)">
+                            {{ getEventKeyValue(9, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + ○ + <span class="changes"> ( </span>○ + ○<span class="changes"> ) </span> + ○
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(10,0)">
+                            {{ getEventKeyValue(10, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(10,1)">
+                            {{ getEventKeyValue(10, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + ○ + <span class="changes"> ( </span>○ + ○+ ○<span class="changes"> ) </span>
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(11,0)">
+                            {{ getEventKeyValue(11, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(11,1)">
+                            {{ getEventKeyValue(11, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            + ○ + ○ + <span class="changes"> ( </span>○+ ○<span class="changes"> ) </span>
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(12,0)">
+                            {{ getEventKeyValue(12, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(12,1)">
+                            {{ getEventKeyValue(12, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            Start/GiveUp
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(13,0)">
+                            {{ getEventKeyValue(13, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(13,1)">
+                            {{ getEventKeyValue(13, 1) }}
+                        </div>
+                    </div>
+
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            Reload
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(14,0)">
+                            {{ getEventKeyValue(14, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(14,1)">
+                            {{ getEventKeyValue(14, 1) }}
+                        </div>
+                    </div>
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            Reset
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(15,0)">
+                            {{ getEventKeyValue(15, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(15,1)">
+                            {{ getEventKeyValue(15, 1) }}
+                        </div>
+                    </div>
+
+
+                    <button class="configContent" v-on:click="resetConfigDefault()">Reset Assigned Keys to Default
+                    </button>
+
+                    <button class="configContent" v-on:click="inputModeChange()">Arithmetic Operator Change : {{
+                        inputMode }}
+                    </button>
+
+                    <button class="configContent" v-on:click="clearEffectChange()">Effect : {{
+                        clearEffectFlag }}
+                    </button>
+                </div>
 
 
                 <!-- <div id="correctCube"></div> -->
-                <!-- <div id="explanation" class="explanation">
-                    <p><span>How to Play this app</span><br>
-                        Using the four arithmetic operators and parentheses,<br>
-                        create an expression using the numbers<br>
-                        generated by pressing the "Start" button, and make sure the answer is 10.<br>
-                        In "Use one digit" mode, use numbers from 1 to 9, and in "Use under 20" mode,<br> use numbers
-                        from 1 to 19 to create an expression.<br>
-                        The "Over Drive" mode is released when you get a certain score in other modes.<br>
-                        If you want to practice, press the "Reload" button instead of the "Start" button<br>
-                        to generate the number for the mode.<br>
-                        If you want to replace the numbers, click on the two numbers you want to replace.<br>
-                        If you want to switch between the four arithmetic operators,<br>
-                        click where you want to switch.<br>
-                        The order in which they are switched is "+, -, ????, ��".<br>
-                        If you want to know the answer to the equation, click the "Show Answer" button,<br> and the
-                        challenge will be aborted,<br>
-                        but you will be able to see the equation for the answer.<br>
-                        You can create an expression that becomes 10 with all the generated numbers.
-                    </p>
-                    <button id="close" class="close" v-on:click="close()">close</button>
-                </div> -->
-                <div id="result" class="result" v-if="resultFlag">
-                    <br>
-                    <div id="scoreWrap">
-                        <span id="modeText">　Mode : {{mode}}　</span>
-                        <div><br>　Time : {{elapsedTime}}　</div>
-                        <div><br>　Reload : {{20 - reloadCount}}　</div>
-                        <div><br>　Score : {{score}}　</div>
+
+                <div id="explanation" class="explanation" v-if="HTPFlag">
+                    <div id="itemCovorHTP" class="itemCovor">
+                        <div id="titleAndCloseHTP" class="titleAndClose">
+                            <div id="howToPlayTitle" class="rankingTitle">
+                                <span style="color: rgb(255, 255, 255)">
+                                    How to Play
+                                </span>
+                            </div>
+                            <div class="closeWrapper" v-on:click="closeHowToPlay()">
+                            </div>
+                            <button id="closeHowToPlay" class="closeButton"></button>
+                        </div>
                     </div>
-                    <br><span id="evaluation">{{evaluation}}</span>
-                    <span id="evalComment">
-                        <br>{{evalComment}}
-                    </span>
+                    <p>
+                        <br>
+                        <br>
+                        これは
+                        <span style="font-size: 30px;">
+                            「10パズル」
+                        </span>
+                        というゲームに着想を得たアプリです<br>
+                        与えられた4つの数字に対して、四則演算子と括弧を用いて<br>
+                        いかに早く10になる式を作れるか競います<br>
+                        <span style="font-size: 20px; line-height: 15px;">
+                            ※ 続きはこの画面をスクロール<br></span>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        右上にある記号をクリックするとこの画面を終了します<br>
+                        終了後タイトルをクリックするとメニュー画面に移り<br>
+                        「How to Play」を押すとこの画面を再び表示します<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <span style="font-size: 100px;">操作方法</span>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        「Start」ボタンを押すとスコア計測が始まり問題が表示されます<br>
+                        一度押した「Start」ボタンは「Give Up」ボタンとなり<br>
+                        それを押すと挑戦を放棄してそれまでの結果を確認できます<br>
+                        <br>
+                        後述するキーバインドの仕様上一度Startすると挑戦終了まで<br>
+                        F5等キー本来の持っている画面操作は使えません<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        画面には初めに「+」演算子が表示されていますが<br>
+                        クリックするたび [ - , ×, ÷, + ] の順に変更され<br>
+                        計算結果が自動で変更されます<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        数字をクリックすると背景色が変更されますが<br>
+                        その状態で別の数字をクリックすると<br>
+                        数字の位置を入れ替えることができます<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        画面上には括弧のペア　"
+                        <span style="font-size: 40px; color: rgb(255, 255, 255);">
+                            (　)
+                        </span>
+                        "　が入る位置があり<br>
+                        そこにマウスが乗ると背景色が変更され<br>
+                        クリックするとそこに括弧が入ります<br>
+                        再び括弧をクリックするとすべての括弧が消えます<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        「Reload」ボタンは今解いている問題を放棄して<br>
+                        次の問題を表示させます<br>
+                        一度の挑戦で使用できるのは20回までで<br>
+                        使用するたびにスコアが20ずつ下がります<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        「Reset」ボタンは出題時から変更した<br>
+                        数字順・括弧・記号をすべて出題時の状態に戻します<br>
+                        使用することにペナルティはありません<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        また、キーボードにより操作することもできます<br>
+                        タイトルをクリックするとメニュー画面が表示され<br>
+                        そこから「Config」をクリックすると<br>
+                        操作に対するキーの割り当てを確認・変更できます<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        10問正解すると挑戦終了となりスコアが表示されます<br>
+                        スコアの算出方法は減点方式で<br>
+                        1000 - ( 経過時間 + 20 ×リロード回数 ) で算出されます<br>
+                        問題生成やクリア時のエフェクトは経過時間に含まれません<br>
+                        スコアが0以下になると強制的にGiveUpとなります<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        リザルト画面で「Detail」ボタンを押すと<br>
+                        プレイヤーが解いた問題と各解答時間が表示されます<br>
+                        「Reload」ボタンを押した問題は赤色で表示されます<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        リザルト画面で「Registration」ボタンを押すと<br>
+                        1~12文字の名前とスコアを登録することができます<br>
+                        公序良俗に反する名前は使用しないでください<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <span style="font-size: 100px;">各種設定</span>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        難易度は
+                        <span style="font-size: 40px; color: yellow;">Easy </span>
+                        <span style="font-size: 40px; color: green;">Normal </span>
+                        <span style="font-size: 40px; color: blue;">Hard </span>
+                        <span style="font-size: 40px; color: red;">Lunatic </span>
+                        の4種類
+                        <br>
+                        画面下にあるボタンのクリックで変更できます<br>
+                        <span style="font-size: 20px; line-height: 15px;">
+                            ※ Lunatic は初期状態では選択できません<br></span>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <span style="font-size: 30px; color: yellow;">Easy </span>
+                        では1~9までの数字を用い<br>
+                        括弧を使わず演算子を1~2か所変更するだけで10になります<br>
+                        <span style="font-size: 20px; line-height: 15px;">
+                            ※ 解答に「 ×」もしくは「 ÷」記号を用いる場合は1か所の変更で<br>
+                            解答に「-」記号を用いる場合は1~2か所変更することで10にできます<br></span>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <span style="font-size: 30px; color: green;">Normal</span>
+                        では1~9までの数字を用い<br>
+                        演算子を2か所以上変更するか<br>
+                        演算子1か所のみの変更でも括弧を用いる必要があります<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <span style="font-size: 30px; color: blue;">Hard</span>
+                        では1~19までの数字を用い<br>
+                        演算子を2か所以上変更するか<br>
+                        演算子1か所のみの変更でも括弧を用いる必要があります<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <span style="font-size: 30px; color: red;">Lunatic</span>
+                        は非常に難しいモードです<br>
+                        Normal 以上の難易度で一定スコアを獲得すると選択できます<br>
+                        ぜひプレイできるようになってください<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <span style="font-size: 100px;">Menu画面詳細</span>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        タイトルをクリックするとMenu画面に移ります<br>
+                        「Ranking」ボタンを押すとモード別ランキングが見られます<br>
+                        「Config」ボタンを押すとキー操作の割り当て等ができます<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        Ranking画面はモード別スコア順にプレイヤーが表示されます<br>
+                        データをクリックするとプレイヤーの解いた問題が見られます<br>
+                        画面下のボタンを押すと表示するランキングが変わります<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        Config画面では赤で示した部分を操作するキーを設定します<br>
+                        各操作2種類のキーまで登録可能することができます<br>
+                        <br>
+                        <br>
+                        光る部分をクリックすると「Input Key」と出るので<br>
+                        その状態で任意のキーを押下すると割り当てることができます<br>
+                        3秒間入力が無ければ割り当て操作を取り消します<br>
+                        <br>
+                        <br>
+                        割り当てたキーが既に使用されていた場合は<br>
+                        先に割り当てていたキーが無効化されます<br>
+                        <br>
+                        <br>
+                        Start/GiveUpに割り当てたキーは<br>
+                        GiveUp後の詳細画面を閉じることもできます<br>
+                        <br>
+                        <br>
+                        Cookieを消去するなどのブラウザ機能を利用するまで<br>
+                        変更したキー割り当てはサイトを閉じても維持されます<br>
+                        (Lunaticモードを解放した際も同様に状態が維持されます)<br>
+                        <br>
+                        <br>
+                        「Reset Assigned Keys to Default」をクリックすると<br>
+                        キーの割り当てがデフォルト状態に戻ります<br>
+                        <br>
+                        <br>
+                        「Arithmetic Operator Change」をクリックすると<br>
+                        演算子のマウス入力をフリックに変更できます<br>
+                        マウス入力がフリックの場合は演算子をクリック後<br>
+                        右：＋　左：‐　上：×　下：÷　<br>
+                        のようにフリック方向によって演算子が変更されます<br>
+                        <br>
+                        <br>
+                        「Effect」をクリックすると正解時の演出を消せます<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <span style="font-size: 100px;">以下あとがき</span><br>
+                        <span style="font-size: 50px;">---------------------------------------
+                        </span><br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        社内ポータルで使うvue.jsの練習として適当に作って<br>
+                        と言われたのがきっかけでしたが、こんなになるとは...<br>
+                        <br>
+                        <br>
+                        とりあえず10問正解の時間を計りたいと思って作り始め<br>
+                        <br>
+                        <br>
+                        答えを見たいから解答表示機能を作り<br>
+                        <br>
+                        <br>
+                        1問分からないだけで終了はどうかと思って<br>
+                        リロード機能を作り<br>
+                        <br>
+                        <br>
+                        リロードにペナルティはほしいと思って<br>
+                        スコアを作り<br>
+                        <br>
+                        <br>
+                        自分のスコアを残したいからランキングを作ろうと考えて<br>
+                        <br>
+                        <br>
+                        プレイが運に左右されすぎないようにと<br>
+                        問題生成の処理を修正し<br>
+                        <br>
+                        <br>
+                        問題生成時間のばらつきが<br>
+                        タイムに影響を及ぼさないよう修正し<br>
+                        <br>
+                        <br>
+                        何度もクリックして演算子変更するよりも<br>
+                        一回の動作で演算子を変えたいと思ってフリック入力を作り<br>
+                        <br>
+                        <br>
+                        それ以前にマウスの移動が時間のロスにつながると考えて<br>
+                        キーボード入力を作り<br>
+                        <br>
+                        <br>
+                        キーボード入力をするなら最適な構成を考えたいと思い<br>
+                        割り当て機能を作り<br>
+                        <br>
+                        <br>
+                        画面にタイマーを表示していたけれど<br>
+                        スコアを直接表示した方がいいと思って修正し...<br>
+                        <br>
+                        <br>
+                        何も考えないで作るもんじゃないですね<br>
+                        <br>
+                        <br>
+                        結局このアプリに自分が求めていたのは<br>
+                        <span style="font-size: 35px;">
+                            いかに自分の能力を損失なく数値に変換できるか<br>
+                        </span>
+                        ということでした<br>
+                        それを念頭に仕様を考えればよかったですね...<br>
+                        <br>
+                        <br>
+                        外部APIを使うランキングの実装が一番大変でした<br>
+                        ChatGPT君がいなければ<br>
+                        実装できない処理がたくさんあったと思います<br>
+                        <br>
+                        <br>
+                        正解時の演出やUI、装飾については<br>
+                        色々考えましたがあまり満足はしていません<br>
+                        もっといい案誰かください<br>
+                        <br>
+                        <br>
+                        Googleが2013年に<br>
+                        「1, 1, 5, 8」で10を作れるか？<br>
+                        という広告を出して話題になった10パズル<br>
+                        <br>
+                        <br>
+                        答えを考えるのも楽しいし<br>
+                        分からなかったとしても解法を見て<br>
+                        「それがあったか～」とよく思います<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        "シコウ"を楽しんでみてください<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        バグの報告や要望・感想等がもしあれば<br>
+                        <a href="mailto:decoy.dummy.ac@gmail.com">decoy.dummy.ac@gmail.com</a><br>
+                        までご連絡ください<br>
+                        <br>
+                        <br>
+                        <br>
+                    </p>
+                </div>
+                <div id="result" class="result" v-if="resultFlag">
+                    <div id="scoreWrap">
+                        <div class="textSpaceFix">
+                            <div class="scoreContentName">
+                                Mode :
+                            </div>
+                            <div class="scoreContent">
+                                {{mode}}
+                            </div>
+                        </div>
+
+                        <div class="textSpaceFix">
+                            <div class="scoreContentName">
+                                Time :
+                            </div>
+                            <div class="scoreContent">
+                                {{elapsedTime}}
+                            </div>
+                        </div>
+
+                        <div class="textSpaceFix">
+                            <div class="scoreContentName">
+                                Reload :
+                            </div>
+                            <div class="scoreContent">
+                                {{20 - reloadCount}}
+                            </div>
+                        </div>
+
+                        <div class="textSpaceFix">
+                            <div class="scoreContentName">
+                                Score :
+                            </div>
+                            <div class="scoreContent">
+                                {{score}}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="evaluation">{{evaluation}}</div>
+                    <div id="evalComment">
+                        {{evalComment}}
+                    </div>
                     <div id="resultButtonWrapper">
-                        <!-- <button id="tryButton" class="resultButton" v-on:click="tryAgain()">Try Again</button> -->
                         <button id="inputUser" class="resultButton" v-on:click="moveRegistScreen()">
                             Registration
                         </button>
-                        <button id="checkDetail" class="resultButton" v-on:click="checkDetail()">Details</button>
+                        <button id="checkDetail" class="resultButton" v-on:click="checkDetail()">
+                            Detail
+                        </button>
                     </div>
-                    <!-- <button id="closeResult" class="backButton" v-on:click="closeResult()" style="font-size: 40px;">�~
-                    </button> -->
                     <div class="closeWrapper" v-on:click="closeResult()">
                     </div>
                     <button id="closeResult"></button>
@@ -117,17 +815,32 @@
                         <div v-for="(detail, index) in answerDetail"
                             v-bind:style="{ backgroundColor: detail.reload == true ? 'rgba(255, 0, 51, 0.6)' : '' }"
                             id="detailWrapper">
-                            <div class="solvedNum">
+                            <div class="solvedNum" v-bind:style="{ fontSize: mode == 'Lunatic' ? '30px' : '' }">
                                 {{"Q." + (Number(index) + 1 + "")}}
                             </div>
-                            <div class="solvedFormula">
-                                {{ (detail.formula).join(" : ").split('').join("") }}
+                            <div class="solvedFormula" v-if="mode !== 'Lunatic'">
+                                {{ (detail.formula).join(" , ").split('').join("") }}
                             </div>
-                            <div class="detailAnswerFormula">
+                            <div class="solvedFormula" v-if="mode == 'Lunatic'" style="font-size: 32px;">
+                                {{ (detail.formula).join(", ").split('').join("") }}
+                            </div>
+
+                            <div class="lunaticTarget" v-if="mode == 'Lunatic'" style="font-size: 32px">
+                                <div>
+                                    <span style="font-size: 32px;">[ </span>{{(detail.target) }}
+                                    <span style="font-size: 32px;"> ]</span>
+                                </div>
+                            </div>
+
+                            <div class="detailAnswerFormula" v-if="mode !== 'Lunatic'">
                                 {{ (detail.answer.replace("return", "").replace(/\*/g, "×").replace(/\//g,
                                 "÷")).split('').join(' ') }}
                             </div>
-                            <div class="intervalTime">
+                            <div class="detailAnswerFormula" v-if="mode == 'Lunatic'" style="font-size: 32px;">
+                                {{ (detail.answer.replace("return", "").replace(/\*/g, "×").replace(/\//g,
+                                "÷")).split('').join('') }}
+                            </div>
+                            <div class="intervalTime" v-bind:style="{ fontSize: mode =='Lunatic' ? '32px' : '' }">
                                 {{ detail.intervalTime + "s"}}
                             </div>
                         </div>
@@ -151,7 +864,7 @@
                                 Enter your name !
                             </p>
                         </div>
-                        <button id="registButton" class="resultButton" v-on:click="regist()">Registration
+                        <button id="registButton" v-on:click="regist()">Registration
                         </button>
                     </div>
                 </div>
@@ -183,8 +896,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="rankingContentDigit" class="rankingContent" v-if="showRankingDigit">
-                        <div id="rankDetail" class="rankDetail" v-for="(data, index) in rankingDataDigit.data"
+                    <div id="rankingContentEasy" class="rankingContent" v-if="showRankingEasy">
+                        <div id="rankDetail" class="rankDetail" v-for="(data, index) in rankingDataEasy.data"
                             v-on:click="showUserQuestion(index)">
                             <div id="rankNum" class="rankVal">
                                 <span>
@@ -208,8 +921,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="rankingContentTeen" class="rankingContent" v-if="showRankingTeen">
-                        <div id="rankDetailTeen" class="rankDetail" v-for="(data, index) in rankingDataTeen.data"
+                    <div id="rankingContentNormal" class="rankingContent" v-if="showRankingNormal">
+                        <div id="rankDetail" class="rankDetail" v-for="(data, index) in rankingDataNormal.data"
                             v-on:click="showUserQuestion(index)">
                             <div id="rankNum" class="rankVal">
                                 <span>
@@ -233,7 +946,32 @@
                             </div>
                         </div>
                     </div>
-                    <div id="rankingContentOD" class="rankingContent" v-if="showRankingOD">
+                    <div id="rankingContentHard" class="rankingContent" v-if="showRankingHard">
+                        <div id="rankDetailHard" class="rankDetail" v-for="(data, index) in rankingDataHard.data"
+                            v-on:click="showUserQuestion(index)">
+                            <div id="rankNum" class="rankVal">
+                                <span>
+                                    {{ index + 1 }}
+                                </span>
+                            </div>
+                            <div id="rankName" class="rankVal">
+                                <span>
+                                    {{ data[0] }}
+                                </span>
+                            </div>
+                            <div id="rankScore" class="rankVal">
+                                <span>
+                                    {{ data[1] }}
+                                </span>
+                            </div>
+                            <div id="rankDate" class="rankVal">
+                                <span>
+                                    {{ data[2] }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rankingContentOD" class="rankingContent" v-if="showRankingLunatic">
                         <div id="rankDetailOD" class="rankDetail" v-for="(data, index) in rankingDataOD.data"
                             v-on:click="showUserQuestion(index)">
                             <div id="rankNum" class="rankVal">
@@ -267,160 +1005,205 @@
                     <div v-for="(detail, index) in rankingUserDetail"
                         v-bind:style="{ backgroundColor: detail.reload == true ? 'rgba(255, 0, 51, 0.6)' : '' }"
                         id="detailWrapper">
-                        <div class="solvedNum">
+                        <div class="solvedNum" v-bind:style="{ fontSize: showRankingLunatic ? '30px' : '' }">
                             {{"Q." + (Number(index) + 1 + "")}}
                         </div>
                         <div class="solvedFormula">
-                            {{ (detail.formula).join(" : ").split('').join("") }}
+                            <div v-if="!showRankingLunatic">
+                                {{ (detail.formula).join(" , ").split('').join("") }}
+                            </div>
+                            <div v-if="showRankingLunatic" style="font-size: 32px;">
+                                {{ (detail.formula).join(", ").split('').join("") }}
+                            </div>
                         </div>
+
+                        <div class="lunaticTarget" v-if="showRankingLunatic" style="font-size: 32px">
+                            <div>
+                                <span style="font-size: 32px;">[ </span>{{(detail.target) }}
+                                <span style="font-size: 32px;"> ]</span>
+                            </div>
+                        </div>
+
                         <div class="detailAnswerFormula">
-                            {{ (detail.answer.replace("return", "").replace(/\*/g, "×").replace(/\//g,
-                            "÷")).split('').join(' ') }}
+                            <div v-if="!showRankingLunatic">
+                                {{ (detail.answer.replace("return", "").replace(/\*/g, "×").replace(/\//g,
+                                "÷")).split('').join(' ') }}
+                            </div>
+                            <div v-if="showRankingLunatic" style="font-size: 32px;">
+                                {{ (detail.answer.replace("return", "").replace(/\*/g, "×").replace(/\//g,
+                                "÷")).split('').join('')}}
+                            </div>
                         </div>
-                        <div class="intervalTime">
+                        <div class="intervalTime" v-bind:style="{ fontSize: showRankingLunatic ? '32px' : '' }">
                             {{ detail.intervalTime + "s"}}
                         </div>
                     </div>
                     <button id="closeRankingDetail" class="backButton" v-on:click="closeRankingDetail()">←
                     </button>
                 </div>
-                <div id="answerFormula" class="answerFormula">
+                <!-- <div id="answerFormula" class="answerFormula">
                     {{answerFormula}}={{target}}<br>
                     <button id="tryButton" class="tryButton" v-on:click="tryAgain()">Try Again</button>
                 </div>
                 <div id="answerNoChange" class="answerNoChange" v-if="answerChangeFlag">
-                </div>
-                <div id="header" v-on:click="showRanking()">
-                    <div id="title" v-bind:class="{'overDriveTitle':mode == 'OverDrive', 'title':mode != 'OverDrive'}">
+                </div> -->
+                <div id="header" v-bind:class="{'headerIsStarted': startFlag}" @mouseover="handleMouseOver"
+                    @mouseleave="handleMouseLeave">
+                    <div class="title" v-if="!isHoveredTitle && mode !== 'Lunatic'">
                         {{ title }}
                     </div>
+                    <div class="lunaticTitle" v-if="!isHoveredTitle && mode == 'Lunatic'">
+                        {{ target + " Puzzle"}}
+                    </div>
+                    <div class="hovorTitle" v-if="isHoveredTitle" v-on:Click="showMenu()">
+                        Menu
+                    </div>
                 </div>
-                <div id="clearCount"
-                    v-bind:class="{'overDriveCount':mode == 'OverDrive', 'clearCount':mode != 'OverDrive'}">
-                    Clear:　{{ clearCount }}/10　Reload:　{{ reloadCount }}
-                    <p id="targetNum"
-                        v-bind:class="{'overDriveCount':mode == 'OverDrive', 'targetNum':mode != 'OverDrive'}">
-                        　Target:　{{target}}</p>
+                <div id="clearCount" v-bind:class="{'LunaticCount':mode == 'Lunatic', 'clearCount':mode != 'Lunatic'}">
+                    Clear :　{{ clearCount }}　　　Reload :　{{ reloadCount }}
+                    <div id="targetNum"
+                        v-bind:class="{'LunaticCount':mode == 'Lunatic', 'targetNum':mode != 'Lunatic'}">
+                        　　　Target :　{{target}}</div>
                 </div>
                 <div id="formulaBody">
                     <div id="firstBra" @mouseenter="isHovered0 = true" @mouseleave="isHovered0 = false"
-                        v-bind:class="{'hovered0': isHovered0, 'hovered3': isHovered3, 'overDriveBra':mode == 'OverDrive', 'brackets formula':mode != 'OverDrive'}"
+                        v-bind:class="{'hovered0': isHovered0, 'hovered3': isHovered3, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
                         v-on:click="braChange(0)">
                         {{ brackets[0] }}
                     </div>
 
-                    <div id="addSym"
-                        v-bind:class="{'overDriveSym':mode == 'OverDrive', 'symbol formula':mode != 'OverDrive'}"
+                    <div :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }" id="addSym" class="symbol"
                         v-on:click="addSymChange">
                         {{ addSym[0] }}
                     </div>
 
-                    <div id="firstN" type="text"
-                        v-bind:class="{'overDriveCAct':overDriveNBChange[0], 'clickAct':numBackChange[0], 'overDriveNum':mode == 'OverDrive', 'numbers formula':mode != 'OverDrive'}"
+                    <div id="firstN" type="text" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
+                        v-bind:class="{'LunaticCAct':LunaticNBChange[0], 'clickAct':numBackChange[0], 'LunaticNum':mode == 'Lunatic', 'numbers formula':mode != 'Lunatic'}"
                         v-on:click="numReplace('first')">
                         {{ numbers[0]}}
                     </div>
 
-                    <div id="firstSymbol" class="symbol" :class="{dragging: isDragging && selectedSym === 0 }"
-                        @mousedown="startDrag(0, $event)" @mousemove="drag($event)" @mouseup="endDrag"
-                        @mouseleave="endDrag" @click="selectSym(0)" ref="draggable0">
+                    <div id="firstSymbol" class="symbol" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
+                        :class="{dragging: isDragging && selectedSym === 0 }" @mousedown="startDrag(0, $event)"
+                        @mousemove="drag($event)" @mouseup="endDrag" @mouseleave="endDrag" @click="changeOpeClick(0)"
+                        ref="draggable0">
                         {{ symValue[0] }}
                     </div>
 
                     <div id="secondBra" @mouseenter="isHovered1 = true" @mouseleave="isHovered1 = false"
-                        v-bind:class="{'hovered1': isHovered1, 'hovered4': isHovered4, 'overDriveBra':mode == 'OverDrive', 'brackets formula':mode != 'OverDrive'}"
+                        v-bind:class="{'hovered1': isHovered1, 'hovered4': isHovered4, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
                         v-on:click="braChange(1)">
                         {{ brackets[1] }}
                     </div>
 
-                    <div id="secondN" type="math"
-                        v-bind:class="{'overDriveCAct':overDriveNBChange[1], 'clickAct':numBackChange[1], 'overDriveNum':mode == 'OverDrive', 'numbers formula':mode != 'OverDrive'}"
+                    <div id="secondN" type="math" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
+                        v-bind:class="{'LunaticCAct':LunaticNBChange[1], 'clickAct':numBackChange[1], 'LunaticNum':mode == 'Lunatic', 'numbers formula':mode != 'Lunatic'}"
                         v-on:click="numReplace('second')">
                         {{ numbers[1] }}
                     </div>
 
                     <div @mouseenter="isHovered0 = true" @mouseleave="isHovered0 = false"
-                        v-bind:class="{'hovered0': isHovered0,  'overDriveBra':mode == 'OverDrive', 'brackets formula':mode != 'OverDrive'}"
+                        v-bind:class="{'hovered0': isHovered0,  'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
                         id="thirdBra" v-on:click="braChange(2)">
                         {{ brackets[2] }}
                     </div>
 
-                    <div id="secondSymbol" class="symbol" :class="{ dragging: isDragging && selectedSym === 1 }"
-                        @mousedown="startDrag(1, $event)" @mousemove="drag($event)" @mouseup="endDrag"
-                        @mouseleave="endDrag" @click="selectSym(1)" ref="draggable1">
+                    <div id="secondSymbol" class="symbol" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
+                        :class="{ dragging: isDragging && selectedSym === 1 }" @mousedown="startDrag(1, $event)"
+                        @mousemove="drag($event)" @mouseup="endDrag" @mouseleave="endDrag" @click="changeOpeClick(1)"
+                        ref="draggable1">
                         {{ symValue[1] }}
                     </div>
 
                     <div @mouseenter="isHovered2 = true" @mouseleave="isHovered2 = false"
-                        v-bind:class="{'hovered2': isHovered2, 'overDriveBra':mode == 'OverDrive', 'brackets formula':mode != 'OverDrive'}"
+                        v-bind:class="{'hovered2': isHovered2, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
                         id="forthBra" v-on:click="braChange(3)">
                         {{ brackets[3] }}
                     </div>
 
-                    <div type="math"
-                        v-bind:class="{'overDriveCAct':overDriveNBChange[2], 'clickAct':numBackChange[2], 'overDriveNum':mode == 'OverDrive', 'numbers formula':mode != 'OverDrive'}"
+                    <div type="math" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
+                        v-bind:class="{'LunaticCAct':LunaticNBChange[2], 'clickAct':numBackChange[2], 'LunaticNum':mode == 'Lunatic', 'numbers formula':mode != 'Lunatic'}"
                         id="thirdN" v-on:click="numReplace('third')">
                         {{ numbers[2] }}
                     </div>
 
                     <div @mouseenter="isHovered3 = true" @mouseleave="isHovered3 = false"
-                        v-bind:class="{'hovered1': isHovered1,  'hovered3': isHovered3, 'overDriveBra':mode == 'OverDrive', 'brackets formula':mode != 'OverDrive'}"
+                        v-bind:class="{'hovered1': isHovered1,  'hovered3': isHovered3, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
                         id="fifthBra" v-on:click="braChange(4)">
                         {{ brackets[4] }}
                     </div>
 
-                    <div id="thirdSymbol" class="symbol" :class="{ dragging: isDragging && selectedSym === 2 }"
-                        @mousedown="startDrag(2, $event)" @mousemove="drag($event)" @mouseup="endDrag"
-                        @mouseleave="endDrag" @click="selectSym(2)" ref="draggable2">
+                    <div id="thirdSymbol" class="symbol" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
+                        :class="{ dragging: isDragging && selectedSym === 2 }" @mousedown="startDrag(2, $event)"
+                        @mousemove="drag($event)" @mouseup="endDrag" @mouseleave="endDrag" @click="changeOpeClick(2)"
+                        ref="draggable2">
                         {{ symValue[2] }}
                     </div>
 
-                    <div type="math"
-                        v-bind:class="{'overDriveCAct':overDriveNBChange[3], 'clickAct':numBackChange[3], 'overDriveNum':mode == 'OverDrive', 'numbers formula':mode != 'OverDrive'}"
+                    <div type="math" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
+                        v-bind:class="{'LunaticCAct':LunaticNBChange[3], 'clickAct':numBackChange[3], 'LunaticNum LunaticLastNum':mode == 'Lunatic', 'numbers formula':mode != 'Lunatic'}"
                         id="fourthN" v-on:click="numReplace('fourth')">
                         {{ numbers[3] }}
                     </div>
 
                     <div @mouseenter="isHovered4 = true" @mouseleave="isHovered4 = false"
-                        v-bind:class="{'hovered2': isHovered2, 'hovered4': isHovered4, 'overDriveBra':mode == 'OverDrive', 'brackets formula':mode != 'OverDrive'}"
-                        id="sixthBra" v-on:click="braChange(5)">
+                        v-bind:class="{'hovered2': isHovered2, 'hovered4': isHovered4, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
+                        id="sixthBra" v-on:click="braChange(5)" style="width:50px">
                         {{ brackets[5] }}
                     </div>
 
-                    <div v-bind:class="{'overDriveSym':mode == 'OverDrive', 'ecole':mode != 'OverDrive'}" id="ecole">=
+                    <div v-bind:class="{'lunaticEcole':mode == 'Lunatic', 'ecole':mode != 'Lunatic'}" id="ecole">=
                     </div>
 
                     <div id="answerWrap">
                         <div class="formula" id="answer"
-                            v-bind:class="{'answer': mode != 'OverDrive', 'overDriveAnswer': mode == 'OverDrive'}">
+                            v-bind:class="{'answer': mode != 'Lunatic', 'LunaticAnswer': mode == 'Lunatic'}">
                             {{answer}}
                         </div>
                     </div>
                 </div>
                 <div id="buttonWrapper">
                     <!-- <button type="button" id="showAnsButton" v-on:click="showAns()"
-                        v-bind:class="{'inactive': isStart, 'overDriveButtons overDriveStartButton':mode == 'OverDrive', 'buttons startButton':mode != 'OverDrive'}">Show
+                        v-bind:class="{'inactive': isStart, 'lunaticButton LunaticStartButton':mode == 'Lunatic', 'buttons startButton':mode != 'Lunatic'}">Show
                         Answer</button> -->
-                    <button type="button" id="startButton" v-on:click="startOrGiveUp()" v-bind:class=" {'overDriveButtons overDriveStartButton':mode=='OverDrive'
-                        , 'buttons startButton' :mode !='OverDrive' }"><span v-if="isStart">Give Up</span><span
-                            v-else>Start</span></button>
+                    <button type="button" id="startButton" v-on:click="startOrGiveUp()"
+                     v-bind:class=" {'lunaticButton LunaticStartButton':mode=='Lunatic'
+                        , 'buttons startButton' :mode !='Lunatic' }">
+                        <div class="diamondText">
+                            <span v-if="isStart">Give Up</span>
+                            <span v-else>Start</span>
+                        </div>
+                    </button>
                     <button type="button"
-                        v-bind:class="{'overDriveButtons overDriveReloadButton':mode == 'OverDrive', 'buttons reloadButton':mode != 'OverDrive', 'disabledButton': reloadCount == 0 || startFlag !== true || disableButton}"
-                        id="reloadButton" v-on:click="reloadClick(); createNum()">Reload</button>
+                        v-bind:class="{'lunaticButton ':mode == 'Lunatic', 'buttons reloadButton':mode != 'Lunatic', 'disabledButton': reloadCount == 0 || startFlag !== true || disableButton}"
+                        id="reloadButton" v-on:click="reloadClick(); createNum()">
+                        <div class="diamondText">
+                            Reload
+                        </div>
+                    </button>
                     <button type="button"
-                        v-bind:class="{'overDriveButtons overDriveResetSymButton':mode == 'OverDrive', 'buttons':mode != 'OverDrive', 'disabledButton': startFlag !== true}"
-                        id="resetButton" v-on:click="resetSym">Reset</button>
+                        v-bind:class="{'lunaticButton':mode == 'Lunatic', 'buttons':mode != 'Lunatic', 'disabledButton': startFlag !== true}"
+                        id="resetButton" v-on:click="resetFormula">
+                        <div class="diamondText">
+                            Reset
+                        </div>
+                    </button>
                 </div>
                 <div id="modeWrapper">
-                    <button v-bind:class="{modeButtons: true, digitButton: true, btnIsSelect: btnIsSelect[3]}"
-                        v-on:click="modeChangeDigit">Use one digit</button>
-                    <button v-bind:class="{modeButtons :true, teensButton: true, btnIsSelect: btnIsSelect[4]}"
-                        v-on:click="modeChangeTeens">Use under 20</button>
-                    <button id="overDriveButton" v-bind:class="{modeButtons: true, btnIsSelect: btnIsSelect[5]}"
-                        v-on:click="modeChangeOverDrive">OverDrive</button>
+                    <button v-bind:class="{modeButtons: true, EasylButton: true, btnIsSelect: btnIsSelect[6]}"
+                        v-on:click="modeChangeEasy">Easy</button>
+                    <button v-bind:class="{modeButtons: true, NormalButton: true, btnIsSelect: btnIsSelect[3]}"
+                        v-on:click="modeChangeNormal">Normal</button>
+                    <button v-bind:class="{modeButtons :true, HardsButton: true, btnIsSelect: btnIsSelect[4]}"
+                        v-on:click="modeChangeHard">Hard</button>
+                    <button id="lunaticButton" class="lunaticModeChangeButton" v-bind:class="{ lunaticIsSelected: btnIsSelect[5], 
+                        }" v-on:click="modeChangeLunatic">Lunatic</button>
                 </div>
                 <div class="controls">
-                    <div v-bind:class="{'overDriveTimer':mode == 'OverDrive', 'timer':mode != 'OverDrive'}">{{ time }}
+                    <div v-bind:class="{'LunaticTimer':mode == 'Lunatic', 'timer':mode != 'Lunatic'}">
+                        <span v-for="(char, index) in formattedScore" :key="index">
+                            {{ char }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -439,12 +1222,12 @@
     var all = new Vue({
         el: "#all",
         data: {
-            title: "Ten Puzzle",
+            title: "10 Puzzle",
             numbers: ["", "", "", ""],
             passNum: ["first", "second", "third", "fourth", "fifth", "sixth"],
             selectedNum: ["", "", "", "", "", ""],
             numBackChange: [false, false, false, false, false, false],
-            overDriveNBChange: [false, false, false, false, false, false],
+            LunaticNBChange: [false, false, false, false, false, false],
             selectedNumIndexF: -1,
             selectedNumTF: false,
             bracketNames: [
@@ -483,13 +1266,12 @@
             selectFlag: false,
             startFlag: false,
             ansFlag: false,
-            cheatFlag: false,
             clickAct: [false, false, false, false, false, false],
-            overDriveCAct: [false, false, false, false, false, false],
-            btnIsSelect: [false, false, false, true, false, false],
-            mode: "digit",
+            LunaticCAct: [false, false, false, false, false, false],
+            btnIsSelect: [false, false, false, true, false, false, false],
+            mode: "Normal",
             target: 10,
-            score: 0,
+            score: "1000.0",
             evaluation: "",
             evalComment: "",
             time: "00:00:000",
@@ -505,11 +1287,11 @@
             isReset: true,
             isPaused: false,
             timeoutId: 0,
+            menuFlag: false,
             rankingFlag: false,
             resultFlag: false,
             checkDetailFlag: false,
             registFlag: false,
-            answerChangeFlag: false,
             rankingDetailFlag: false,
             rankingData: [],
             rankingUserDetail: [],
@@ -523,14 +1305,17 @@
                 "patLECZIq2tF3NhKk.e5c426974a99e1e06e1d6e6122d6a76cdb76996c9115fb96316c1471092e11d1",
             baseId: "app1MxnFrdKWBio9q",
             tableName: "name",
-            rankingDataDigit: [],
-            rankingDataTeen: [],
+            rankingDataEasy: [],
+            rankingDataNormal: [],
+            rankingDataHard: [],
             rankingDataOD: [],
-            showRankingDigit: true,
-            showRankingTeen: false,
-            showRankingOD: false,
-            rankingDisplayMode: ["Digit", "Under20", "OverDrive"],
-            modeIndex: 0,
+            showRankingEasy: false,
+            showRankingNormal: true,
+            showRankingHard: false,
+            showRankingLunatic: false,
+            rankingDisplayMode: ["Easy", "Normal", "Hard", "Lunatic"],
+            inputMode: "Click",
+            modeIndex: 1,
             elements: [
                 'firstBra', 'addSym', 'firstN', 'firstSymbol', 'secondBra', 'secondN', 'thirdBra', 'secondSymbol',
                 'forthBra', 'thirdN', 'fifthBra', 'thirdSymbol', 'fourthN', 'sixthBra', 'ecole', 'answer'
@@ -539,16 +1324,53 @@
             disableButton: false,
             showCorrect: false,
             correctText: "Correct!",
+            clearEffectFlag: "on",
             isLoading: false,
-            actions: {
-                first: ['d', 'x'],
-                second: ['f', 'y'],
-                third: ['j', 'z'],
-                fourth: ['k', 'w'],
-                fifth: ['s', 't'],
-            },
-            activeMapping: null,
-            activeMappingText: 'キーを押して下さい',
+            configFlag: false,
+            eventKeyValue: [
+                ['e', null],
+                ['r', null],
+                ['u', null],
+                ['i', null],
+                ['d', null],
+                ['f', null],
+                ['j', null],
+                ['k', null],
+                ['s', null],
+                ['a', null],
+                ['g', 'h'],
+                [';', null],
+                ['l', null],
+                ['Enter', null],
+                ['Escape', null],
+                [' ', null]
+            ],
+            eventKeyValueDefault: [
+                ['e', null],
+                ['r', null],
+                ['u', null],
+                ['i', null],
+                ['d', null],
+                ['f', null],
+                ['j', null],
+                ['k', null],
+                ['s', null],
+                ['a', null],
+                ['g', 'h'],
+                [';', null],
+                ['l', null],
+                ['Enter', null],
+                ['Escape', null],
+                [' ', null]
+            ],
+            editFlag: false,
+            editingRow: null,
+            editingCell: null,
+            editingValue: '',
+            keyPressTimeoutID: null,
+            HTPFlag: false,
+            subMenuFlag: false,
+            isHoveredTitle: false
         },
         watch: {
             answer: function (ansVal) {
@@ -557,9 +1379,6 @@
                     this.clearCount++;
                     this.answerDetail[this.questionCount].reload = false;
                     this.questionCount++;
-                    if (this.ansFlag == true && ansVal == 1) {
-                        this.cheatFlag = true;
-                    }
                     this.ansFlag = true;
                     this.selectedNumIndexF = -1;
                     this.selectedNumTF = false;
@@ -568,104 +1387,40 @@
                         currentNums.push(this.numbers[i]);
                     }
                     this.clearedFormula.splice(this.clearCount, 0, currentNums);
-                    if (this.clearCount == 10) {
+                    if (this.clearCount == 1) {
                         this.elapsedTime = Date.now() - this.startTime - this.totalPausedTime;
-                        this.stop();
-                        this.startFlag = false;
-                        this.resetNumBraSym();
-                        this.checkDupNums = [];
-                        this.clearedFormula = [];
-                        this.ansNoChange();
-                        if (this.cheatFlag == true) {
-                            this.evaluation = "Cheetah";
-                            this.evalComment =
-                                "You solved this like a cheetah speed, but don't be a cheater.";
-                        } else if (this.score < 700) {
-                            this.evaluation = "Slug";
-                            if (this.mode == "digit") {
-                                this.evalComment = "Try More...";
-                            } else if (this.mode == "teen") {
-                                this.evalComment = "Try More...";
-                            } else {
-                                this.evalComment =
-                                    "It's just great to be able to clear it without throwing up.";
-                            }
-                        } else if (700 < this.score && this.score < 750) {
-                            this.evaluation = "Hermit Crab";
-                            if (this.mode == "digit") {
-                                this.evalComment = "Keep it Up!!!";
-                            } else if (this.mode == "teen") {
-                                this.evalComment = "Keep it Up!";
-                            } else {
-                                this.evalComment = "You are doing well.";
-                            }
-                        } else if (750 < this.score && this.score < 850) {
-                            this.evaluation = "Gentoo Penguin";
-                            if (this.mode == "digit") {
-                                this.evalComment = "You were almost there! Come on, man!";
-                            } else if (this.mode == "teen") {
-                                this.evalComment = "Good luck in the next mode!";
-                                document.getElementById("overDriveButton").style.pointerEvents = "auto";
-                                document.getElementById("overDriveButton").style.cursor = "pointer";
-                                // localStorage.setItem('mode', 'overDrive');
-                            } else {
-                                this.evalComment = "Very well done. You also need luck.";
-                            }
-                        } else if (850 < this.score && this.score < 910) {
-                            document.getElementById("overDriveButton").style.pointerEvents = "auto";
-                            document.getElementById("overDriveButton").style.cursor = "pointer";
-                            // localStorage.setItem('mode', 'overDrive');
-                            this.evaluation = "Black Mamba";
-                            if (this.mode == "digit") {
-                                this.evalComment = "Congratu! You are now ready to take on new levels!";
-                            } else if (this.mode == "teen") {
-                                this.evalComment = "Excellent! You are now ready to take on new levels!";
-                            } else {
-                                this.evalComment = "You have a great talent. I envy you.";
-                            }
-                        } else if (910 < this.score && this.score < 940) {
-                            document.getElementById("overDriveButton").style.pointerEvents = "auto";
-                            document.getElementById("overDriveButton").style.cursor = "pointer";
-                            // localStorage.setItem('mode', 'overDrive');
-                            this.evaluation = "Springbok";
-                            if (this.mode == "digit") {
-                                this.evalComment = "Are you Human? You have to play OverDrive mode.";
-                            } else if (this.mode == "teen") {
-                                this.evalComment = "WTF Great score. Please play in the new mode.";
-                            } else {
-                                this.evalComment = "You're getting closer to God...";
-                            }
-                        } else if (940 < this.score) {
-                            document.getElementById("overDriveButton").style.pointerEvents = "auto";
-                            document.getElementById("overDriveButton").style.cursor = "pointer";
-                            // localStorage.setItem('mode', 'overDrive');
+                        if (this.clearEffectFlag == "on") {
+                            this.isLoading = true;
+                            this.pauseTimer();
+                            setTimeout(() => {
+                                this.isLoading = false;
+                            }, 1500);
+                            this.correctText = "CLEAR!"
+                            this.startColorChange();
 
-                            this.evaluation = "Alian";
-                            if (this.mode == "digit") {
-                                this.evalComment = "You are Not Human... Welcome OverDrive.";
-                            } else if (this.mode == "teen") {
-                                this.evalComment = "HOLY... Welcome OverDrive.";
-                            } else {
-                                this.evalComment =
-                                    "OMG I didn't think anyone else would make this score...";
-                            }
-                        }
-                        // const result = document.getElementById("result");
-                        this.resultFlag = true;
-                    } else {
-                        this.isLoading = true;
-                        this.pauseTimer();
-                        setTimeout(this.createNum, 1500);
-                        setTimeout(() => {
-                            this.isLoading = false;
-                        }, 1500);
-                        if (this.clearCount == 9) {
-                            this.correctText = "LAST!"
+                            setTimeout(() => {
+                                this.showResult();
+                            }, 1500);
                         } else {
-                            this.correctText = "Correct!"
+                            this.showResult();
                         }
-                        this.startColorChange();
-
+                    } else {
+                        if (this.clearEffectFlag == "on") {
+                            this.isLoading = true;
+                            this.pauseTimer();
+                            setTimeout(this.createNum, 1500);
+                            setTimeout(() => {
+                                this.isLoading = false;
+                            }, 1500);
+                            if (this.clearCount == 9) {
+                                this.correctText = "LAST!"
+                            } else {
+                                this.correctText = "Correct!"
+                            }
+                            this.startColorChange();
+                        } else {
+                            this.createNum();
+                        }
                         // const correctCube = document.getElementById("correctCube");
                         // correctCube.style.display = "block";
                         // setTimeout(() => {
@@ -724,11 +1479,22 @@
 
                     return Math.floor(Function(text)() * 10) / 10;
                 }
+            }, formattedScore() {
+                const score = Number(this.score).toFixed(1); // 小数点以下1桁までの数値に変換
+                return score;
             },
         },
         mounted() {
             window.addEventListener('keydown', this.handleKeyDown);
             window.addEventListener('keydown', this.handleKeyInput);
+            if (localStorage.getItem('mode')) {
+                document.getElementById("lunaticButton").style.pointerEvents = "auto";
+                document.getElementById("lunaticButton").style.cursor = "pointer";
+            }
+            const storedEventKeyValue = localStorage.getItem('userEventKeyValue');
+            if (storedEventKeyValue) {
+                this.eventKeyValue = JSON.parse(storedEventKeyValue);
+            }
             this.eventBus = new Vue();
             eventBus.$on('dataChanged', () => {
                 // Airtable APIの初期化
@@ -743,7 +1509,24 @@
 
                 // データの取得と加工
                 table.select({
-                    filterByFormula: 'mode = "digit"',
+                    filterByFormula: 'mode = "Easy"',
+                    sort: [{ field: 'score', direction: 'desc' }]
+                }).firstPage((err, records) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    // 各レコードの要素を配列に格納kjjkjする
+                    const data = records.map(record => {
+                        return [record.get('name'), record.get('score'), record.get('date'), record.get('question'), record.get('mode')];
+                    });
+                    // 連想配列にデータを格納する
+                    this.rankingDataEasy = { data: data };
+                });
+
+                // データの取得と加工
+                table.select({
+                    filterByFormula: 'mode = "Normal"',
                     sort: [{ field: 'score', direction: 'desc' }]
                 }).firstPage((err, records) => {
                     if (err) {
@@ -755,12 +1538,12 @@
                         return [record.get('name'), record.get('score'), record.get('date'), record.get('question'), record.get('mode')];
                     });
                     // 連想配列にデータを格納する
-                    this.rankingDataDigit = { data: data };
+                    this.rankingDataNormal = { data: data };
                 });
 
                 // データの取得と加工
                 table.select({
-                    filterByFormula: 'mode = "teen"',
+                    filterByFormula: 'mode = "Hard"',
                     sort: [{ field: 'score', direction: 'desc' }]
                 }).firstPage((err, records) => {
                     if (err) {
@@ -772,12 +1555,12 @@
                         return [record.get('name'), record.get('score'), record.get('date'), record.get('question'), record.get('mode')];
                     });
                     // 連想配列にデータを格納する
-                    this.rankingDataTeen = { data: data };
+                    this.rankingDataHard = { data: data };
                 });
 
                 // データの取得と加工
                 table.select({
-                    filterByFormula: 'mode = "OverDrive"',
+                    filterByFormula: 'mode = "Lunatic"',
                     sort: [{ field: 'score', direction: 'desc' }]
                 }).firstPage((err, records) => {
                     if (err) {
@@ -799,110 +1582,293 @@
         }, beforeDestroy() {
             window.removeEventListener('keydown', this.handleKeyInput);
         },
-        // mounted: function () {
-        //     if (localStorage.getItem('mode')) {
-        //         document.getElementById("overDriveButton").style.pointerEvents = "auto";
-        //         document.getElementById("overDriveButton").style.cursor = "pointer";
-        //     }
-        // },
 
         methods: {
-            setActiveMapping(action) {
-                this.activeMapping = action;
-                this.activeMappingText = 'キーを選択';
-            },
-            saveMappings(event) {
-                if (this.activeMapping) {
-                    const index = this.activeMapping.indexOf(event.key);
-                    if (index !== -1) {
-                        this.activeMapping[index] = '';
+            showResult() {
+                this.stop();
+                this.startFlag = false;
+                this.subMenuFlag = true;
+                this.resetNumBraSym();
+                this.checkDupNums = [];
+                this.clearedFormula = [];
+                // this.ansNoChange();
+                if (this.mode == "Easy") {
+                    if (this.score < 800) {
+                        this.evaluation = "Rank : D";
+                        this.evalComment =
+                            "Try More...";
+                    } else if (this.score < 850) {
+                        this.evaluation = "Rank : C";
+                        this.evalComment =
+                            "Rome was not built in a day.";
+                    } else if (this.score < 900) {
+                        this.evaluation = "Rank : B";
+                        this.evalComment =
+                            "Getting used to it?";
+                    } else if (this.score < 950) {
+                        this.evaluation = "Rank : A";
+                        this.evalComment =
+                            "There's always someone better.";
+                    } else {
+                        this.evaluation = "Rank : S"
+                        this.evalComment =
+                            "Good score! Please try Next mode!";
                     }
-                    this.activeMapping[index] = event.key;
-                    this.activeMapping = null;
-                    this.activeMappingText = 'キーを選択';
+                } else if (this.mode == "Normal") {
+
+                    if (this.score < 600) {
+                        this.evaluation = "Rank : D";
+                        this.evalComment =
+                            "NORMAL, but this is difficult for many people...";
+                    } else if (this.score < 700) {
+                        this.evaluation = "Rank : C";
+                        this.evalComment =
+                            "Persistence pays off.";
+                    } else if (this.score < 820) {
+                        this.evaluation = "Rank : B";
+                        this.evalComment =
+                            "Perhaps you like to do mental arithmetic?";
+                    } else if (this.score < 930) {
+                        this.evaluation = "Rank : A";
+                        this.evalComment =
+                            "You are in the top 5% or so...Maybe.";
+                    } else {
+                        this.evaluation = "Rank - S -"
+                        this.evalComment =
+                            "Welcome Lunatic... And It's Lunatic Time!";
+                        document.getElementById("lunaticButton").style.pointerEvents = "auto";
+                        document.getElementById("lunaticButton").style.cursor = "pointer";
+                        localStorage.setItem('mode', 'Lunatic');
+                    }
+                } else if (this.mode == "Hard") {
+
+                    if (this.score < 550) {
+                        this.evaluation = "Rank : D";
+                        this.evalComment =
+                            "Was this mode harder than Normal?";
+                    } else if (this.score < 650) {
+                        this.evaluation = "Rank : C";
+                        this.evalComment =
+                            "Patience is a virtue.";
+                    } else if (this.score < 780) {
+                        this.evaluation = "Rank : B";
+                        this.evalComment =
+                            "Did you play the abacus?";
+                    } else if (this.score < 910) {
+                        this.evaluation = "Rank : A";
+                        this.evalComment =
+                            "You are great, but fall just one step short...";
+                    } else {
+                        this.evaluation = "Rank : S"
+                        this.evalComment =
+                            "Welcome Lunatic... And It's Lunatic Time!";
+                        document.getElementById("lunaticButton").style.pointerEvents = "auto";
+                        document.getElementById("lunaticButton").style.cursor = "pointer";
+                        localStorage.setItem('mode', 'Lunatic');
+                    }
+
+                } else if (this.mode == "Lunatic") {
+
+                    if (this.score < 400) {
+                        this.evaluation = "Rank : D";
+                        this.evalComment =
+                            "It's not your fault.";
+                    } else if (this.score < 550) {
+                        this.evaluation = "Rank : C";
+                        this.evalComment =
+                            "Adversity makes a man wise.";
+                    } else if (this.score < 600) {
+                        this.evaluation = "Rank : B";
+                        this.evalComment =
+                            "Do you remember how many times you tried?";
+                    } else if (this.score < 800) {
+                        this.evaluation = "Rank : A";
+                        this.evalComment =
+                            "Excuse me, are you a Mensa member?"
+
+                    } else if (this.score < 950) {
+                        this.evaluation = "Rank : S";
+                        this.evalComment =
+                            "This game is a battle against luck and yourself.";
+                    } else {
+                        this.evaluation = "Game Clear"
+                        this.evalComment =
+                            "Did you enjoy this game?";
+                    }
+                }
+                this.resultFlag = true;
+            },
+            handleMouseOver() {
+                this.isHoveredTitle = true;
+                this.title = "Menu"
+            },
+            handleMouseLeave() {
+                this.isHoveredTitle = false;
+                if (this.mode !== "Lunatic") {
+                    this.title = "10 Puzzle"
+                } else {
+                    this.title = this.target + "Puzzle"
                 }
             },
-            getMappedKey(action, index) {
-                return action[index] ? action[index] : '未割当';
+            closeMenu() {
+                this.menuFlag = false;
+                this.subMenuFlag = false;
             },
-            isActiveMapping(action) {
-                return this.activeMapping === action;
+            closeConfig() {
+                this.configFlag = false;
+            },
+            getEventKeyValue(row, cell) {
+                if (this.eventKeyValue[row][cell] == ' ') {
+                    return 'Space'
+                } else {
+                    return this.eventKeyValue[row][cell];
+                }
+            },
+            startEditing(row, cell) {
+                if (this.editFlag == false) {
+                    this.editFlag = true;
+                    this.editingRow = row;
+                    this.editingCell = cell;
+                    const originalValue = this.eventKeyValue[row][cell];
+                    this.eventKeyValue[row].splice(cell, 1, 'Input Key');
+                    console.log(this.eventKeyValue);
+
+                    // 3秒経過後にキャンセルする
+                    this.keyPressTimeoutID = setTimeout(() => {
+                        this.cancelEditing(row, cell, originalValue);
+                    }, 3000);
+
+                    window.addEventListener('keydown', this.handleKeyDownEvent);
+                }
+            },
+            cancelEditing(row, cell, originalValue) {
+                if (this.eventKeyValue[row][cell] == "Input Key") {
+                    this.eventKeyValue[row].splice(cell, 1, originalValue);
+                    this.editingRow = null;
+                    this.editingCell = null;
+                    window.removeEventListener('keydown', this.handleKeyDownEvent);
+                }
+                clearTimeout(this.keyPressTimeoutID);
+                this.editFlag = false;
+            },
+            setEventKeyValue(row, cell) {
+                if (this.editingValue !== '') {
+                    this.eventKeyValue[row][cell] = this.editingValue;
+                }
+            },
+            handleKeyDownEvent(event) {
+                event.preventDefault();
+                const key = event.key;
+                // すでに存在する場合はnullに設定
+                for (let i = 0; i < this.eventKeyValue.length; i++) {
+                    const row = this.eventKeyValue[i];
+                    for (let j = 0; j < row.length; j++) {
+                        if (row[j] === key) {
+                            this.eventKeyValue[i].splice(j, 1, null);
+                        }
+                    }
+                }
+
+                this.eventKeyValue[this.editingRow].splice(this.editingCell, 1, key);
+                clearTimeout(this.keyPressTimeoutID);
+                localStorage.setItem('userEventKeyValue', JSON.stringify(this.eventKeyValue));
+                this.editingRow = null;
+                this.editingCell = null;
+                window.removeEventListener('keydown', this.handleKeyDownEvent);
+                this.editFlag = false;
             },
             handleKeyDown(event) {
-                if (this.startFlag && !this.isPaused) {
-                    if (event.key === 'e') {
-                        if (this.addSym[0] == "+") {
-                            this.addSym.splice(0, 1, "-");
-                        } else {
-                            this.addSym.splice(0, 1, "+");
+                if (event.key == "Enter") {
+                    event.preventDefault();
+                }
+                if (!this.subMenuFlag) {
+                    if (this.startFlag && !this.isPaused) {
+                        event.preventDefault();
+                        if (event.key === this.eventKeyValue[0][0] || event.key === this.eventKeyValue[0][1]) {
+                            if (this.addSym[0] == "+") {
+                                this.addSym.splice(0, 1, "-");
+                            } else {
+                                this.addSym.splice(0, 1, "+");
+                            }
+                        } else if (event.key === this.eventKeyValue[1][0] || event.key === this.eventKeyValue[1][1]) {
+                            this.symValue[0] = this.getNextSymbol(this.symValue[0]);
+                            if (this.symValue[0] == "×") {
+                                this.firstSym.splice(0, 1, "*");
+                            } else if (this.symValue[0] == "÷") {
+                                this.firstSym.splice(0, 1, "/");
+                            } else {
+                                this.firstSym.splice(0, 1, this.symValue[0]);
+                            };
+                        } else if (event.key === this.eventKeyValue[2][0] || event.key === this.eventKeyValue[2][1]) {
+                            this.symValue[1] = this.getNextSymbol(this.symValue[1]);
+                            if (this.symValue[1] == "×") {
+                                this.secondSym.splice(0, 1, "*");
+                            } else if (this.symValue[1] == "÷") {
+                                this.secondSym.splice(0, 1, "/");
+                            } else {
+                                this.secondSym.splice(0, 1, this.symValue[1]);
+                            };
+                        } else if (event.key === this.eventKeyValue[3][0] || event.key === this.eventKeyValue[3][1]) {
+                            this.symValue[2] = this.getNextSymbol(this.symValue[2]);
+                            if (this.symValue[2] == "×") {
+                                this.thirdSym.splice(0, 1, "*");
+                            } else if (this.symValue[2] == "÷") {
+                                this.thirdSym.splice(0, 1, "/");
+                            } else {
+                                this.thirdSym.splice(0, 1, this.symValue[2]);
+                            };
+                        } else if (event.key === this.eventKeyValue[4][0] || event.key === this.eventKeyValue[4][1]) {
+                            this.numReplace('first');
+                        } else if (event.key === this.eventKeyValue[5][0] || event.key === this.eventKeyValue[5][1]) {
+                            this.numReplace('second');
+                        } else if (event.key === this.eventKeyValue[6][0] || event.key === this.eventKeyValue[6][1]) {
+                            this.numReplace('third');
+                        } else if (event.key === this.eventKeyValue[7][0] || event.key === this.eventKeyValue[7][1]) {
+                            this.numReplace('fourth');
+                        } else if (event.key === this.eventKeyValue[8][0] || event.key === this.eventKeyValue[8][1]) {
+                            // 左二つ
+                            this.braChange(0);
+                        } else if (event.key === this.eventKeyValue[10][0] || event.key === this.eventKeyValue[10][1]) {
+                            // 真ん中二つ
+                            this.braChange(1);
+                        } else if (event.key === this.eventKeyValue[12][0] || event.key === this.eventKeyValue[12][1]) {
+                            // 左みっつ
+                            this.braChange(3);
+                        } else if (event.key === this.eventKeyValue[9][0] || event.key === this.eventKeyValue[9][1]) {
+                            // 右二つ
+                            this.braChange(4);
+                        } else if (event.key === this.eventKeyValue[11][0] || event.key === this.eventKeyValue[11][1]) {
+                            // 右みっつ
+                            this.braChange(5);
+                        } else if (event.key === this.eventKeyValue[14][0] || event.key === this.eventKeyValue[14][1]) {
+                            if (!this.disableButton && this.reloadCount !== 0) {
+                                this.reloadClick();
+                                this.createNum();
+                            }
+                        } else if (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1]) {
+                            if (this.checkDetailFlag) {
+                                this.closeDetail();
+                            } else {
+                                this.startOrGiveUp();
+                            }
+                        } else if (event.key === this.eventKeyValue[15][0] || event.key === this.eventKeyValue[15][1]) {
+                            this.resetFormula();
                         }
-                    } else if (event.key === 'r') {
-                        this.symValue[0] = this.getNextSymbol(this.symValue[0]);
-                        if (this.symValue[0] == "×") {
-                            this.firstSym.splice(0, 1, "*");
-                        } else if (this.symValue[0] == "÷") {
-                            this.firstSym.splice(0, 1, "/");
-                        } else {
-                            this.firstSym.splice(0, 1, this.symValue[0]);
-                        };
-                    } else if (event.key === 'u') {
-                        this.symValue[1] = this.getNextSymbol(this.symValue[1]);
-                        if (this.symValue[1] == "×") {
-                            this.secondSym.splice(0, 1, "*");
-                        } else if (this.symValue[1] == "÷") {
-                            this.secondSym.splice(0, 1, "/");
-                        } else {
-                            this.secondSym.splice(0, 1, this.symValue[1]);
-                        };
-                    } else if (event.key === 'i') {
-                        this.symValue[2] = this.getNextSymbol(this.symValue[2]);
-                        if (this.symValue[2] == "×") {
-                            this.thirdSym.splice(0, 1, "*");
-                        } else if (this.symValue[2] == "÷") {
-                            this.thirdSym.splice(0, 1, "/");
-                        } else {
-                            this.thirdSym.splice(0, 1, this.symValue[2]);
-                        };
-                    } else if (event.key === 'd') {
-                        this.numReplace('first');
-                    } else if (event.key === 'f') {
-                        this.numReplace('second');
-                    } else if (event.key === 'j') {
-                        this.numReplace('third');
-                    } else if (event.key === 'k') {
-                        this.numReplace('fourth');
-                    } else if (event.key === 's') {
-                        this.braChange(0);
-                    } else if (event.key === 'g' || event.key === 'h') {
-                        this.braChange(1);
-                    } else if (event.key === 'l') {
-                        this.braChange(3);
-                    } else if (event.key === 'a') {
-                        this.braChange(4);
-                    } else if (event.key === ';') {
-                        this.braChange(5);
-                    } else if (event.key === 'Escape') {
-                        if (!this.disableButton && this.reloadCount !== 0) {
-                            this.reloadClick();
-                            this.createNum();
-                        }
-                    } else if (event.key === 'Enter') {
-                        if (this.checkDetailFlag) {
-                            this.closeDetail();
-                        } else {
-                            this.startOrGiveUp();
-                        }
-                    } else if (event.key === 'z') {
-                        this.startColorChange();
-                    }
-                } else if (event.key === 'Enter') {
-                    if (this.checkDetailFlag) {
-                        this.closeDetail();
-                    } else {
+                    } else if (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1]) {
                         this.startOrGiveUp();
                     }
-                } else if (event.key === 'z') {
-                    // this.startColorChange();
+                    else if (event.key === 'z') {
+                        this.showResult();
+                    }
+                } else if (this.checkDetailFlag && (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1])) {
+                    this.closeDetail();
+                }
+            },
+            clearEffectChange() {
+                if (this.clearEffectFlag == "on") {
+                    this.clearEffectFlag = "off";
+                } else {
+                    this.clearEffectFlag = "on";
                 }
             },
             correctProcess() {
@@ -925,8 +1891,40 @@
                 this.startPosition.y = event.clientY;
                 this.selectedSym = index;
             },
+            changeOpeClick(number) {
+                if (this.inputMode == "Click") {
+                    if (number == 0) {
+                        this.symValue[0] = this.getNextSymbol(this.symValue[0]);
+                        if (this.symValue[0] == "×") {
+                            this.firstSym.splice(0, 1, "*");
+                        } else if (this.symValue[0] == "÷") {
+                            this.firstSym.splice(0, 1, "/");
+                        } else {
+                            this.firstSym.splice(0, 1, this.symValue[0]);
+                        };
+                    } else if (number == 1) {
+                        this.symValue[1] = this.getNextSymbol(this.symValue[1]);
+                        if (this.symValue[1] == "×") {
+                            this.secondSym.splice(0, 1, "*");
+                        } else if (this.symValue[1] == "÷") {
+                            this.secondSym.splice(0, 1, "/");
+                        } else {
+                            this.secondSym.splice(0, 1, this.symValue[1]);
+                        };
+                    } else if (number == 2) {
+                        this.symValue[2] = this.getNextSymbol(this.symValue[2]);
+                        if (this.symValue[2] == "×") {
+                            this.thirdSym.splice(0, 1, "*");
+                        } else if (this.symValue[2] == "÷") {
+                            this.thirdSym.splice(0, 1, "/");
+                        } else {
+                            this.thirdSym.splice(0, 1, this.symValue[2]);
+                        };
+                    }
+                }
+            },
             drag(event) {
-                if (this.isDragging) {
+                if (this.isDragging && this.inputMode == 'Flick') {
                     this.position.x = this.position.x + event.clientX - this.startPosition.x;
                     this.position.y = this.position.y + event.clientY - this.startPosition.y;
                     this.startPosition.x = event.clientX;
@@ -936,19 +1934,6 @@
                         const deltaX = event.clientX - this.lastMousePos.x;
                         if (Math.abs(deltaX) >= this.mouseThreshold) {
                             if (deltaX > 0) {
-                                this.symValue[this.selectedSym] = "-";
-                                switch (this.selectedSym) {
-                                    case 0:
-                                        this.firstSym.splice(0, 1, "-");
-                                        break;
-                                    case 1:
-                                        this.secondSym.splice(0, 1, "-");
-                                        break;
-                                    case 2:
-                                        this.thirdSym.splice(0, 1, "-");
-                                        break;
-                                }
-                            } else {
                                 this.symValue[this.selectedSym] = "+";
                                 switch (this.selectedSym) {
                                     case 0:
@@ -959,6 +1944,19 @@
                                         break;
                                     case 2:
                                         this.thirdSym.splice(0, 1, "+");
+                                        break;
+                                }
+                            } else {
+                                this.symValue[this.selectedSym] = "-";
+                                switch (this.selectedSym) {
+                                    case 0:
+                                        this.firstSym.splice(0, 1, "-");
+                                        break;
+                                    case 1:
+                                        this.secondSym.splice(0, 1, "-");
+                                        break;
+                                    case 2:
+                                        this.thirdSym.splice(0, 1, "-");
                                         break;
                                 }
                             }
@@ -1008,37 +2006,51 @@
             selectSym(index) {
                 this.selectedSym = index;
             },
-            modeChangeDigit() {
-                this.mode = "digit";
-                this.title = "Ten Puzzle";
+            modeChangeEasy() {
+                this.mode = "Easy";
+                this.title = "10 Puzzle";
+                this.btnIsSelect.splice(3, 1, false);
+                this.btnIsSelect.splice(4, 1, false);
+                this.btnIsSelect.splice(5, 1, false);
+                this.btnIsSelect.splice(6, 1, true);
+                this.tryAgain();
+                this.target = 10;
+            },
+            modeChangeNormal() {
+                this.mode = "Normal";
+                this.title = "10 Puzzle";
                 this.btnIsSelect.splice(3, 1, true);
                 this.btnIsSelect.splice(4, 1, false);
                 this.btnIsSelect.splice(5, 1, false);
+                this.btnIsSelect.splice(6, 1, false);
                 this.tryAgain();
                 this.target = 10;
             },
-            modeChangeTeens() {
-                this.mode = "teen";
-                this.title = "Ten Puzzle";
+            modeChangeHard() {
+                this.mode = "Hard";
+                this.title = "10 Puzzle";
                 this.btnIsSelect.splice(3, 1, false);
                 this.btnIsSelect.splice(4, 1, true);
                 this.btnIsSelect.splice(5, 1, false);
+                this.btnIsSelect.splice(6, 1, false);
                 this.tryAgain();
                 this.target = 10;
-
             },
-            modeChangeOverDrive() {
-                this.mode = "OverDrive";
+            modeChangeLunatic() {
+                this.mode = "Lunatic";
                 this.title = "Number Puzzle";
                 this.btnIsSelect.splice(3, 1, false);
                 this.btnIsSelect.splice(4, 1, false);
                 this.btnIsSelect.splice(5, 1, true);
+                this.btnIsSelect.splice(6, 1, false);
                 this.tryAgain();
             },
-            //startボタン押下時、もしくはanswer==10の時に数値をランダ??に変更
+            //startボタン押下時、もしくはanswer==10の時に数値を変更
             matchCreateNum(nums) {
-                if (this.checkEasyAnswer(nums, this.target)) {
-                    return false;
+                if (this.mode !== "Easy") {
+                    if (this.checkEasyAnswer(nums, this.target)) {
+                        return false;
+                    }
                 }
 
                 // 配列を小さい順に並べ替える
@@ -1046,6 +2058,7 @@
                 // 過去の問題と重複が無いか確かめる
                 for (let i = 0; i < this.checkDupNums.length; i++) {
                     if (this.areArraysEqual(nums, this.checkDupNums[i])) {
+                        // console.log(nums + "は重複しています")
                         return false;
                     }
                 }
@@ -1059,7 +2072,7 @@
                     nums[0] - nums[1] + nums[2] + nums[3] == target ||
                     nums[0] + nums[1] - nums[2] + nums[3] == target ||
                     nums[0] + nums[1] + nums[2] - nums[3] == target ||
-                    // 引き算2箇所チェック
+                    // 引き算2か所チェック
                     - nums[0] - nums[1] + nums[2] + nums[3] == target ||
                     - nums[0] + nums[1] - nums[2] + nums[3] == target ||
                     - nums[0] + nums[1] + nums[2] - nums[3] == target ||
@@ -1090,14 +2103,122 @@
                     // console.log(nums + "check失敗");
                     return true;
                 };
-            },
+            }, make10Easy(nums, target) {
+                if (nums[0] + nums[1] + nums[2] + nums[3] == target) {
+                    return false;
+                }
+                const condition2 = -nums[0] + nums[1] + nums[2] + nums[3] == target;
+                const condition3 = nums[0] - nums[1] + nums[2] + nums[3] == target;
+                const condition4 = nums[0] + nums[1] - nums[2] + nums[3] == target;
+                const condition5 = nums[0] + nums[1] + nums[2] - nums[3] == target;
+                const condition6 = -nums[0] - nums[1] + nums[2] + nums[3] == target;
+                const condition7 = -nums[0] + nums[1] - nums[2] + nums[3] == target;
+                const condition8 = -nums[0] + nums[1] + nums[2] - nums[3] == target;
+                const condition9 = nums[0] - nums[1] - nums[2] + nums[3] == target;
+                const condition10 = nums[0] - nums[1] + nums[2] - nums[3] == target;
+                const condition11 = nums[0] + nums[1] - nums[2] - nums[3] == target;
+                const condition12 = nums[0] * nums[1] + nums[2] + nums[3] == target;
+                const condition13 = nums[0] * nums[2] + nums[1] + nums[3] == target;
+                const condition14 = nums[0] * nums[3] + nums[2] + nums[1] == target;
+                const condition15 = nums[0] + nums[1] * nums[2] + nums[3] == target;
+                const condition16 = nums[0] + nums[1] * nums[3] + nums[2] == target;
+                const condition17 = nums[0] + nums[1] + nums[2] * nums[3] == target;
+                const condition18 = nums[0] / nums[1] + nums[2] + nums[3] == target;
+                const condition19 = nums[0] / nums[2] + nums[1] + nums[3] == target;
+                const condition20 = nums[0] / nums[3] + nums[2] + nums[1] == target;
+                const condition21 = nums[0] + nums[1] / nums[2] + nums[3] == target;
+                const condition22 = nums[0] + nums[1] / nums[3] + nums[2] == target;
+                const condition23 = nums[0] + nums[1] + nums[2] / nums[3] == target;
+                const condition24 = nums[1] / nums[0] + nums[2] + nums[3] == target;
+                const condition25 = nums[2] / nums[0] + nums[1] + nums[3] == target;
+                const condition26 = nums[3] / nums[0] + nums[2] + nums[1] == target;
+                const condition27 = nums[0] + nums[2] / nums[1] + nums[3] == target;
+                const condition28 = nums[0] + nums[3] / nums[1] + nums[2] == target;
+                const condition29 = nums[0] + nums[1] + nums[3] / nums[2] == target;
 
+                if (condition2) {
+                    return `-${nums[0]} + ${nums[1]} + ${nums[2]} + ${nums[3]}`;
+                } else if (condition3) {
+                    return `${nums[0]} - ${nums[1]} + ${nums[2]} + ${nums[3]}`;
+                } else if (condition4) {
+                    return `${nums[0]} + ${nums[1]} - ${nums[2]} + ${nums[3]}`;
+                } else if (condition5) {
+                    return `${nums[0]} + ${nums[1]} + ${nums[2]} - ${nums[3]}`;
+                } else if (condition6) {
+                    return `-${nums[0]} - ${nums[1]} + ${nums[2]} + ${nums[3]}`;
+                } else if (condition7) {
+                    return `-${nums[0]} + ${nums[1]} - ${nums[2]} + ${nums[3]}`;
+                } else if (condition8) {
+                    return `-${nums[0]} + ${nums[1]} + ${nums[2]} - ${nums[3]}`;
+                } else if (condition9) {
+                    return `${nums[0]} - ${nums[1]} - ${nums[2]} + ${nums[3]}`;
+                } else if (condition10) {
+                    return `${nums[0]} - ${nums[1]} + ${nums[2]} - ${nums[3]}`;
+                } else if (condition11) {
+                    return `${nums[0]} + ${nums[1]} - ${nums[2]} - ${nums[3]}`;
+                } else if (condition12) {
+                    return `${nums[0]} * ${nums[1]} + ${nums[2]} + ${nums[3]}`;
+                } else if (condition13) {
+                    return `${nums[0]} * ${nums[2]} + ${nums[1]} + ${nums[3]}`;
+                } else if (condition14) {
+                    return `${nums[0]} * ${nums[3]} + ${nums[2]} + ${nums[1]}`;
+                } else if (condition15) {
+                    return `${nums[0]} + ${nums[1]} * ${nums[2]} + ${nums[3]}`;
+                } else if (condition16) {
+                    return `${nums[0]} + ${nums[1]} * ${nums[3]} + ${nums[2]}`;
+                } else if (condition17) {
+                    return `${nums[0]} + ${nums[1]} + ${nums[2]} * ${nums[3]}`;
+                } else if (condition18) {
+                    return `${nums[0]} / ${nums[1]} + ${nums[2]} + ${nums[3]}`;
+                } else if (condition19) {
+                    return `${nums[0]} / ${nums[2]} + ${nums[1]} + ${nums[3]}`;
+                } else if (condition20) {
+                    return `${nums[0]} / ${nums[3]} + ${nums[2]} + ${nums[1]}`;
+                } else if (condition21) {
+                    return `${nums[0]} + ${nums[1]} / ${nums[2]} + ${nums[3]}`;
+                } else if (condition22) {
+                    return `${nums[0]} + ${nums[1]} / ${nums[3]} + ${nums[2]}`;
+                } else if (condition23) {
+                    return `${nums[0]} + ${nums[1]} + ${nums[2]} / ${nums[3]}`;
+                } else if (condition24) {
+                    return `${nums[1]} / ${nums[0]} + ${nums[2]} + ${nums[3]}`;
+                } else if (condition25) {
+                    return `${nums[2]} / ${nums[0]} + ${nums[1]} + ${nums[3]}`;
+                } else if (condition26) {
+                    return `${nums[3]} / ${nums[0]} + ${nums[2]} + ${nums[1]}`;
+                } else if (condition27) {
+                    return `${nums[0]} + ${nums[2]} / ${nums[1]} + ${nums[3]}`;
+                } else if (condition28) {
+                    return `${nums[0]} + ${nums[3]} / ${nums[1]} + ${nums[2]}`;
+                } else if (condition29) {
+                    return `${nums[0]} + ${nums[1]} + ${nums[3]} / ${nums[2]}`;
+                }
+                return false;
+            },
             createNum() {
                 if (this.isPaused == false) {
                     this.pauseTimer();
                 }
+                if (this.mode == "Easy") {
+                    let nums = [];
+                    let result;
+                    do {
+                        for (let i = 0; i < 4; i++) {
+                            nums[i] = Math.floor(Math.random() * 9) + 1;
+                        }
+                        result = this.make10Easy(nums, this.target);
+                    }
+                    while (!this.matchCreateNum(nums) || result === false);
+                    console.log(result);
+                    for (let i = 0; i < this.numbers.length; i++) {
+                        this.numbers.splice(i, 1, nums[i]);
+                    }
+                    this.answerFormula = result;
 
-                if (this.mode == "digit") {
+                    // 重複が無かったので追加
+                    this.checkDupNums.push(nums);
+
+                } else if (this.mode == "Normal") {
                     let nums = [];
                     do {
                         for (let i = 0; i < 4; i++) {
@@ -1119,7 +2240,7 @@
                         this.createNum();
                         return;
                     }
-                } else if (this.mode == "teen") {
+                } else if (this.mode == "Hard") {
                     let nums = [];
                     do {
                         for (let i = 0; i < 4; i++) {
@@ -1142,16 +2263,17 @@
                         return;
                     }
 
-                } else if (this.mode == "OverDrive") {
+                } else if (this.mode == "Lunatic") {
                     let nums = [];
                     do {
+                        this.target = Math.floor(Math.random() * 19) + 1;
                         for (let i = 0; i < this.numbers.length; i++) {
                             nums[i] = Math.floor(Math.random() * 40 + 1) / 2;
                         }
                     }
                     while (!this.matchCreateNum(nums));
 
-                    let [TrueOrFalse, make10Ans] = make10(nums, 10);
+                    let [TrueOrFalse, make10Ans] = make10(nums, this.target);
                     if (TrueOrFalse) {
                         for (let i = 0; i < this.numbers.length; i++) {
                             this.numbers.splice(i, 1, nums[i]);
@@ -1169,7 +2291,7 @@
                 this.selectedNumTF = false;
                 for (let i = 0; i < this.numBackChange.length; i++) {
                     this.numBackChange.splice(i, 1, false);
-                    this.overDriveNBChange.splice(i, 1, false);
+                    this.LunaticNBChange.splice(i, 1, false);
                 }
                 for (let i = 0; i < this.selectedNum.length; i++) {
                     this.selectedNum.splice(i, 1, "");
@@ -1270,6 +2392,9 @@
                 data_tmp.formula = currentNums;
                 data_tmp.answer = this.answerFormula;
                 data_tmp.reload = "";
+                if (this.mode == "Lunatic") {
+                    data_tmp.target = this.target;
+                }
                 this.answerDetail.push(data_tmp);
             },
             braChange(braNumber) {
@@ -1312,10 +2437,10 @@
                     //             this.resetBra();
                     //             return;
                     //         }
-                    //         if (this.mode != "OverDrive") {
+                    //         if (this.mode != "Lunatic") {
                     //             this.clickAct.splice(i, 1, true);
                     //         } else {
-                    //             this.overDriveCAct.splice(i, 1, true);
+                    //             this.LunaticCAct.splice(i, 1, true);
                     //         }
                     //         this.selectedBra.splice(i, 1, "replace");
                     //     }
@@ -1330,7 +2455,7 @@
                 //             this.selectedBra.splice(i, 1, "replace");
                 //         }
                 //         this.clickAct.splice(i, 1, false);
-                //         this.overDriveCAct.splice(i, 1, false);
+                //         this.LunaticCAct.splice(i, 1, false);
                 //     }
                 //     if (this.selectedBra.indexOf("replace") == this.selectedBra.lastIndexOf("replace")) {
                 //         this.resetBra();
@@ -1344,13 +2469,18 @@
                 //     }
                 // }
             },
+            resetFormula() {
+                this.resetSym();
+                this.resetBra();
+                this.numbers.sort((a, b) => a - b);
+            },
 
             resetBra() {
                 for (let i = 0; i < this.brackets.length; i++) {
                     this.selectedBra.splice(i, 1, "");
                     this.brackets.splice(i, 1, "");
                     this.clickAct.splice(i, 1, false);
-                    this.overDriveCAct.splice(i, 1, false);
+                    this.LunaticCAct.splice(i, 1, false);
                 }
             },
             resetSym() {
@@ -1362,15 +2492,19 @@
                     this.symValue.splice(i, 1, "+");
                 }
             },
+            resetConfigDefault() {
+                this.eventKeyValue = this.eventKeyValueDefault.map(row => [...row]);
+                localStorage.setItem('userEventKeyValue', JSON.stringify(this.eventKeyValueDefault));
+            },
             numReplace(received) {
                 if (this.selectedNumTF == false) {
                     for (let i = 0; i < this.numbers.length; i++) {
                         if (this.passNum[i] == received) {
                             this.selectedNum[i] = this.numbers[i];
-                            if (this.mode != "OverDrive") {
+                            if (this.mode != "Lunatic") {
                                 this.numBackChange.splice(i, 1, true);
                             } else {
-                                this.overDriveNBChange.splice(i, 1, true);
+                                this.LunaticNBChange.splice(i, 1, true);
                             }
                             this.selectedNumIndexF = i;
                         }
@@ -1390,7 +2524,7 @@
                     }
                     for (let i = 0; i < this.numBackChange.length; i++) {
                         this.numBackChange.splice(i, 1, false);
-                        this.overDriveNBChange.splice(i, 1, false);
+                        this.LunaticNBChange.splice(i, 1, false);
                     }
                     this.selectedNumIndexF = -1;
                     this.selectedNumTF = false;
@@ -1417,10 +2551,10 @@
                 this.reloadFormula.push(repNums);
                 this.reloadAnswerFormula.push(this.answerFormula);
                 // ボタンを無効化する
-                this.disableButton = true;
-                setTimeout(() => {
-                    this.disableButton = false;
-                }, 1000);
+                // this.disableButton = true;
+                // setTimeout(() => {
+                //     this.disableButton = false;
+                // }, 1000);
             },
             tryAgain() {
                 this.btnIsSelect.splice(0, 1, false);
@@ -1431,31 +2565,33 @@
                 this.reloadCount = 20;
                 this.startFlag = false;
                 this.ansFlag = false;
-                this.cheatFlag = false;
                 // this.clearedFormula = [];
                 this.stop();
                 this.reset();
                 this.resetBra();
                 this.resetNumBraSym();
-                this.ansChange();
+                // this.ansChange();
             },
             startOrGiveUp() {
                 if (this.isStart == true) {
+
+                    let data_tmp = {};
+
+                    let solvedTime = Date.now();
+                    let intervalTime = solvedTime - this.createQuestionTime;
+                    intervalTime = (Math.round(intervalTime / 100) / 10).toFixed(1);
+                    data_tmp.intervalTime = intervalTime;
 
                     let currentNums = [];
                     for (let i = 0; i < this.numbers.length; i++) {
                         currentNums.push(this.numbers[i]);
                     }
-                    let data_tmp = {};
+
                     data_tmp.formula = currentNums;
                     data_tmp.answer = this.answerFormula;
-
-                    let solvedTime = Date.now();
-                    let intervalTime = solvedTime - this.createQuestionTime;
-                    // this.createQuestionTime = solvedTime;
-                    intervalTime = (Math.round(intervalTime / 100) / 10).toFixed(1);
-                    data_tmp.intervalTime = intervalTime;
-
+                    if (this.mode == "Lunatic") {
+                        data_tmp.target = this.target;
+                    }
                     data_tmp.reload = "";
                     this.answerDetail.push(data_tmp);
                     this.answerDetail[this.questionCount].reload = true;
@@ -1475,15 +2611,16 @@
                     }
 
                     this.startFlag = false;
+                    this.subMenuFlag = true;
                     this.isStart = false;
                     this.isStop = true;
                     this.isReset = false;
                     this.stop();
-                    this.time = "00:00:000";
+                    // this.time = "00:00:000";
                     clearTimeout(this.timeoutId);
                     this.isStop = true;
                     this.isReset = true;
-                    this.score = 0;
+                    this.score = "1000.0";
                     this.elapsedTime = 0;
                     this.totalTime = 0;
                     this.checkDupNums = [];
@@ -1491,14 +2628,20 @@
                     this.selectedNumIndexF = -1;
                     this.selectedNumTF = false;
                     this.clearedFormula = [];
-                    this.isStart = false;
                 } else {
                     this.start();
                     this.createNum();
                 }
             },
-            close() {
-                this.ansChange();
+            showHowToPlay() {
+                this.subMenuFlag = true;
+                this.HTPFlag = true;
+            },
+            closeHowToPlay() {
+                if (!this.menuFlag) {
+                    this.subMenuFlag = false;
+                }
+                this.HTPFlag = false;
             },
             rankingClose() {
                 const ranking = document.getElementById("ranking");
@@ -1523,13 +2666,18 @@
                 this.selectedNumTF = false;
             },
             closeResult() {
+                this.subMenuFlag = false;
                 this.resultFlag = false;
                 this.tryAgain();
             },
             checkDetail() {
+                this.subMenuFlag = true;
                 this.checkDetailFlag = true;
             },
             closeDetail() {
+                if (!this.resultFlag) {
+                    this.subMenuFlag = false;
+                }
                 this.checkDetailFlag = false;
                 this.registFlag = false;
             },
@@ -1597,9 +2745,9 @@
                         sort: [{ field: 'score', direction: 'desc' }]
                     }).firstPage(function (err, records) {
                         if (err) { console.error(err); return; }
-                        records.forEach(function (record) {
-                            console.log('Score:', record.get('score'));
-                        });
+                        // records.forEach(function (record) {
+                        //     console.log('Score:', record.get('score'));
+                        // });
                     });
 
                     // 101列目以降のデータを取得する
@@ -1632,59 +2780,90 @@
                         });
                     });
                 }
+                this.subMenuFlag = false;
                 this.registFlag = false;
                 this.resultFlag = false;
+            },
+            showMenu() {
+                if (!this.isStart) {
+                    this.subMenuFlag = true;
+                    this.menuFlag = true;
+                }
+            },
+            showConfig() {
+                this.configFlag = true;
             },
             showRanking() {
                 this.eventBus.$emit('dataChanged'); // データを初期化するために dataChanged イベントを発生させる
                 this.rankingFlag = true;
-                // this.getItems();
             },
             showUserQuestion(index) {
                 this.rankingDetailFlag = true;
                 let userDetailTmp = [];
                 switch (this.rankingDisplayMode[this.modeIndex]) {
-                    case "Digit":
-                        userDetailTmp = this.rankingDataDigit.data[index];
+                    case "Easy":
+                        userDetailTmp = this.rankingDataEasy.data[index];
                         this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
                         eventBus.$emit('dataChanged');
                         break;
-                    case "Under20":
-                        userDetailTmp = this.rankingDataTeen.data[index];
+                    case "Normal":
+                        userDetailTmp = this.rankingDataNormal.data[index];
                         this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
                         eventBus.$emit('dataChanged');
                         break;
-                    case "OverDrive":
+                    case "Hard":
+                        userDetailTmp = this.rankingDataHard.data[index];
+                        this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
+                        eventBus.$emit('dataChanged');
+                        break;
+                    case "Lunatic":
                         userDetailTmp = this.rankingDataOD.data[index];
                         this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
                         eventBus.$emit('dataChanged');
                         break;
                 }
-                // userDetailTmp = this.rankingDataDigit.data[index];
+                // userDetailTmp = this.rankingDataNormal.data[index];
                 // console.log(userDetailTmp);
                 // this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
                 // console.log(this.rankingUserDetail);
                 // eventBus.$emit('dataChanged');
             },
+            inputModeChange() {
+                if (this.inputMode == "Click") {
+                    this.inputMode = "Flick";
+                } else {
+                    this.inputMode = "Click";
+                }
+            },
             rankingModeChange() {
                 switch (this.rankingDisplayMode[this.modeIndex]) {
-                    case "Digit":
+                    case "Easy":
                         this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
-                        this.showRankingOD = false;
-                        this.showRankingDigit = false;
-                        this.showRankingTeen = true;
+                        this.showRankingEasy = false;
+                        this.showRankingNormal = true;
+                        this.showRankingHard = false;
+                        this.showRankingLunatic = false;
                         break;
-                    case "Under20":
+                    case "Normal":
                         this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
-                        this.showRankingDigit = false;
-                        this.showRankingTeen = false;
-                        this.showRankingOD = true;
+                        this.showRankingEasy = false;
+                        this.showRankingNormal = false;
+                        this.showRankingHard = true;
+                        this.showRankingLunatic = false;
                         break;
-                    case "OverDrive":
+                    case "Hard":
                         this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
-                        this.showRankingOD = false;
-                        this.showRankingTeen = false;
-                        this.showRankingDigit = true;
+                        this.showRankingEasy = false;
+                        this.showRankingNormal = false;
+                        this.showRankingHard = false;
+                        this.showRankingLunatic = true;
+                        break;
+                    case "Lunatic":
+                        this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
+                        this.showRankingEasy = true;
+                        this.showRankingLunatic = false;
+                        this.showRankingHard = false;
+                        this.showRankingNormal = false;
                         break;
                 }
             },
@@ -1696,24 +2875,33 @@
                 this.rankingData = rankingData;
                 let rankingDisplayData = this.rankingData.key;
             },
-            ansChange() {
-                this.answerChangeFlag = false;
-            },
-            ansNoChange() {
-                this.answerChangeFlag = true;
-            },
+            // ansChange() {
+            //     this.answerChangeFlag = false;
+            // },
+            // ansNoChange() {
+            //     this.answerChangeFlag = true;
+            // },
             countUp() {
                 if (this.isPaused) {
                     return; // タイマーが一時停止中は処理を中断
                 }
+                else if (this.score <= 0) {
+                    this.startOrGiveUp();
+                    return;
+                }
 
-                const elapsedTime = Date.now() - this.totalPausedTime;
-                const d = new Date(elapsedTime - this.startTime);
-                const m = String(d.getMinutes()).padStart(2, "0");
-                const s = String(d.getSeconds()).padStart(2, "0");
-                const ms = String(d.getMilliseconds()).padStart(3, "0");
+                const reCalcTime = Date.now() - this.totalPausedTime;
+                this.elapsedTime = new Date(reCalcTime - this.startTime);
+                this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
 
-                this.time = `${m}:${s}:${ms}`;
+                this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloadCount)));
+
+                // const elapsedTime = Date.now() - this.totalPausedTime;
+                // const d = new Date(elapsedTime - this.startTime);
+                // const m = String(d.getMinutes()).padStart(2, "0");
+                // const s = String(d.getSeconds()).padStart(2, "0");
+                // const ms = String(d.getMilliseconds()).padStart(3, "0");
+                // this.time = `${m}:${s}:${ms}`;
                 this.timeoutId = setTimeout(() => {
                     this.countUp();
                 }, 10);
@@ -1756,7 +2944,6 @@
                 this.questionCount = 0;
                 this.startFlag = true;
                 this.ansFlag = false;
-                this.cheatFlag = false;
                 this.clearedFormula = [];
                 this.reloadFormula = [];
                 this.reloadAnswerFormula = [];
@@ -1776,8 +2963,6 @@
                 this.setButtonStateStopped();
                 clearTimeout(this.timeoutId);
                 this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
-
-                console.log(this.elapsedTime);
 
                 this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloadCount)));
             },

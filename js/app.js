@@ -1,22 +1,22 @@
 particlesJS("particles-js",{
 	"particles":{
 		"number":{
-			"value":38,//‚±‚Ì”’l‚ğ•ÏX‚·‚é‚ÆŠô‰½Šw–Í—l‚Ì”‚ª‘Œ¸‚Å‚«‚é
+			"value":60,//ï¿½ï¿½ï¿½Ìï¿½ï¿½lï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½ÆŠô‰½Šwï¿½Í—lï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
 			"density":{
-				"enable":true,
+				"enable":false,
 				"value_area":800
 			}
 		},
 		"color":{
-			"value":"#ffffff"//F
+			"value":"#ffffff"//ï¿½F
 		},
 		"shape":{
-			"type":"polygon",//Œ`ó‚Ípolygon‚ğw’è
+			"type":"polygon",//ï¿½`ï¿½ï¿½ï¿½polygonï¿½ï¿½ï¿½wï¿½ï¿½
 			"stroke":{
 				"width":0,
 			},
 	"polygon":{
-		"nb_sides":3//‘½ŠpŒ`‚ÌŠp‚Ì”
+		"nb_sides":5//ï¿½ï¿½ï¿½pï¿½`ï¿½ÌŠpï¿½Ìï¿½
 	},
 	"image":{
 		"width":190,
@@ -24,12 +24,12 @@ particlesJS("particles-js",{
 	}
 	},
 		"opacity":{
-		"value":0.664994832269074,
-		"random":false,
+		"value":0.2,
+		"random":true,
 		"anim":{
 			"enable":true,
-			"speed":2.2722661797524872,
-			"opacity_min":0.08115236356258881,
+			"speed":1,
+			"opacity_min":0.5,
 			"sync":false
 		}
 		},
@@ -52,12 +52,12 @@ particlesJS("particles-js",{
 		},
 		"move":{
 			"enable":true,
-			"speed":6,//‚±‚Ì”’l‚ğ¬‚³‚­‚·‚é‚Æ‚ä‚Á‚­‚è‚È“®‚«‚É‚È‚é
-			"direction":"none",//•ûŒüw’è‚È‚µ
-			"random":false,//“®‚«‚Íƒ‰ƒ“ƒ_ƒ€‚É‚µ‚È‚¢
-			"straight":false,//“®‚«‚ğ‚Æ‚Ç‚ß‚È‚¢
-			"out_mode":"out",//‰æ–Ê‚ÌŠO‚Éo‚é‚æ‚¤‚É•`Ê
-			"bounce":false,//’µ‚Ë•Ô‚è‚È‚µ
+			"speed":2,//ï¿½ï¿½ï¿½Ìï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È“ï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½
+			"direction":"none",//ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½È‚ï¿½
+			"random":false,//ï¿½ï¿½ï¿½ï¿½ï¿½Íƒï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½É‚ï¿½ï¿½È‚ï¿½
+			"straight":false,//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚Ç‚ß‚È‚ï¿½
+			"out_mode":"bounce",//ï¿½ï¿½Ê‚ÌŠOï¿½Éoï¿½ï¿½æ‚¤ï¿½É•`ï¿½ï¿½
+			"bounce":false,//ï¿½ï¿½ï¿½Ë•Ô‚ï¿½È‚ï¿½
 			"attract":{
 				"enable":false,
 				"rotateX":600,
