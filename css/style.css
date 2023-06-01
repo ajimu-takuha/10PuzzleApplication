@@ -434,7 +434,7 @@ body {
 }
 
 
-.ranking {
+/* .ranking {
   position: absolute;
   width: 900px;
   height: 700px;
@@ -454,8 +454,7 @@ body {
   text-align: center;
   border-radius: 10%;
   user-select: none;
-
-}
+} */
 
 .itemCovor {
   position: sticky;
@@ -477,12 +476,16 @@ body {
 
 #rankingItem {
   display: flex;
-  height: 40px;
+  height: 25%;
   width: 100%;
   background-color: black;
   justify-content: center;
   margin: 0;
   font-size: 30px;
+}
+
+#closeRanking {
+  top: 15%;
 }
 
 .items {
@@ -524,6 +527,7 @@ body {
 
 .rankingContent {
   overflow: scroll;
+  width: 100%;
 }
 
 .rankDetail {
@@ -1351,8 +1355,13 @@ body {
   font-family: 'Orbitron', sans-serif;
   cursor: pointer;
   user-select: none;
-  border: solid rgba(255, 255, 255, 0.5) 1px;
+  border-top: solid rgba(255, 255, 255, 0.5) 1px;
+  border-bottom: solid rgba(255, 255, 255, 0.5) 1px;
   transition: 0.2s;
+}
+
+#rankingModeChange {
+  padding: 0%;
 }
 
 .modeChangeButton:hover {

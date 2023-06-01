@@ -761,7 +761,12 @@
                             <div class="scoreContentName">
                                 Mode :
                             </div>
-                            <div class="scoreContent">
+                            <div class="scoreContent" v-bind:style="{
+                                color: mode === 'Normal' ? 'green' : 
+                                (mode === 'Easy' ? 'yellow' : 
+                                (mode === 'Hard' ? 'blue' : 
+                                (mode === 'Lunatic' ? 'red' : '')))
+                            }">
                                 {{mode}}
                             </div>
                         </div>
@@ -872,7 +877,13 @@
                     <div class="itemCovor">
                         <div class="titleAndClose">
                             <div id="rankingTitle" class="rankingTitle">
-                                <span style="color: rgb(255, 0, 0)">
+                                <span v-bind:style="{
+                                    color: 
+                                    rankingDisplayMode[modeIndex] === 'Normal' ? 'green' : 
+                                    (rankingDisplayMode[modeIndex] === 'Easy' ? 'yellow' : 
+                                    (rankingDisplayMode[modeIndex] === 'Hard' ? 'blue' : 
+                                    (rankingDisplayMode[modeIndex] === 'Lunatic' ? 'red' : '')))
+                                }">
                                     {{rankingDisplayMode[modeIndex % rankingDisplayMode.length] }}
                                 </span>
                                 Ranking
@@ -996,7 +1007,7 @@
                             </div>
                         </div>
                     </div>
-                    <button id="rankngModeChange" class="modeChangeButton" v-on:click="rankingModeChange()">Click : {{
+                    <button id="rankingModeChange" class="modeChangeButton" v-on:click="rankingModeChange()">Click : {{
                         rankingDisplayMode[(modeIndex + 1) % rankingDisplayMode.length] }}
                     </button>
                 </div>
@@ -1166,8 +1177,7 @@
                     <!-- <button type="button" id="showAnsButton" v-on:click="showAns()"
                         v-bind:class="{'inactive': isStart, 'lunaticButton LunaticStartButton':mode == 'Lunatic', 'buttons startButton':mode != 'Lunatic'}">Show
                         Answer</button> -->
-                    <button type="button" id="startButton" v-on:click="startOrGiveUp()"
-                     v-bind:class=" {'lunaticButton LunaticStartButton':mode=='Lunatic'
+                    <button type="button" id="startButton" v-on:click="startOrGiveUp()" v-bind:class=" {'lunaticButton LunaticStartButton':mode=='Lunatic'
                         , 'buttons startButton' :mode !='Lunatic' }">
                         <div class="diamondText">
                             <span v-if="isStart">Give Up</span>
@@ -1191,13 +1201,21 @@
                 </div>
                 <div id="modeWrapper">
                     <button v-bind:class="{modeButtons: true, EasylButton: true, btnIsSelect: btnIsSelect[6]}"
-                        v-on:click="modeChangeEasy">Easy</button>
+                        v-on:click="modeChangeEasy" style="border-color: white">
+                        Easy
+                    </button>
                     <button v-bind:class="{modeButtons: true, NormalButton: true, btnIsSelect: btnIsSelect[3]}"
-                        v-on:click="modeChangeNormal">Normal</button>
+                        v-on:click="modeChangeNormal" style="border-color: white">
+                        Normal
+                    </button>
                     <button v-bind:class="{modeButtons :true, HardsButton: true, btnIsSelect: btnIsSelect[4]}"
-                        v-on:click="modeChangeHard">Hard</button>
+                        v-on:click="modeChangeHard" style="border-color: white">
+                        Hard
+                    </button>
                     <button id="lunaticButton" class="lunaticModeChangeButton" v-bind:class="{ lunaticIsSelected: btnIsSelect[5], 
-                        }" v-on:click="modeChangeLunatic">Lunatic</button>
+                        }" v-on:click="modeChangeLunatic">
+                        Lunatic
+                    </button>
                 </div>
                 <div class="controls">
                     <div v-bind:class="{'LunaticTimer':mode == 'Lunatic', 'timer':mode != 'Lunatic'}">
@@ -1368,8 +1386,8 @@
             editingCell: null,
             editingValue: '',
             keyPressTimeoutID: null,
-            HTPFlag: false,
-            subMenuFlag: false,
+            HTPFlag: true,
+            subMenuFlag: true,
             isHoveredTitle: false
         },
         watch: {
@@ -2642,10 +2660,6 @@
                     this.subMenuFlag = false;
                 }
                 this.HTPFlag = false;
-            },
-            rankingClose() {
-                const ranking = document.getElementById("ranking");
-                ranking.style.display = "none";
             },
             resetNumBraSym() {
                 this.resetBra();
