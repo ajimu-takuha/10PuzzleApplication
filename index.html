@@ -356,6 +356,8 @@
                         右上にある記号をクリックするとこの画面を終了します<br>
                         終了後タイトルをクリックするとメニュー画面に移り<br>
                         「How to Play」を押すとこの画面を再び表示します<br>
+                        説明を読まなくても直感的に操作はわかると思いますが<br>
+                        以下は仕様の詳細です<br>
                         <br>
                         <br>
                         <br>
@@ -674,6 +676,10 @@
                         スコアを作り<br>
                         <br>
                         <br>
+                        画面にタイマーを表示していたけれど<br>
+                        スコアを直接表示した方がいいと思って修正<br>
+                        <br>
+                        <br>
                         自分のスコアを残したいからランキングを作ろうと考えて<br>
                         <br>
                         <br>
@@ -697,19 +703,16 @@
                         割り当て機能を作り<br>
                         <br>
                         <br>
-                        画面にタイマーを表示していたけれど<br>
-                        スコアを直接表示した方がいいと思って修正し...<br>
-                        <br>
-                        <br>
-                        何も考えないで作るもんじゃないですね<br>
+                        何も考えないで作るもんじゃなかった...<br>
                         <br>
                         <br>
                         結局このアプリに自分が求めていたのは<br>
-                        <span style="font-size: 35px;">
+                        <span style="font-size: 32px;">
                             いかに自分の能力を損失なく数値に変換できるか<br>
                         </span>
                         ということでした<br>
-                        それを念頭に仕様を考えればよかったですね...<br>
+                        初めからそれを念頭に仕様を考えるべきでした<br>
+                        そうすればキーボード入力は必然だと思います<br>
                         <br>
                         <br>
                         外部APIを使うランキングの実装が一番大変でした<br>
@@ -717,8 +720,8 @@
                         実装できない処理がたくさんあったと思います<br>
                         <br>
                         <br>
-                        正解時の演出やUI、装飾については<br>
-                        色々考えましたがあまり満足はしていません<br>
+                        正解時の演出やUI、デザインについては<br>
+                        色々考えましたがあまりよくないと思います<br>
                         もっといい案誰かください<br>
                         <br>
                         <br>
@@ -738,7 +741,7 @@
                         <br>
                         <br>
                         <br>
-                        "シコウ"を楽しんでみてください<br>
+                        "シコウ"を楽しめる人なら楽しいと思います<br>
                         <br>
                         <br>
                         <br>
@@ -1052,12 +1055,6 @@
                     <button id="closeRankingDetail" class="backButton" v-on:click="closeRankingDetail()">←
                     </button>
                 </div>
-                <!-- <div id="answerFormula" class="answerFormula">
-                    {{answerFormula}}={{target}}<br>
-                    <button id="tryButton" class="tryButton" v-on:click="tryAgain()">Try Again</button>
-                </div>
-                <div id="answerNoChange" class="answerNoChange" v-if="answerChangeFlag">
-                </div> -->
                 <div id="header" v-bind:class="{'headerIsStarted': startFlag}" @mouseover="handleMouseOver"
                     @mouseleave="handleMouseLeave">
                     <div class="title" v-if="!isHoveredTitle && mode !== 'Lunatic'">
@@ -1077,88 +1074,168 @@
                         　　　Target :　{{target}}</div>
                 </div>
                 <div id="formulaBody">
-                    <div id="firstBra" @mouseenter="isHovered0 = true" @mouseleave="isHovered0 = false"
-                        v-bind:class="{'hovered0': isHovered0, 'hovered3': isHovered3, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
+                    <div id="firstBra" 
+                        @mouseenter="isHovered0 = mode !== 'Lunatic', isLunaticHovered0 = mode === 'Lunatic'"
+                        @mouseleave="isHovered0 = false, isLunaticHovered0 = false"
+                        v-bind:class="{
+                        'hovered0': isHovered0,
+                        'hovered3': isHovered3, 
+                        'lunaticHovered0': isLunaticHovered0,
+                        'lunaticHovered3': isLunaticHovered3, 
+                        'LunaticBra':mode == 'Lunatic', 
+                        'brackets formula':mode != 'Lunatic'}"
                         v-on:click="braChange(0)">
                         {{ brackets[0] }}
                     </div>
 
-                    <div :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }" id="addSym" class="symbol"
-                        v-on:click="addSymChange">
+                    <div
+                    id="addSym" 
+                    :class="{
+                        symbol: mode !== 'Lunatic',
+                        lunaticSym: mode == 'Lunatic'}" 
+                    v-on:click="addSymChange">
                         {{ addSym[0] }}
                     </div>
 
-                    <div id="firstN" type="text" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
-                        v-bind:class="{'LunaticCAct':LunaticNBChange[0], 'clickAct':numBackChange[0], 'LunaticNum':mode == 'Lunatic', 'numbers formula':mode != 'Lunatic'}"
+                    <div id="firstN" type="math"
+                        v-bind:class="{
+                        'lunaticClickAct':LunaticNBChange[0], 
+                        'clickAct':numBackChange[0], 
+                        'lunaticNum':mode == 'Lunatic', 
+                        'numbers formula':mode != 'Lunatic'}"
                         v-on:click="numReplace('first')">
                         {{ numbers[0]}}
                     </div>
 
-                    <div id="firstSymbol" class="symbol" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
-                        :class="{dragging: isDragging && selectedSym === 0 }" @mousedown="startDrag(0, $event)"
+                    <div id="firstSymbol" 
+                    :class="{
+                        dragging: isDragging && selectedSym === 0,
+                        symbol: mode !== 'Lunatic',
+                        lunaticSym: mode == 'Lunatic'
+                    }" 
+                    @mousedown="startDrag(0, $event)"
                         @mousemove="drag($event)" @mouseup="endDrag" @mouseleave="endDrag" @click="changeOpeClick(0)"
                         ref="draggable0">
                         {{ symValue[0] }}
                     </div>
 
-                    <div id="secondBra" @mouseenter="isHovered1 = true" @mouseleave="isHovered1 = false"
-                        v-bind:class="{'hovered1': isHovered1, 'hovered4': isHovered4, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
+                    <div id="secondBra" 
+                    @mouseenter="isHovered1 = mode !== 'Lunatic', isLunaticHovered1 = mode === 'Lunatic'" 
+                    @mouseleave="isHovered1 = false, isLunaticHovered1 = false"
+                        v-bind:class="{
+                            'hovered1': isHovered1, 
+                            'hovered4': isHovered4, 
+                            'lunaticHovered1': isLunaticHovered1,
+                            'lunaticHovered4': isLunaticHovered4, 
+                            'LunaticBra':mode == 'Lunatic', 
+                            'brackets formula':mode != 'Lunatic'}"
                         v-on:click="braChange(1)">
                         {{ brackets[1] }}
                     </div>
 
-                    <div id="secondN" type="math" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
-                        v-bind:class="{'LunaticCAct':LunaticNBChange[1], 'clickAct':numBackChange[1], 'LunaticNum':mode == 'Lunatic', 'numbers formula':mode != 'Lunatic'}"
+                    <div id="secondN" type="math" 
+                        v-bind:class="{
+                            'lunaticClickAct':LunaticNBChange[1], 
+                            'clickAct':numBackChange[1], 
+                            'lunaticNum':mode == 'Lunatic', 
+                            'numbers formula':mode != 'Lunatic'}"
                         v-on:click="numReplace('second')">
                         {{ numbers[1] }}
                     </div>
 
-                    <div @mouseenter="isHovered0 = true" @mouseleave="isHovered0 = false"
-                        v-bind:class="{'hovered0': isHovered0,  'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
+                    <div 
+                    @mouseenter="isHovered0 = mode !== 'Lunatic', isLunaticHovered0 = mode === 'Lunatic'" 
+                    @mouseleave="isHovered0 = false, isLunaticHovered0 = false"
+                        v-bind:class="{
+                            'hovered0': isHovered0,
+                            'lunaticHovered0': isLunaticHovered0,   
+                            'LunaticBra':mode == 'Lunatic', 
+                            'brackets formula':mode != 'Lunatic'}"
                         id="thirdBra" v-on:click="braChange(2)">
                         {{ brackets[2] }}
                     </div>
 
-                    <div id="secondSymbol" class="symbol" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
-                        :class="{ dragging: isDragging && selectedSym === 1 }" @mousedown="startDrag(1, $event)"
-                        @mousemove="drag($event)" @mouseup="endDrag" @mouseleave="endDrag" @click="changeOpeClick(1)"
-                        ref="draggable1">
+                    <div id="secondSymbol" 
+                    :class="{ 
+                    dragging: isDragging && selectedSym === 1, 
+                    symbol: mode !== 'Lunatic',
+                    lunaticSym: mode == 'Lunatic'}" 
+                    @mousedown="startDrag(1, $event)"
+                    @mousemove="drag($event)" 
+                    @mouseup="endDrag" @mouseleave="endDrag" 
+                    @click="changeOpeClick(1)"
+                    ref="draggable1">
                         {{ symValue[1] }}
                     </div>
 
-                    <div @mouseenter="isHovered2 = true" @mouseleave="isHovered2 = false"
-                        v-bind:class="{'hovered2': isHovered2, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
+                    <div 
+                    @mouseenter="isHovered2 = mode !== 'Lunatic', isLunaticHovered2 = mode === 'Lunatic'" 
+                    @mouseleave="isHovered2 = false, isLunaticHovered2 = false"
+                        v-bind:class="{
+                            'hovered2': isHovered2, 
+                            'lunaticHovered2': isLunaticHovered2, 
+                            'LunaticBra':mode == 'Lunatic', 
+                            'brackets formula':mode != 'Lunatic'}"
                         id="forthBra" v-on:click="braChange(3)">
                         {{ brackets[3] }}
                     </div>
 
-                    <div type="math" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
-                        v-bind:class="{'LunaticCAct':LunaticNBChange[2], 'clickAct':numBackChange[2], 'LunaticNum':mode == 'Lunatic', 'numbers formula':mode != 'Lunatic'}"
+                    <div type="math"
+                        v-bind:class="{
+                            'lunaticClickAct':LunaticNBChange[2], 
+                            'clickAct':numBackChange[2], 
+                            'lunaticNum':mode == 'Lunatic', 
+                            'numbers formula':mode != 'Lunatic'}"
                         id="thirdN" v-on:click="numReplace('third')">
                         {{ numbers[2] }}
                     </div>
 
-                    <div @mouseenter="isHovered3 = true" @mouseleave="isHovered3 = false"
-                        v-bind:class="{'hovered1': isHovered1,  'hovered3': isHovered3, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
+                    <div 
+                    @mouseenter="isHovered3 = mode !== 'Lunatic', isLunaticHovered3 = mode === 'Lunatic'" 
+                    @mouseleave="isHovered3 = false, isLunaticHovered3 = false"
+                        v-bind:class="{
+                            'hovered1': isHovered1,  
+                            'hovered3': isHovered3, 
+                            'lunaticHovered1': isLunaticHovered1,  
+                            'lunaticHovered3': isLunaticHovered3, 
+                            'LunaticBra':mode == 'Lunatic', 
+                            'brackets formula':mode != 'Lunatic'}"
                         id="fifthBra" v-on:click="braChange(4)">
                         {{ brackets[4] }}
                     </div>
 
-                    <div id="thirdSymbol" class="symbol" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
-                        :class="{ dragging: isDragging && selectedSym === 2 }" @mousedown="startDrag(2, $event)"
+                    <div id="thirdSymbol" 
+                        :class="{ 
+                            symbol: mode !== 'Lunatic',
+                            lunaticSym: mode == 'Lunatic',
+                            dragging: isDragging && selectedSym === 2 
+                        }" 
+                        @mousedown="startDrag(2, $event)"
                         @mousemove="drag($event)" @mouseup="endDrag" @mouseleave="endDrag" @click="changeOpeClick(2)"
                         ref="draggable2">
                         {{ symValue[2] }}
                     </div>
 
-                    <div type="math" :style="{ color: mode === 'Lunatic' ? 'rgb(180, 0, 0)' : '' }"
-                        v-bind:class="{'LunaticCAct':LunaticNBChange[3], 'clickAct':numBackChange[3], 'LunaticNum LunaticLastNum':mode == 'Lunatic', 'numbers formula':mode != 'Lunatic'}"
+                    <div type="math"
+                        v-bind:class="{
+                            'lunaticClickAct':LunaticNBChange[3], 
+                            'clickAct':numBackChange[3], 
+                            'lunaticNum LunaticLastNum':mode == 'Lunatic', 
+                            'numbers formula':mode != 'Lunatic'}"
                         id="fourthN" v-on:click="numReplace('fourth')">
                         {{ numbers[3] }}
                     </div>
 
-                    <div @mouseenter="isHovered4 = true" @mouseleave="isHovered4 = false"
-                        v-bind:class="{'hovered2': isHovered2, 'hovered4': isHovered4, 'LunaticBra':mode == 'Lunatic', 'brackets formula':mode != 'Lunatic'}"
+                    <div 
+                    @mouseenter="isHovered4 = mode !== 'Lunatic', isLunaticHovered4 = mode === 'Lunatic'" 
+                    @mouseleave="isHovered4 = false, isLunaticHovered4 = false"
+                        v-bind:class="{
+                            'hovered2': isHovered2, 
+                            'hovered4': isHovered4, 
+                            'lunaticHovered2': isLunaticHovered2, 
+                            'lunaticHovered4': isLunaticHovered4, 
+                            'LunaticBra':mode == 'Lunatic', 
+                            'brackets formula':mode != 'Lunatic'}"
                         id="sixthBra" v-on:click="braChange(5)" style="width:50px">
                         {{ brackets[5] }}
                     </div>
@@ -1174,9 +1251,6 @@
                     </div>
                 </div>
                 <div id="buttonWrapper">
-                    <!-- <button type="button" id="showAnsButton" v-on:click="showAns()"
-                        v-bind:class="{'inactive': isStart, 'lunaticButton LunaticStartButton':mode == 'Lunatic', 'buttons startButton':mode != 'Lunatic'}">Show
-                        Answer</button> -->
                     <button type="button" id="startButton" v-on:click="startOrGiveUp()" v-bind:class=" {'lunaticButton LunaticStartButton':mode=='Lunatic'
                         , 'buttons startButton' :mode !='Lunatic' }">
                         <div class="diamondText">
@@ -1265,6 +1339,12 @@
             isHovered3: false,
             isHovered4: false,
             isHovered5: false,
+            isLunaticHovered0: false,
+            isLunaticHovered1: false,
+            isLunaticHovered2: false,
+            isLunaticHovered3: false,
+            isLunaticHovered4: false,
+            isLunaticHovered5: false,
             firstSym: ["+"],
             secondSym: ["+"],
             thirdSym: ["+"],
@@ -1285,7 +1365,7 @@
             startFlag: false,
             ansFlag: false,
             clickAct: [false, false, false, false, false, false],
-            LunaticCAct: [false, false, false, false, false, false],
+            lunaticClickAct: [false, false, false, false, false, false],
             btnIsSelect: [false, false, false, true, false, false, false],
             mode: "Normal",
             target: 10,
@@ -1749,7 +1829,7 @@
                     this.editingCell = cell;
                     const originalValue = this.eventKeyValue[row][cell];
                     this.eventKeyValue[row].splice(cell, 1, 'Input Key');
-                    console.log(this.eventKeyValue);
+                    // console.log(this.eventKeyValue);
 
                     // 3秒経過後にキャンセルする
                     this.keyPressTimeoutID = setTimeout(() => {
@@ -1875,9 +1955,9 @@
                     } else if (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1]) {
                         this.startOrGiveUp();
                     }
-                    else if (event.key === 'z') {
-                        this.showResult();
-                    }
+                    // else if (event.key === 'z') {
+                    //     this.showResult();
+                    // }
                 } else if (this.checkDetailFlag && (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1])) {
                     this.closeDetail();
                 }
@@ -2458,7 +2538,7 @@
                     //         if (this.mode != "Lunatic") {
                     //             this.clickAct.splice(i, 1, true);
                     //         } else {
-                    //             this.LunaticCAct.splice(i, 1, true);
+                    //             this.lunaticClickAct.splice(i, 1, true);
                     //         }
                     //         this.selectedBra.splice(i, 1, "replace");
                     //     }
@@ -2473,7 +2553,7 @@
                 //             this.selectedBra.splice(i, 1, "replace");
                 //         }
                 //         this.clickAct.splice(i, 1, false);
-                //         this.LunaticCAct.splice(i, 1, false);
+                //         this.lunaticClickAct.splice(i, 1, false);
                 //     }
                 //     if (this.selectedBra.indexOf("replace") == this.selectedBra.lastIndexOf("replace")) {
                 //         this.resetBra();
@@ -2491,6 +2571,7 @@
                 this.resetSym();
                 this.resetBra();
                 this.numbers.sort((a, b) => a - b);
+                this.selectedNumTF = false;
             },
 
             resetBra() {
@@ -2498,7 +2579,11 @@
                     this.selectedBra.splice(i, 1, "");
                     this.brackets.splice(i, 1, "");
                     this.clickAct.splice(i, 1, false);
-                    this.LunaticCAct.splice(i, 1, false);
+                    this.lunaticClickAct.splice(i, 1, false);
+                    for (let i = 0; i < this.numBackChange.length; i++) {
+                        this.numBackChange.splice(i, 1, false);
+                        this.LunaticNBChange.splice(i, 1, false);
+                    }
                 }
             },
             resetSym() {
@@ -2569,10 +2654,10 @@
                 this.reloadFormula.push(repNums);
                 this.reloadAnswerFormula.push(this.answerFormula);
                 // ボタンを無効化する
-                // this.disableButton = true;
-                // setTimeout(() => {
-                //     this.disableButton = false;
-                // }, 1000);
+                this.disableButton = true;
+                setTimeout(() => {
+                    this.disableButton = false;
+                }, 1000);
             },
             tryAgain() {
                 this.btnIsSelect.splice(0, 1, false);

@@ -897,7 +897,7 @@ body {
 }
 
 
-.LunaticNum {
+.lunaticNum {
   margin: 2px;
   height: 85px;
   width: 120px;
@@ -909,7 +909,7 @@ body {
   font-family: 'Quicksand', sans-serif;
   user-select: none;
   cursor: pointer;
-  color: rgb(255, 255, 255);
+  color: rgb(180, 0, 0);
 }
 
 .LunaticLastNum {
@@ -922,8 +922,9 @@ body {
   /* opacity: 0.7; */
 }
 
-.LunaticNum:hover {
-  background: rgba(100, 0, 0);
+.lunaticNum:hover {
+  background: rgba(180, 0, 0);
+  color: black;
 }
 
 .brackets {
@@ -988,6 +989,31 @@ body {
   color: black;
 }
 
+.lunaticHovered0 {
+  background-color: rgb(180, 0, 0);
+  color: black;
+}
+
+.lunaticHovered1 {
+  background-color: rgb(180, 0, 0);
+  color: black;
+}
+
+.lunaticHovered2 {
+  background-color: rgb(180, 0, 0);
+  color: black;
+}
+
+.lunaticHovered3 {
+  background-color: rgb(180, 0, 0);
+  color: black;
+}
+
+.lunaticHovered4 {
+  background-color: rgb(180, 0, 0);
+  color: black;
+}
+
 /* .LunaticBra:hover {
   background: rgb(255, 0, 0);
 } */
@@ -997,8 +1023,9 @@ body {
   color: black;
 }
 
-.LunaticCAct {
-  background-color: rgb(255, 0, 0);
+.lunaticClickAct {
+  background-color: rgb(180, 0, 0);
+  color: black;
 }
 
 .symbol {
@@ -1016,6 +1043,28 @@ body {
   align-items: center;
   justify-content: center;
   color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0);
+  /* border: inset rgb(255, 255, 255); */
+  font-family: 'Quattrocento Sans', sans-serif;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.lunaticSym {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  /* margin: 3px; */
+  font-size: 100px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(180, 0, 0);
   background-color: rgb(0, 0, 0);
   /* border: inset rgb(255, 255, 255); */
   font-family: 'Quattrocento Sans', sans-serif;
@@ -1070,9 +1119,9 @@ body {
 }
 
 
-.LunaticSym:hover {
-  background: rgb(255, 255, 255);
-  color: red;
+.lunaticSym:hover {
+  background: rgba(180, 0, 0);
+  color: rgb(0, 0, 0);
 }
 
 
@@ -1193,7 +1242,7 @@ body {
 }
 
 
-.buttonss:focus {
+.buttons:focus {
   outline: none;
 }
 
@@ -1216,6 +1265,14 @@ body {
   position: relative;
 }
 
+.lunaticButton:focus {
+  outline:none;
+}
+
+.modeChangeButton:focus {
+  outline:none;
+}
+
 .diamondText {
   width: 160px;
   height: 60px;
@@ -1231,9 +1288,8 @@ body {
   background-color: white;
 }
 
-.lunaticButtons:hover {
+.lunaticButton:hover {
   color: rgb(0, 0, 0);
-  border: solid 2px rgb(0, 0, 0);
   background-color: rgb(180, 0, 0);
 }
 
@@ -1360,6 +1416,11 @@ body {
   transition: 0.2s;
 }
 
+.modeChangeButton:focus {
+  outline:none;
+}
+
+
 #rankingModeChange {
   padding: 0%;
 }
@@ -1456,7 +1517,6 @@ body {
 .lunaticIsSelected {
   transition: 0.3s;
   color: black;
-  border: groove 2px rgb(80, 0, 0);
   background-color: rgb(150, 0, 0);
   ;
 }
