@@ -353,11 +353,11 @@
                         <br>
                         <br>
                         <br>
-                        右上にある記号をクリックするとこの画面を終了します<br>
-                        終了後タイトルをクリックするとメニュー画面に移り<br>
-                        「How to Play」を押すとこの画面を再び表示します<br>
+                        右上にある「-」をクリックするとこの画面を終了します<br>
+                        閉じた後はタイトルをクリックするとメニュー画面に移り<br>
+                        「How to Play」を押すと再びこの画面を表示できます<br>
                         説明を読まなくても直感的に操作はわかると思いますが<br>
-                        以下は仕様の詳細です<br>
+                        ここでは詳細な仕様を書いています<br>
                         <br>
                         <br>
                         <br>
@@ -417,7 +417,7 @@
                         </span>
                         "　が入る位置があり<br>
                         そこにマウスが乗ると背景色が変更され<br>
-                        クリックするとそこに括弧が入ります<br>
+                        クリックすると背景色が変更された位置に括弧が入ります<br>
                         再び括弧をクリックするとすべての括弧が消えます<br>
                         <br>
                         <br>
@@ -564,8 +564,9 @@
                         <br>
                         <span style="font-size: 30px; color: red;">Lunatic</span>
                         は非常に難しいモードです<br>
-                        Normal 以上の難易度で一定スコアを獲得すると選択できます<br>
-                        ぜひプレイできるようになってください<br>
+                        Normal 以上の難易度でRank:Sを獲得すると選択できます<br>
+                        このモードは他モードと少しルールが異なりますが<br>
+                        実際のプレイで確かめてみてください<br>
                         <br>
                         <br>
                         <br>
@@ -711,7 +712,7 @@
                             いかに自分の能力を損失なく数値に変換できるか<br>
                         </span>
                         ということでした<br>
-                        初めからそれを念頭に仕様を考えるべきでした<br>
+                        初めからそれを念頭に仕様を考えるべきで<br>
                         そうすればキーボード入力は必然だと思います<br>
                         <br>
                         <br>
@@ -986,7 +987,8 @@
                         </div>
                     </div>
                     <div id="rankingContentOD" class="rankingContent" v-if="showRankingLunatic">
-                        <div id="rankDetailOD" class="rankDetail" v-for="(data, index) in rankingDataOD.data"
+                        <div id="rankDetailOD" class="rankDetail" 
+                        v-for="(data, index) in rankingDataOD.data"
                             v-on:click="showUserQuestion(index)">
                             <div id="rankNum" class="rankVal">
                                 <span>
@@ -1015,7 +1017,16 @@
                     </button>
                 </div>
                 <div v-if="rankingDetailFlag" class="result">
-                    <div id="rankingDetailTitle">User Details</div>
+                    <div id="rankingDetailTitle"
+                    v-bind:style="{
+                        color: 
+                        rankingDisplayMode[modeIndex] === 'Normal' ? 'green' : 
+                        (rankingDisplayMode[modeIndex] === 'Easy' ? 'yellow' : 
+                        (rankingDisplayMode[modeIndex] === 'Hard' ? 'blue' : 
+                        (rankingDisplayMode[modeIndex] === 'Lunatic' ? 'red' : '')))
+                    }">
+                    {{rankingDetailUser}} : {{rankingDetailScore}}
+                    </div>
                     <div v-for="(detail, index) in rankingUserDetail"
                         v-bind:style="{ backgroundColor: detail.reload == true ? 'rgba(255, 0, 51, 0.6)' : '' }"
                         id="detailWrapper">
@@ -1468,7 +1479,9 @@
             keyPressTimeoutID: null,
             HTPFlag: true,
             subMenuFlag: true,
-            isHoveredTitle: false
+            isHoveredTitle: false,
+            rankingDetailUser: "",
+            rankingDetailScore: ""
         },
         watch: {
             answer: function (ansVal) {
@@ -2487,6 +2500,7 @@
                 for (let i = 0; i < this.numbers.length; i++) {
                     currentNums.push(this.numbers[i]);
                 }
+                currentNums.sort((a, b) => a - b);
                 data_tmp.formula = currentNums;
                 data_tmp.answer = this.answerFormula;
                 data_tmp.reload = "";
@@ -2903,21 +2917,29 @@
                     case "Easy":
                         userDetailTmp = this.rankingDataEasy.data[index];
                         this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
+                        this.rankingDetailUser = this.rankingDataEasy.data[index][0];
+                        this.rankingDetailScore = this.rankingDataEasy.data[index][1];
                         eventBus.$emit('dataChanged');
                         break;
                     case "Normal":
                         userDetailTmp = this.rankingDataNormal.data[index];
                         this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
+                        this.rankingDetailUser = this.rankingDataNormal.data[index][0];
+                        this.rankingDetailScore = this.rankingDataNormal.data[index][1];
                         eventBus.$emit('dataChanged');
                         break;
                     case "Hard":
                         userDetailTmp = this.rankingDataHard.data[index];
                         this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
+                        this.rankingDetailUser = this.rankingDataHard.data[index][0];
+                        this.rankingDetailScore = this.rankingDataHard.data[index][1];
                         eventBus.$emit('dataChanged');
                         break;
                     case "Lunatic":
                         userDetailTmp = this.rankingDataOD.data[index];
                         this.rankingUserDetail = JSON.parse(userDetailTmp[3]);
+                        this.rankingDetailUser = this.rankingDataOD.data[index][0];
+                        this.rankingDetailScore = this.rankingDataOD.data[index][1];
                         eventBus.$emit('dataChanged');
                         break;
                 }
