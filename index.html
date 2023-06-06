@@ -3013,7 +3013,7 @@
 
                 const reCalcTime = Date.now() - this.totalPausedTime;
                 this.elapsedTime = new Date(reCalcTime - this.startTime);
-                this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
+                this.elapsedTime = Math.round(((this.elapsedTime) / 100) / 10).toFixed(1);
 
                 this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloadCount)));
 
@@ -3083,9 +3083,9 @@
                 }
                 this.setButtonStateStopped();
                 clearTimeout(this.timeoutId);
-                this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
+                this.elapsedTime = Math.round(((this.elapsedTime) / 100) / 10).toFixed(1);
 
-                this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloadCount)));
+                this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloaCount)));
             },
             questionThinkTime() {
                 let solvedTime = Date.now();
