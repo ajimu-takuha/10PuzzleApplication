@@ -2320,7 +2320,7 @@
                         result = this.make10Easy(nums, this.target);
                     }
                     while (!this.matchCreateNum(nums) || result === false);
-                    console.log(result);
+
                     for (let i = 0; i < this.numbers.length; i++) {
                         this.numbers.splice(i, 1, nums[i]);
                     }
@@ -3013,7 +3013,7 @@
 
                 const reCalcTime = Date.now() - this.totalPausedTime;
                 this.elapsedTime = new Date(reCalcTime - this.startTime);
-                this.elapsedTime = Math.round(((this.elapsedTime) / 100) / 10).toFixed(1);
+                this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
 
                 this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloadCount)));
 
@@ -3083,9 +3083,9 @@
                 }
                 this.setButtonStateStopped();
                 clearTimeout(this.timeoutId);
-                this.elapsedTime = Math.round(((this.elapsedTime) / 100) / 10).toFixed(1);
-
-                this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloaCount)));
+                this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
+                
+                this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloadCount)));
             },
             questionThinkTime() {
                 let solvedTime = Date.now();
