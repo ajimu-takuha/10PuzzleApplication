@@ -344,7 +344,7 @@
                         与えられた4つの数字に対して、四則演算子と括弧を用いて<br>
                         いかに早く10になる式を作れるか競います<br>
                         <span style="font-size: 20px; line-height: 15px;">
-                            ※ 続きはこの画面をスクロール<br></span>
+                            ※ このウィンドゥをスクロールで続く<br></span>
                         <br>
                         <br>
                         <br>
@@ -354,10 +354,11 @@
                         <br>
                         <br>
                         右上にある「-」をクリックするとこの画面を終了します<br>
-                        閉じた後はタイトルをクリックするとメニュー画面に移り<br>
+                        閉じた後はタイトルをクリック後のメニュー画面にある<br>
                         「How to Play」を押すと再びこの画面を表示できます<br>
-                        説明を読まなくても直感的に操作はわかると思いますが<br>
-                        ここでは詳細な仕様を書いています<br>
+                        <br>
+                        説明を読まなくても直感的に操作できるよう作りましたが<br>
+                        ここには詳細な仕様を書いています<br>
                         <br>
                         <br>
                         <br>
@@ -379,8 +380,8 @@
                         一度押した「Start」ボタンは「Give Up」ボタンとなり<br>
                         それを押すと挑戦を放棄してそれまでの結果を確認できます<br>
                         <br>
-                        後述するキーバインドの仕様上一度Startすると挑戦終了まで<br>
-                        F5等キー本来の持っている画面操作は使えません<br>
+                        後述するキーバインドの仕様上一度StartするとGive Upまで<br>
+                        F5などのキーが持つWeb操作機能は使えません<br>
                         <br>
                         <br>
                         <br>
@@ -391,7 +392,7 @@
                         <br>
                         画面には初めに「+」演算子が表示されていますが<br>
                         クリックするたび [ - , ×, ÷, + ] の順に変更され<br>
-                        計算結果が自動で変更されます<br>
+                        計算結果が自動で更新されます<br>
                         <br>
                         <br>
                         <br>
@@ -418,7 +419,7 @@
                         "　が入る位置があり<br>
                         そこにマウスが乗ると背景色が変更され<br>
                         クリックすると背景色が変更された位置に括弧が入ります<br>
-                        再び括弧をクリックするとすべての括弧が消えます<br>
+                        入っている括弧をクリックするとすべての括弧が消えます<br>
                         <br>
                         <br>
                         <br>
@@ -454,6 +455,7 @@
                         タイトルをクリックするとメニュー画面が表示され<br>
                         そこから「Config」をクリックすると<br>
                         操作に対するキーの割り当てを確認・変更できます<br>
+                        Config画面についての詳細は後述します<br>
                         <br>
                         <br>
                         <br>
@@ -462,22 +464,16 @@
                         <br>
                         <br>
                         <br>
-                        10問正解すると挑戦終了となりスコアが表示されます<br>
+                        画面下部には現在のスコアが表示され<br>
+                        10問正解後に表示されるリザルト画面から<br>
+                        その時点のスコアを登録できます<br>
                         スコアの算出方法は減点方式で<br>
-                        1000 - ( 経過時間 + 10 ×リロード回数 ) で算出されます<br>
+                        <br>
+                        1000 - ( 経過時間 + 10 ×リロード回数 ) <br>
+                        <br>
+                        という式で算出されます<br>
                         問題生成やクリア時のエフェクトは経過時間に含まれません<br>
-                        スコアが0以下になると強制的にGiveUpとなります<br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        リザルト画面で「Detail」ボタンを押すと<br>
-                        プレイヤーが解いた問題と各解答時間が表示されます<br>
-                        「Reload」ボタンを押した問題は赤色で表示されます<br>
+                        スコアが0以下になると強制的にGive Upとなります<br>
                         <br>
                         <br>
                         <br>
@@ -487,8 +483,21 @@
                         <br>
                         <br>
                         リザルト画面で「Registration」ボタンを押すと<br>
-                        1~12文字の名前とスコアを登録することができます<br>
-                        公序良俗に反する名前は使用しないでください<br>
+                        1~12文字の名前でスコアを登録することができます<br>
+                        公序良俗に反する名前は使用しないでください<br><br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        挑戦途中でGive Upした場合と<br>
+                        リザルト画面で「Detail」ボタンを押した場合、<br>
+                        ランキング画面でデータを選択した場合では<br>
+                        それらの挑戦で出題された問題、解答、解答時間が表示されます<br>
+                        「Reload」ボタンを押した問題は背景色が赤色に変更され<br>
+                        ModeがLunaticの場合は後述するtargetも確認できます<br>
                         <br>
                         <br>
                         <br>
@@ -497,7 +506,7 @@
                         <br>
                         <br>
                         <br>
-                        <span style="font-size: 100px;">各種設定</span>
+                        <span style="font-size: 100px;">各Mode仕様</span>
                         <br>
                         <br>
                         <br>
@@ -506,7 +515,7 @@
                         <br>
                         <br>
                         <br>
-                        難易度は
+                        Modeは
                         <span style="font-size: 40px; color: yellow;">Easy </span>
                         <span style="font-size: 40px; color: green;">Normal </span>
                         <span style="font-size: 40px; color: blue;">Hard </span>
@@ -525,7 +534,7 @@
                         <br>
                         <br>
                         <span style="font-size: 30px; color: yellow;">Easy </span>
-                        では1~9までの数字を用い<br>
+                        では1~9までの数字を並べ替え<br>
                         括弧を使わず演算子を1~2か所変更するだけで10になります<br>
                         <span style="font-size: 20px; line-height: 15px;">
                             ※ 解答に「 ×」もしくは「 ÷」記号を用いる場合は1か所の変更で<br>
@@ -539,7 +548,7 @@
                         <br>
                         <br>
                         <span style="font-size: 30px; color: green;">Normal</span>
-                        では1~9までの数字を用い<br>
+                        では1~9までの数字を並べ替え<br>
                         演算子を2か所以上変更するか<br>
                         演算子1か所のみの変更でも括弧を用いる必要があります<br>
                         <br>
@@ -551,7 +560,7 @@
                         <br>
                         <br>
                         <span style="font-size: 30px; color: blue;">Hard</span>
-                        では1~19までの数字を用い<br>
+                        では1~19までの数字を並べ替え<br>
                         演算子を2か所以上変更するか<br>
                         演算子1か所のみの変更でも括弧を用いる必要があります<br>
                         <br>
@@ -563,10 +572,10 @@
                         <br>
                         <br>
                         <span style="font-size: 30px; color: red;">Lunatic</span>
-                        は非常に難しいモードです<br>
-                        Normal 以上の難易度でRank:Sを獲得すると選択できます<br>
-                        このモードは他モードと少しルールが異なりますが<br>
-                        実際のプレイで確かめてみてください<br>
+                        は非常に難しいModeです<br>
+                        Normal か Hard でRank:Sを獲得すると選択できます<br>
+                        0.5単位の少数を含む1~19までの数値を用いて<br>
+                        問題ごとに変更されるtargetの値になる式を作ります<br>
                         <br>
                         <br>
                         <br>
@@ -585,6 +594,7 @@
                         <br>
                         <br>
                         タイトルをクリックするとMenu画面に移ります<br>
+                        挑戦中はMenu画面に移ることはできません<br>
                         「Ranking」ボタンを押すとモード別ランキングが見られます<br>
                         「Config」ボタンを押すとキー操作の割り当て等ができます<br>
                         <br>
@@ -596,8 +606,9 @@
                         <br>
                         <br>
                         Ranking画面はモード別スコア順にプレイヤーが表示されます<br>
-                        データをクリックするとプレイヤーの解いた問題が見られます<br>
-                        画面下のボタンを押すと表示するランキングが変わります<br>
+                        始めはNormalのスコアランキングが表示されていますが
+                        画面下のボタンを押すと表示するランキングのModeが変わります<br>
+                        データをクリックすると解いた問題、解答、解答時間が見られます<br>
                         <br>
                         <br>
                         <br>
@@ -659,8 +670,7 @@
                         <br>
                         <br>
                         <br>
-                        社内ポータルで使うvue.jsの練習として適当に作って<br>
-                        と言われたのがきっかけでしたが、こんなになるとは...<br>
+                        vue.jsの練習として適当に作っていたのがこんなになるとは...<br>
                         <br>
                         <br>
                         とりあえず10問正解の時間を計りたいと思って作り始め<br>
@@ -678,7 +688,7 @@
                         <br>
                         <br>
                         画面にタイマーを表示していたけれど<br>
-                        スコアを直接表示した方がいいと思って修正<br>
+                        スコアを直接表示した方がいいと思って修正し<br>
                         <br>
                         <br>
                         自分のスコアを残したいからランキングを作ろうと考えて<br>
@@ -696,7 +706,7 @@
                         一回の動作で演算子を変えたいと思ってフリック入力を作り<br>
                         <br>
                         <br>
-                        それ以前にマウスの移動が時間のロスにつながると考えて<br>
+                        それ以前にマウスの移動が時間のロスにつながると考え<br>
                         キーボード入力を作り<br>
                         <br>
                         <br>
@@ -711,9 +721,9 @@
                         <span style="font-size: 32px;">
                             いかに自分の能力を損失なく数値に変換できるか<br>
                         </span>
-                        ということでした<br>
+                        ということなので<br>
                         初めからそれを念頭に仕様を考えるべきで<br>
-                        そうすればキーボード入力は必然だと思います<br>
+                        そうすればキーボード入力は必然でした<br>
                         <br>
                         <br>
                         外部APIを使うランキングの実装が一番大変でした<br>
@@ -726,23 +736,28 @@
                         もっといい案誰かください<br>
                         <br>
                         <br>
+                        小学生時の教頭先生が数学を専攻していたらしく<br>
+                        バスの中で僕にこのゲームを教えてくれて<br>
+                        そのバスの中で車のナンバーから一緒に考えてました<br>
+                        <br>
+                        <br>
+                        教頭先生はしばらく前に亡くなりましたが<br>
+                        あの頃のことが今こうして<br>
+                        自分に影響を与えているのが少し感慨深いです<br>
+                        <br>
+                        <br>
+                        <br>
                         Googleが2013年に<br>
                         「1, 1, 5, 8」で10を作れるか？<br>
                         という広告を出して話題になった10パズル<br>
                         <br>
                         <br>
-                        答えを考えるのも楽しいし<br>
-                        分からなかったとしても解法を見て<br>
-                        「それがあったか～」とよく思います<br>
                         <br>
                         <br>
                         <br>
                         <br>
                         <br>
-                        <br>
-                        <br>
-                        <br>
-                        "シコウ"を楽しめる人なら楽しいと思います<br>
+                        "シコウ"が好きな人なら楽しめると思います<br>
                         <br>
                         <br>
                         <br>
@@ -863,7 +878,8 @@
                         <div id="registTitle" cless="registTitle">Ranking Registration</div>
                         <div style="margin-top: 40px;">　Score : {{score}}　</div>
                         <div>
-                            <input type="text" id="registName" name="registName" maxlength="12" required>
+                            <input type="text" id="registName" name="registName" maxlength="12" required
+                                v-model="registName">
                         </div>
                         <div id="warningWrapper">
                             <div id="normalText" style="font-size: 30px" style="font-size: 20px">1～12 characters can be
@@ -987,8 +1003,7 @@
                         </div>
                     </div>
                     <div id="rankingContentOD" class="rankingContent" v-if="showRankingLunatic">
-                        <div id="rankDetailOD" class="rankDetail" 
-                        v-for="(data, index) in rankingDataOD.data"
+                        <div id="rankDetailOD" class="rankDetail" v-for="(data, index) in rankingDataOD.data"
                             v-on:click="showUserQuestion(index)">
                             <div id="rankNum" class="rankVal">
                                 <span>
@@ -1012,20 +1027,30 @@
                             </div>
                         </div>
                     </div>
-                    <button id="rankingModeChange" class="modeChangeButton" v-on:click="rankingModeChange()">Click : {{
-                        rankingDisplayMode[(modeIndex + 1) % rankingDisplayMode.length] }}
-                    </button>
+                    <div id="rankingModeChangeWrapper">
+                        <button id="rankingModeChangeBefore" class="modeChangeButton"
+                            v-on:click="rankingModeChangeBefore()">Click: {{
+                            rankingDisplayMode[(modeIndex + 3) % rankingDisplayMode.length] }}
+                        </button>
+                        <button id="rankingModeChange" class="modeChangeButton" v-on:click="rankingModeChange()">Click:
+                            {{
+                            rankingDisplayMode[(modeIndex + 1) % rankingDisplayMode.length] }}
+                        </button>
+                    </div>
                 </div>
                 <div v-if="rankingDetailFlag" class="result">
-                    <div id="rankingDetailTitle"
-                    v-bind:style="{
-                        color: 
-                        rankingDisplayMode[modeIndex] === 'Normal' ? 'green' : 
-                        (rankingDisplayMode[modeIndex] === 'Easy' ? 'yellow' : 
-                        (rankingDisplayMode[modeIndex] === 'Hard' ? 'blue' : 
-                        (rankingDisplayMode[modeIndex] === 'Lunatic' ? 'red' : '')))
-                    }">
-                    {{rankingDetailUser}} : {{rankingDetailScore}}
+                    <div id="rankingDetailWrapper">
+                        <div id="rankingDetailTitle" v-bind:style="{
+                            color: 
+                            rankingDisplayMode[modeIndex] === 'Normal' ? 'green' : 
+                            (rankingDisplayMode[modeIndex] === 'Easy' ? 'yellow' : 
+                            (rankingDisplayMode[modeIndex] === 'Hard' ? 'blue' : 
+                            (rankingDisplayMode[modeIndex] === 'Lunatic' ? 'red' : '')))
+                        }">
+                            {{rankingDetailUser}} : {{rankingDetailScore}}
+                        </div>
+                        <button id="closeRankingDetail" v-on:click="closeRankingDetail()">←
+                        </button>
                     </div>
                     <div v-for="(detail, index) in rankingUserDetail"
                         v-bind:style="{ backgroundColor: detail.reload == true ? 'rgba(255, 0, 51, 0.6)' : '' }"
@@ -1063,13 +1088,11 @@
                             {{ detail.intervalTime + "s"}}
                         </div>
                     </div>
-                    <button id="closeRankingDetail" class="backButton" v-on:click="closeRankingDetail()">←
-                    </button>
                 </div>
                 <div id="header" v-bind:class="{'headerIsStarted': startFlag}" @mouseover="handleMouseOver"
                     @mouseleave="handleMouseLeave">
                     <div class="title" v-if="!isHoveredTitle && mode !== 'Lunatic'">
-                        {{ title }}
+                        {{ target + " Puzzle"}}
                     </div>
                     <div class="lunaticTitle" v-if="!isHoveredTitle && mode == 'Lunatic'">
                         {{ target + " Puzzle"}}
@@ -1085,169 +1108,132 @@
                         　　　Target :　{{target}}</div>
                 </div>
                 <div id="formulaBody">
-                    <div id="firstBra" 
+                    <div id="firstBra"
                         @mouseenter="isHovered0 = mode !== 'Lunatic', isLunaticHovered0 = mode === 'Lunatic'"
-                        @mouseleave="isHovered0 = false, isLunaticHovered0 = false"
-                        v-bind:class="{
+                        @mouseleave="isHovered0 = false, isLunaticHovered0 = false" v-bind:class="{
                         'hovered0': isHovered0,
                         'hovered3': isHovered3, 
                         'lunaticHovered0': isLunaticHovered0,
                         'lunaticHovered3': isLunaticHovered3, 
                         'LunaticBra':mode == 'Lunatic', 
-                        'brackets formula':mode != 'Lunatic'}"
-                        v-on:click="braChange(0)">
+                        'brackets formula':mode != 'Lunatic'}" v-on:click="braChange(0)">
                         {{ brackets[0] }}
                     </div>
 
-                    <div
-                    id="addSym" 
-                    :class="{
+                    <div id="addSym" :class="{
                         symbol: mode !== 'Lunatic',
-                        lunaticSym: mode == 'Lunatic'}" 
-                    v-on:click="addSymChange">
+                        lunaticSym: mode == 'Lunatic'}" v-on:click="addSymChange">
                         {{ addSym[0] }}
                     </div>
 
-                    <div id="firstN" type="math"
-                        v-bind:class="{
+                    <div id="firstN" type="math" v-bind:class="{
                         'lunaticClickAct':LunaticNBChange[0], 
                         'clickAct':numBackChange[0], 
                         'lunaticNum':mode == 'Lunatic', 
-                        'numbers formula':mode != 'Lunatic'}"
-                        v-on:click="numReplace('first')">
+                        'numbers formula':mode != 'Lunatic'}" v-on:click="numReplace('first')">
                         {{ numbers[0]}}
                     </div>
 
-                    <div id="firstSymbol" 
-                    :class="{
+                    <div id="firstSymbol" :class="{
                         dragging: isDragging && selectedSym === 0,
                         symbol: mode !== 'Lunatic',
                         lunaticSym: mode == 'Lunatic'
-                    }" 
-                    @mousedown="startDrag(0, $event)"
-                        @mousemove="drag($event)" @mouseup="endDrag" @mouseleave="endDrag" @click="changeOpeClick(0)"
-                        ref="draggable0">
+                    }" @mousedown="startDrag(0, $event)" @mousemove="drag($event)" @mouseup="endDrag"
+                        @mouseleave="endDrag" @click="changeOpeClick(0)" ref="draggable0">
                         {{ symValue[0] }}
                     </div>
 
-                    <div id="secondBra" 
-                    @mouseenter="isHovered1 = mode !== 'Lunatic', isLunaticHovered1 = mode === 'Lunatic'" 
-                    @mouseleave="isHovered1 = false, isLunaticHovered1 = false"
-                        v-bind:class="{
+                    <div id="secondBra"
+                        @mouseenter="isHovered1 = mode !== 'Lunatic', isLunaticHovered1 = mode === 'Lunatic'"
+                        @mouseleave="isHovered1 = false, isLunaticHovered1 = false" v-bind:class="{
                             'hovered1': isHovered1, 
                             'hovered4': isHovered4, 
                             'lunaticHovered1': isLunaticHovered1,
                             'lunaticHovered4': isLunaticHovered4, 
                             'LunaticBra':mode == 'Lunatic', 
-                            'brackets formula':mode != 'Lunatic'}"
-                        v-on:click="braChange(1)">
+                            'brackets formula':mode != 'Lunatic'}" v-on:click="braChange(1)">
                         {{ brackets[1] }}
                     </div>
 
-                    <div id="secondN" type="math" 
-                        v-bind:class="{
+                    <div id="secondN" type="math" v-bind:class="{
                             'lunaticClickAct':LunaticNBChange[1], 
                             'clickAct':numBackChange[1], 
                             'lunaticNum':mode == 'Lunatic', 
-                            'numbers formula':mode != 'Lunatic'}"
-                        v-on:click="numReplace('second')">
+                            'numbers formula':mode != 'Lunatic'}" v-on:click="numReplace('second')">
                         {{ numbers[1] }}
                     </div>
 
-                    <div 
-                    @mouseenter="isHovered0 = mode !== 'Lunatic', isLunaticHovered0 = mode === 'Lunatic'" 
-                    @mouseleave="isHovered0 = false, isLunaticHovered0 = false"
-                        v-bind:class="{
+                    <div @mouseenter="isHovered0 = mode !== 'Lunatic', isLunaticHovered0 = mode === 'Lunatic'"
+                        @mouseleave="isHovered0 = false, isLunaticHovered0 = false" v-bind:class="{
                             'hovered0': isHovered0,
                             'lunaticHovered0': isLunaticHovered0,   
                             'LunaticBra':mode == 'Lunatic', 
-                            'brackets formula':mode != 'Lunatic'}"
-                        id="thirdBra" v-on:click="braChange(2)">
+                            'brackets formula':mode != 'Lunatic'}" id="thirdBra" v-on:click="braChange(2)">
                         {{ brackets[2] }}
                     </div>
 
-                    <div id="secondSymbol" 
-                    :class="{ 
+                    <div id="secondSymbol" :class="{ 
                     dragging: isDragging && selectedSym === 1, 
                     symbol: mode !== 'Lunatic',
-                    lunaticSym: mode == 'Lunatic'}" 
-                    @mousedown="startDrag(1, $event)"
-                    @mousemove="drag($event)" 
-                    @mouseup="endDrag" @mouseleave="endDrag" 
-                    @click="changeOpeClick(1)"
-                    ref="draggable1">
+                    lunaticSym: mode == 'Lunatic'}" @mousedown="startDrag(1, $event)" @mousemove="drag($event)"
+                        @mouseup="endDrag" @mouseleave="endDrag" @click="changeOpeClick(1)" ref="draggable1">
                         {{ symValue[1] }}
                     </div>
 
-                    <div 
-                    @mouseenter="isHovered2 = mode !== 'Lunatic', isLunaticHovered2 = mode === 'Lunatic'" 
-                    @mouseleave="isHovered2 = false, isLunaticHovered2 = false"
-                        v-bind:class="{
+                    <div @mouseenter="isHovered2 = mode !== 'Lunatic', isLunaticHovered2 = mode === 'Lunatic'"
+                        @mouseleave="isHovered2 = false, isLunaticHovered2 = false" v-bind:class="{
                             'hovered2': isHovered2, 
                             'lunaticHovered2': isLunaticHovered2, 
                             'LunaticBra':mode == 'Lunatic', 
-                            'brackets formula':mode != 'Lunatic'}"
-                        id="forthBra" v-on:click="braChange(3)">
+                            'brackets formula':mode != 'Lunatic'}" id="forthBra" v-on:click="braChange(3)">
                         {{ brackets[3] }}
                     </div>
 
-                    <div type="math"
-                        v-bind:class="{
+                    <div type="math" v-bind:class="{
                             'lunaticClickAct':LunaticNBChange[2], 
                             'clickAct':numBackChange[2], 
                             'lunaticNum':mode == 'Lunatic', 
-                            'numbers formula':mode != 'Lunatic'}"
-                        id="thirdN" v-on:click="numReplace('third')">
+                            'numbers formula':mode != 'Lunatic'}" id="thirdN" v-on:click="numReplace('third')">
                         {{ numbers[2] }}
                     </div>
 
-                    <div 
-                    @mouseenter="isHovered3 = mode !== 'Lunatic', isLunaticHovered3 = mode === 'Lunatic'" 
-                    @mouseleave="isHovered3 = false, isLunaticHovered3 = false"
-                        v-bind:class="{
+                    <div @mouseenter="isHovered3 = mode !== 'Lunatic', isLunaticHovered3 = mode === 'Lunatic'"
+                        @mouseleave="isHovered3 = false, isLunaticHovered3 = false" v-bind:class="{
                             'hovered1': isHovered1,  
                             'hovered3': isHovered3, 
                             'lunaticHovered1': isLunaticHovered1,  
                             'lunaticHovered3': isLunaticHovered3, 
                             'LunaticBra':mode == 'Lunatic', 
-                            'brackets formula':mode != 'Lunatic'}"
-                        id="fifthBra" v-on:click="braChange(4)">
+                            'brackets formula':mode != 'Lunatic'}" id="fifthBra" v-on:click="braChange(4)">
                         {{ brackets[4] }}
                     </div>
 
-                    <div id="thirdSymbol" 
-                        :class="{ 
+                    <div id="thirdSymbol" :class="{ 
                             symbol: mode !== 'Lunatic',
                             lunaticSym: mode == 'Lunatic',
                             dragging: isDragging && selectedSym === 2 
-                        }" 
-                        @mousedown="startDrag(2, $event)"
-                        @mousemove="drag($event)" @mouseup="endDrag" @mouseleave="endDrag" @click="changeOpeClick(2)"
-                        ref="draggable2">
+                        }" @mousedown="startDrag(2, $event)" @mousemove="drag($event)" @mouseup="endDrag"
+                        @mouseleave="endDrag" @click="changeOpeClick(2)" ref="draggable2">
                         {{ symValue[2] }}
                     </div>
 
-                    <div type="math"
-                        v-bind:class="{
+                    <div type="math" v-bind:class="{
                             'lunaticClickAct':LunaticNBChange[3], 
                             'clickAct':numBackChange[3], 
                             'lunaticNum LunaticLastNum':mode == 'Lunatic', 
-                            'numbers formula':mode != 'Lunatic'}"
-                        id="fourthN" v-on:click="numReplace('fourth')">
+                            'numbers formula':mode != 'Lunatic'}" id="fourthN" v-on:click="numReplace('fourth')">
                         {{ numbers[3] }}
                     </div>
 
-                    <div 
-                    @mouseenter="isHovered4 = mode !== 'Lunatic', isLunaticHovered4 = mode === 'Lunatic'" 
-                    @mouseleave="isHovered4 = false, isLunaticHovered4 = false"
-                        v-bind:class="{
+                    <div @mouseenter="isHovered4 = mode !== 'Lunatic', isLunaticHovered4 = mode === 'Lunatic'"
+                        @mouseleave="isHovered4 = false, isLunaticHovered4 = false" v-bind:class="{
                             'hovered2': isHovered2, 
                             'hovered4': isHovered4, 
                             'lunaticHovered2': isLunaticHovered2, 
                             'lunaticHovered4': isLunaticHovered4, 
                             'LunaticBra':mode == 'Lunatic', 
-                            'brackets formula':mode != 'Lunatic'}"
-                        id="sixthBra" v-on:click="braChange(5)" style="width:50px">
+                            'brackets formula':mode != 'Lunatic'}" id="sixthBra" v-on:click="braChange(5)"
+                        style="width:50px">
                         {{ brackets[5] }}
                     </div>
 
@@ -1325,7 +1311,6 @@
     var all = new Vue({
         el: "#all",
         data: {
-            title: "10 Puzzle",
             numbers: ["", "", "", ""],
             passNum: ["first", "second", "third", "fourth", "fifth", "sixth"],
             selectedNum: ["", "", "", "", "", ""],
@@ -1481,7 +1466,8 @@
             subMenuFlag: true,
             isHoveredTitle: false,
             rankingDetailUser: "",
-            rankingDetailScore: ""
+            rankingDetailScore: "",
+            registName: ""
         },
         watch: {
             answer: function (ansVal) {
@@ -1811,15 +1797,9 @@
             },
             handleMouseOver() {
                 this.isHoveredTitle = true;
-                this.title = "Menu"
             },
             handleMouseLeave() {
                 this.isHoveredTitle = false;
-                if (this.mode !== "Lunatic") {
-                    this.title = "10 Puzzle"
-                } else {
-                    this.title = this.target + "Puzzle"
-                }
             },
             closeMenu() {
                 this.menuFlag = false;
@@ -1969,7 +1949,7 @@
                         this.startOrGiveUp();
                     }
                     // else if (event.key === 'z') {
-                    //     this.showResult();
+                    //     this.moveRegistScreen();
                     // }
                 } else if (this.checkDetailFlag && (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1])) {
                     this.closeDetail();
@@ -2119,7 +2099,6 @@
             },
             modeChangeEasy() {
                 this.mode = "Easy";
-                this.title = "10 Puzzle";
                 this.btnIsSelect.splice(3, 1, false);
                 this.btnIsSelect.splice(4, 1, false);
                 this.btnIsSelect.splice(5, 1, false);
@@ -2129,7 +2108,6 @@
             },
             modeChangeNormal() {
                 this.mode = "Normal";
-                this.title = "10 Puzzle";
                 this.btnIsSelect.splice(3, 1, true);
                 this.btnIsSelect.splice(4, 1, false);
                 this.btnIsSelect.splice(5, 1, false);
@@ -2139,7 +2117,6 @@
             },
             modeChangeHard() {
                 this.mode = "Hard";
-                this.title = "10 Puzzle";
                 this.btnIsSelect.splice(3, 1, false);
                 this.btnIsSelect.splice(4, 1, true);
                 this.btnIsSelect.splice(5, 1, false);
@@ -2148,8 +2125,8 @@
                 this.target = 10;
             },
             modeChangeLunatic() {
+                this.target = "??"
                 this.mode = "Lunatic";
-                this.title = "Number Puzzle";
                 this.btnIsSelect.splice(3, 1, false);
                 this.btnIsSelect.splice(4, 1, false);
                 this.btnIsSelect.splice(5, 1, true);
@@ -2745,6 +2722,12 @@
                     this.selectedNumIndexF = -1;
                     this.selectedNumTF = false;
                     this.clearedFormula = [];
+
+                    if (this.mode == "Lunatic") {
+                        this.target = "??"
+                    } else {
+                        this.target = 10
+                    }
                 } else {
                     this.start();
                     this.createNum();
@@ -2799,6 +2782,7 @@
             },
             moveRegistScreen() {
                 this.registFlag = true;
+                this.registName = localStorage.getItem('registName');
             },
             closeRegist() {
                 this.checkDetailFlag = false;
@@ -2819,6 +2803,7 @@
                     document.getElementById("normalText").style.display = "none";
                     return;
                 } else {
+                    localStorage.setItem('registName', userName);
                     // 入力内容
                     const date = new Date(); // 現在時刻
                     const year = date.getFullYear().toString().slice(-2);
@@ -2988,6 +2973,38 @@
                         break;
                 }
             },
+            rankingModeChangeBefore() {
+                switch (this.rankingDisplayMode[this.modeIndex]) {
+                    case "Easy":
+                        this.modeIndex = (this.modeIndex + 3) % this.rankingDisplayMode.length;
+                        this.showRankingEasy = false;
+                        this.showRankingNormal = false;
+                        this.showRankingHard = false;
+                        this.showRankingLunatic = true;
+                        break;
+                    case "Normal":
+                        this.modeIndex = (this.modeIndex + 3) % this.rankingDisplayMode.length;
+                        this.showRankingEasy = true;
+                        this.showRankingNormal = false;
+                        this.showRankingHard = false;
+                        this.showRankingLunatic = false;
+                        break;
+                    case "Hard":
+                        this.modeIndex = (this.modeIndex + 3) % this.rankingDisplayMode.length;
+                        this.showRankingEasy = false;
+                        this.showRankingNormal = true;
+                        this.showRankingHard = false;
+                        this.showRankingLunatic = false;
+                        break;
+                    case "Lunatic":
+                        this.modeIndex = (this.modeIndex + 3) % this.rankingDisplayMode.length;
+                        this.showRankingEasy = false;
+                        this.showRankingLunatic = false;
+                        this.showRankingHard = true;
+                        this.showRankingNormal = false;
+                        break;
+                }
+            },
             getItems() {
                 const storage = window.localStorage;
                 let rankingData = Object.entries(storage)
@@ -3084,7 +3101,7 @@
                 this.setButtonStateStopped();
                 clearTimeout(this.timeoutId);
                 this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
-                
+
                 this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloadCount)));
             },
             questionThinkTime() {
