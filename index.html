@@ -354,7 +354,7 @@
                         <br>
                         <br>
                         右上にある「-」をクリックするとこの画面を終了します<br>
-                        閉じた後はタイトルをクリック後のメニュー画面にある<br>
+                        閉じた後はタイトルをクリック後のMenu画面にある<br>
                         「How to Play」を押すと再びこの画面を表示できます<br>
                         <br>
                         説明を読まなくても直感的に操作できるよう作りましたが<br>
@@ -379,6 +379,7 @@
                         「Start」ボタンを押すとスコア計測が始まり問題が表示されます<br>
                         一度押した「Start」ボタンは「Give Up」ボタンとなり<br>
                         それを押すと挑戦を放棄してそれまでの結果を確認できます<br>
+                        画面下のModeボタンを押すと結果を確認せずMode変更します<br>
                         <br>
                         後述するキーバインドの仕様上一度StartするとGive Upまで<br>
                         F5などのキーが持つWeb操作機能は使えません<br>
@@ -522,7 +523,7 @@
                         <span style="font-size: 40px; color: red;">Lunatic </span>
                         の4種類
                         <br>
-                        画面下にあるボタンのクリックで変更できます<br>
+                        画面下にあるModeボタンのクリックで変更できます<br>
                         <span style="font-size: 20px; line-height: 15px;">
                             ※ Lunatic は初期状態では選択できません<br></span>
                         <br>
@@ -575,7 +576,7 @@
                         は非常に難しいModeです<br>
                         Normal か Hard でRank:Sを獲得すると選択できます<br>
                         0.5単位の少数を含む1~19までの数値を用いて<br>
-                        問題ごとに変更されるtargetの値になる式を作ります<br>
+                        問題ごとに変わる1~19までのtarget値になる式を作ります<br>
                         <br>
                         <br>
                         <br>
@@ -617,7 +618,8 @@
                         <br>
                         <br>
                         <br>
-                        Config画面では赤で示した部分を操作するキーを設定します<br>
+                        Config画面では赤で示した部分やボタンを操作するキーを設定します<br>
+                        それぞれ記号、数値、括弧をクリックした場合と同じ動作をします<br>
                         各操作2種類のキーまで登録可能することができます<br>
                         <br>
                         <br>
@@ -1060,10 +1062,10 @@
                         </div>
                         <div class="solvedFormula">
                             <div v-if="!showRankingLunatic">
-                                {{ (detail.formula).join(" , ").split('').join("") }}
+                                {{ (detail.formula).join(" · ").split('').join("") }}
                             </div>
                             <div v-if="showRankingLunatic" style="font-size: 32px;">
-                                {{ (detail.formula).join(", ").split('').join("") }}
+                                {{ (detail.formula).join(" · ").split('').join("") }}
                             </div>
                         </div>
 
@@ -1418,7 +1420,7 @@
             disableButton: false,
             showCorrect: false,
             correctText: "Correct!",
-            clearEffectFlag: "on",
+            clearEffectFlag: "On",
             isLoading: false,
             configFlag: false,
             eventKeyValue: [
@@ -1486,7 +1488,7 @@
                     this.clearedFormula.splice(this.clearCount, 0, currentNums);
                     if (this.clearCount == 10) {
                         this.elapsedTime = Date.now() - this.startTime - this.totalPausedTime;
-                        if (this.clearEffectFlag == "on") {
+                        if (this.clearEffectFlag == "On") {
                             this.isLoading = true;
                             this.pauseTimer();
                             setTimeout(() => {
@@ -1502,14 +1504,16 @@
                             this.showResult();
                         }
                     } else {
-                        if (this.clearEffectFlag == "on") {
+                        if (this.clearEffectFlag == "On") {
                             this.isLoading = true;
                             this.pauseTimer();
                             setTimeout(this.createNum, 1500);
                             setTimeout(() => {
                                 this.isLoading = false;
                             }, 1500);
-                            if (this.clearCount == 9) {
+                            if (this.clearCount == 5) {
+                                this.correctText = "Halfway There!"
+                            } else if (this.clearCount == 9) {
                                 this.correctText = "LAST!"
                             } else {
                                 this.correctText = "Correct!"
@@ -1956,10 +1960,10 @@
                 }
             },
             clearEffectChange() {
-                if (this.clearEffectFlag == "on") {
-                    this.clearEffectFlag = "off";
+                if (this.clearEffectFlag == "On") {
+                    this.clearEffectFlag = "Off";
                 } else {
-                    this.clearEffectFlag = "on";
+                    this.clearEffectFlag = "On";
                 }
             },
             correctProcess() {
