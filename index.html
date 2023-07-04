@@ -357,7 +357,7 @@
                         </span>
                         というゲームに着想を得たアプリです<br>
                         与えられた4つの数字に対して、四則演算子と括弧を用いて<br>
-                        いかに早く10になる式を作れるか競います<br>
+                        いかに早く10になる式を10回作れるか競います<br>
                         <span style="font-size: 20px; line-height: 15px;">
                             ※ このウィンドゥをスクロールで続く<br></span>
                         <br>
@@ -391,11 +391,29 @@
                         <br>
                         <br>
                         <br>
-                        「Start」ボタンを押すとスコア計測が始まり問題が表示されます<br>
+                        「Start」ボタンを押すとスコア計測が始まり<br>
+                        ランダムな数値が左から小順で4つ格納されます<br>
+                        表示される数値で必ず10になる式を作ることができ<br>
+                        一度の挑戦で同じ数値が格納されることはありません<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
                         一度押した「Start」ボタンは「Give Up」ボタンとなり<br>
                         それを押すと挑戦を放棄してそれまでの結果を確認できます<br>
                         Give Upするとスコアの登録はできません<br>
                         画面下のModeボタンを押すと結果を確認せずMode変更します<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
                         <br>
                         後述するキーバインドの仕様上一度StartするとGive Upまで<br>
                         F5などのキーが持つWeb操作機能は使えません<br>
@@ -513,7 +531,8 @@
                         リザルト画面で「Detail」ボタンを押した場合、<br>
                         ランキング画面でデータを選択した場合では<br>
                         それらの挑戦で出題された数字、解答、解答時間が表示されます<br>
-                        解答は正解の一例であり、正答した際の式ではありません<br>
+                        <br>
+                        解答は正解の一例であり、正答時の式ではありません<br>
                         「Reload」ボタンを押した問題は背景色が赤色に変更され<br>
                         ModeがLunaticの場合は後述するtargetも確認できます<br>
                         <br>
@@ -1293,7 +1312,7 @@
                     </div>
                 </div>
                 <div id="buttonWrapper">
-                    <button type="button" id="startButton" v-on:click="playOperationClickSound(); startOrGiveUp()"
+                    <button type="button" id="startButton" v-on:click="startOrGiveUp()"
                         v-bind:class=" {'lunaticButton LunaticStartButton':mode=='Lunatic'
                         , 'buttons startButton' :mode !='Lunatic' }">
                         <div class="diamondText">
@@ -1303,14 +1322,14 @@
                     </button>
                     <button type="button"
                         v-bind:class="{'lunaticButton ':mode == 'Lunatic', 'buttons reloadButton':mode != 'Lunatic', 'disabledButton': reloadCount == 0 || startFlag !== true || disableButton}"
-                        id="reloadButton" v-on:click="playOperationClickSound(); reloadClick(); createNum();">
+                        id="reloadButton" v-on:click="reloadClick(); createNum();">
                         <div class="diamondText">
                             Reload
                         </div>
                     </button>
                     <button type="button"
                         v-bind:class="{'lunaticButton':mode == 'Lunatic', 'buttons':mode != 'Lunatic', 'disabledButton': startFlag !== true}"
-                        id="resetButton" v-on:click="playOperationClickSound(); resetFormula();">
+                        id="resetButton" v-on:click="resetFormula();">
                         <div class="diamondText">
                             Reset
                         </div>
@@ -1571,18 +1590,18 @@
                             this.pauseTimer();
                             setTimeout(() => {
                                 this.isLoading = false;
-                            }, 1500);
+                            }, 2500);
                             this.correctText = "CLEAR!"
                             this.startColorChange();
 
                             setTimeout(() => {
+                                this.isPaused = false;
                                 this.showResult();
                             }, 2500);
                         } else {
                             this.showResult();
                         }
                         this.stopBGM();
-                        this.isPaused = false;
                     } else {
                         if (this.clearEffectFlag == "On") {
                             this.isLoading = true;
@@ -1997,7 +2016,7 @@
             },
             playOperationClickSound() {
                 if (this.seFlag) {
-                    this.audioOperationClickSE.pause();
+                    // this.audioOperationClickSE.pause();
                     this.audioOperationClickSE.currentTime = 0;
                     this.audioOperationClickSE.play();
                 }
@@ -2011,21 +2030,21 @@
             },
             playSymClickSound() {
                 if (this.seFlag) {
-                    this.audioSymChangeSE.pause();
+                    // this.audioSymChangeSE.pause();
                     this.audioSymChangeSE.currentTime = 0;
                     this.audioSymChangeSE.play();
                 }
             },
             playNumClickSound() {
                 if (this.seFlag) {
-                    this.audioNumChangeSE.pause();
+                    // this.audioNumChangeSE.pause();
                     this.audioNumChangeSE.currentTime = 0;
                     this.audioNumChangeSE.play();
                 }
             },
             playContentClickSound() {
                 if (this.seFlag) {
-                    this.audioContentClickSE.pause();
+                    // this.audioContentClickSE.pause();
                     this.audioContentClickSE.currentTime = 0;
                     this.audioContentClickSE.play();
                 }
@@ -2099,7 +2118,7 @@
                 this.editFlag = false;
             },
             handleKeyDown(event) {
-                if (event.key == "Enter") {
+                if (event.key == "Enter" || event.keyCode === 32) {
                     event.preventDefault();
                 }
                 if (!this.subMenuFlag) {
@@ -2169,16 +2188,13 @@
                             if (!this.disableButton && this.reloadCount !== 0) {
                                 // リロード
                                 this.reloadClick();
-                                this.playOperationClickSound();
                                 this.createNum();
                             }
                         } else if (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1]) {
                             // 開始
-                            this.playOperationClickSound();
                             this.startOrGiveUp();
                         } else if (event.key === this.eventKeyValue[15][0] || event.key === this.eventKeyValue[15][1]) {
                             // リセット
-                            this.playOperationClickSound();
                             this.resetFormula();
                         }
                         // else if (event.key === 'z') {
@@ -2195,7 +2211,6 @@
                     // ギブアップ時の詳細を閉じる
                     this.playButtonBackSound();
                     this.closeDetail();
-
                 }
             },
             clearEffectChange() {
@@ -2852,6 +2867,7 @@
                 this.resetBra();
                 this.numbers.sort((a, b) => a - b);
                 this.selectedNumTF = false;
+                this.playOperationClickSound();
             },
             resetBra() {
                 for (let i = 0; i < this.brackets.length; i++) {
@@ -2925,6 +2941,7 @@
                 }
             },
             reloadClick() {
+                this.playOperationClickSound();
                 this.addDetail();
                 this.answerDetail[this.questionCount].reload = true;
                 if (this.reloadCount > 0) {
@@ -3026,8 +3043,10 @@
                         this.createNum();
                     }
                 }
+                this.playOperationClickSound();
             },
             showHowToPlay() {
+                this.playContentClickSound();
                 this.subMenuFlag = true;
                 this.HTPFlag = true;
             },
