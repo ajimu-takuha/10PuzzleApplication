@@ -577,7 +577,7 @@ body {
 
 .rankDetail:hover {
   color: #000000;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.95);
   transition: 0.1s;
 }
 
@@ -826,10 +826,12 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.5);
+  height: 150px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #000000;
+  width: 15px;
+  background: #ffffff;
 }
 
 #tryButton {
@@ -1466,20 +1468,48 @@ body {
   bottom: -1px;
 }
 
-
-#rankingModeChangeBefore {
+#rankingModeChangeEasy {
   border-left: none;
   border-right: dashed rgba(255, 255, 255, 0.5) 1px;
+  color: yellow;
 }
 
-#rankingModeChange {
-  padding: 0%;
-}
-
-.modeChangeButton:hover {
+#rankingModeChangeEasy:hover {
   color: black;
   background-color: white;
 }
+
+#rankingModeChangeNormal {
+  border-left: none;
+  border-right: dashed rgba(255, 255, 255, 0.5) 1px;
+  color: green;
+}
+
+#rankingModeChangeNormal:hover {
+  color: black;
+  background-color: white;
+}
+
+#rankingModeChangeHard {
+  border-left: none;
+  border-right: dashed rgba(255, 255, 255, 0.5) 1px;
+  color: blue;
+}
+
+#rankingModeChangeHard:hover {
+  color: black;
+  background-color: white;
+}
+
+#rankingModeChangeLunatic {
+  color: red;
+}
+
+#rankingModeChangeLunatic:hover {
+  color: black;
+  background-color: white;
+}
+
 
 #resetButton {
   /* font-size: 28px; */

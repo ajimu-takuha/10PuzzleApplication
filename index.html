@@ -40,16 +40,21 @@
                                     Menu
                                 </span>
                             </div>
-                            <div class="closeWrapper" v-on:click="closeMenu()">
+                            <div class="closeWrapper" v-on:click="closeMenu(); playButtonBackSound()">
                             </div>
                             <button id="closeMenu" class="closeButton"></button>
                         </div>
                     </div>
-                    <button id="rankingButton" class="menuContent" v-on:click="showRanking()">Ranking</button>
-                    <button id="configButton" class="menuContent" v-on:click="showConfig()">
+                    <button id="rankingButton" class="menuContent" v-on:click="showRanking();"
+                        @mouseover="playMouseOverSound()">
+                        Ranking
+                    </button>
+                    <button id="configButton" class="menuContent" v-on:click="showConfig();"
+                        @mouseover="playMouseOverSound()">
                         Config
                     </button>
-                    <button id="showHTPButton" class="menuContent" v-on:click="showHowToPlay()">
+                    <button id="showHTPButton" class="menuContent" v-on:click="showHowToPlay();"
+                        @mouseover="playMouseOverSound()">
                         How to Play
                     </button>
                 </div>
@@ -305,15 +310,25 @@
                     </div>
 
 
-                    <button class="configContent" v-on:click="resetConfigDefault()">Reset Assigned Keys to Default
+                    <button class="configContent" v-on:click="resetConfigDefault(); playContentClickSound()">Reset
+                        Assigned Keys to Default
                     </button>
 
-                    <button class="configContent" v-on:click="inputModeChange()">Arithmetic Operator Change : {{
+                    <button class="configContent" v-on:click="inputModeChange(); playContentClickSound()">Arithmetic
+                        Operator Change : {{
                         inputMode }}
                     </button>
 
-                    <button class="configContent" v-on:click="clearEffectChange()">Effect : {{
+                    <button class="configContent" v-on:click="clearEffectChange(); playContentClickSound()">Effect : {{
                         clearEffectFlag }}
+                    </button>
+
+                    <button class="configContent" v-on:click="seChange(); playContentClickSound()">SE : {{
+                        seFlagDisplay }}
+                    </button>
+
+                    <button class="configContent" v-on:click="bgmChange(); playContentClickSound()">BGM : {{
+                        bgmFlagDisplay }}
                     </button>
                 </div>
 
@@ -328,7 +343,7 @@
                                     How to Play
                                 </span>
                             </div>
-                            <div class="closeWrapper" v-on:click="closeHowToPlay()">
+                            <div class="closeWrapper" v-on:click="closeHowToPlay(); playButtonBackSound()">
                             </div>
                             <button id="closeHowToPlay" class="closeButton"></button>
                         </div>
@@ -379,6 +394,7 @@
                         「Start」ボタンを押すとスコア計測が始まり問題が表示されます<br>
                         一度押した「Start」ボタンは「Give Up」ボタンとなり<br>
                         それを押すと挑戦を放棄してそれまでの結果を確認できます<br>
+                        Give Upするとスコアの登録はできません<br>
                         画面下のModeボタンを押すと結果を確認せずMode変更します<br>
                         <br>
                         後述するキーバインドの仕様上一度StartするとGive Upまで<br>
@@ -496,7 +512,8 @@
                         挑戦途中でGive Upした場合と<br>
                         リザルト画面で「Detail」ボタンを押した場合、<br>
                         ランキング画面でデータを選択した場合では<br>
-                        それらの挑戦で出題された問題、解答、解答時間が表示されます<br>
+                        それらの挑戦で出題された数字、解答、解答時間が表示されます<br>
+                        解答は正解の一例であり、正答した際の式ではありません<br>
                         「Reload」ボタンを押した問題は背景色が赤色に変更され<br>
                         ModeがLunaticの場合は後述するtargetも確認できます<br>
                         <br>
@@ -574,9 +591,10 @@
                         <br>
                         <span style="font-size: 30px; color: red;">Lunatic</span>
                         は非常に難しいModeです<br>
-                        Normal か Hard でRank:Sを獲得すると選択できます<br>
                         0.5単位の少数を含む1~19までの数値を用いて<br>
                         問題ごとに変わる1~19までのtarget値になる式を作ります<br>
+                        Normal か Hard でRank:Sを獲得すると選択できます<br>
+                        Normal では900以上、Hard では850以上のスコアが必要です<br>
                         <br>
                         <br>
                         <br>
@@ -606,10 +624,10 @@
                         <br>
                         <br>
                         <br>
-                        Ranking画面はモード別スコア順にプレイヤーが表示されます<br>
-                        始めはNormalのスコアランキングが表示されていますが
+                        Ranking画面は登録されたプレイヤーのスコアが表示されます<br>
+                        現在のModeのランキングが表示され<br>
                         画面下のボタンを押すと表示するランキングのModeが変わります<br>
-                        データをクリックすると解いた問題、解答、解答時間が見られます<br>
+                        データをクリックすると解いた問題の詳細が見られます<br>
                         <br>
                         <br>
                         <br>
@@ -652,7 +670,13 @@
                         のようにフリック方向によって演算子が変更されます<br>
                         <br>
                         <br>
-                        「Effect」をクリックすると正解時の演出を消せます<br>
+                        「Effect」をクリックすると正解時の演出を消して<br>
+                        すぐに次の問題へ進みます<br>
+                        <br>
+                        「SE」をクリックするとクリック時等の音を消せます<br>
+                        <br>
+                        <br>
+                        「BGM」をクリックすると挑戦時のBGMを消せます<br>
                         <br>
                         <br>
                         <br>
@@ -716,6 +740,10 @@
                         割り当て機能を作り<br>
                         <br>
                         <br>
+                        どうせなら入力音があった方がいいと思って<br>
+                        入力音とBGMを設定し<br>
+                        <br>
+                        <br>
                         何も考えないで作るもんじゃなかった...<br>
                         <br>
                         <br>
@@ -742,10 +770,15 @@
                         バスの中で僕にこのゲームを教えてくれて<br>
                         そのバスの中で車のナンバーから一緒に考えてました<br>
                         <br>
+                        今でも暇さえあればナンバーを見て考えています<br>
                         <br>
-                        教頭先生はしばらく前に亡くなりましたが<br>
+                        教頭先生はだいぶ前に亡くなりましたが<br>
                         あの頃のことが今こうして<br>
                         自分に影響を与えているのが少し感慨深いです<br>
+                        ありがとうございました<br>
+                        <br>
+                        <br>
+                        <br>
                         <br>
                         <br>
                         <br>
@@ -772,7 +805,9 @@
                         <a href="mailto:decoy.dummy.ac@gmail.com">decoy.dummy.ac@gmail.com</a><br>
                         までご連絡ください<br>
                         <br>
-                        <br>
+                        <span style="font-size: 20px;">
+                            ・使用BGM : 魔王魂　　 ・使用SE : 効果音ラボ<br>
+                        </span>
                         <br>
                     </p>
                 </div>
@@ -831,7 +866,7 @@
                             Detail
                         </button>
                     </div>
-                    <div class="closeWrapper" v-on:click="closeResult()">
+                    <div class="closeWrapper" v-on:click="playButtonBackSound(); closeResult();">
                     </div>
                     <button id="closeResult"></button>
                 </div>
@@ -870,12 +905,12 @@
                                 {{ detail.intervalTime + "s"}}
                             </div>
                         </div>
-                        <button id="closeDetail" class="backButton" v-on:click="closeDetail()">←
+                        <button id="closeDetail" class="backButton" v-on:click="closeDetail(), playButtonBackSound()">←
                         </button>
                 </template>
                 <div v-if="registFlag">
                     <div id="registScreen" class="result">
-                        <button id="closeRegist" class="backButton " v-on:click="closeRegist()">←
+                        <button id="closeRegist" class="backButton " v-on:click="closeRegist(), playButtonBackSound()">←
                         </button>
                         <div id="registTitle" cless="registTitle">Ranking Registration</div>
                         <div style="margin-top: 40px;">　Score : {{score}}　</div>
@@ -910,9 +945,9 @@
                                 </span>
                                 Ranking
                             </div>
-                            <div class="closeWrapper" v-on:click="closeRanking()">
+                            <div class="closeWrapper" v-on:click="closeRanking(), playButtonBackSound()">
                             </div>
-                            <button id="closeRanking" class="closeButton"></button>
+                            <button id="closeRanking" class="closeButton "></button>
                         </div>
                         <div id="rankingItem">
                             <div id="space" class="items">
@@ -931,7 +966,7 @@
                     </div>
                     <div id="rankingContentEasy" class="rankingContent" v-if="showRankingEasy">
                         <div id="rankDetail" class="rankDetail" v-for="(data, index) in rankingDataEasy.data"
-                            v-on:click="showUserQuestion(index)">
+                            v-on:click="showUserQuestion(index), playContentClickSound()">
                             <div id="rankNum" class="rankVal">
                                 <span>
                                     {{ index + 1 }}
@@ -956,7 +991,7 @@
                     </div>
                     <div id="rankingContentNormal" class="rankingContent" v-if="showRankingNormal">
                         <div id="rankDetail" class="rankDetail" v-for="(data, index) in rankingDataNormal.data"
-                            v-on:click="showUserQuestion(index)">
+                            v-on:click="showUserQuestion(index), playContentClickSound()">
                             <div id="rankNum" class="rankVal">
                                 <span>
                                     {{ index + 1 }}
@@ -981,7 +1016,7 @@
                     </div>
                     <div id="rankingContentHard" class="rankingContent" v-if="showRankingHard">
                         <div id="rankDetailHard" class="rankDetail" v-for="(data, index) in rankingDataHard.data"
-                            v-on:click="showUserQuestion(index)">
+                            v-on:click="showUserQuestion(index), playContentClickSound()">
                             <div id="rankNum" class="rankVal">
                                 <span>
                                     {{ index + 1 }}
@@ -1006,7 +1041,7 @@
                     </div>
                     <div id="rankingContentOD" class="rankingContent" v-if="showRankingLunatic">
                         <div id="rankDetailOD" class="rankDetail" v-for="(data, index) in rankingDataOD.data"
-                            v-on:click="showUserQuestion(index)">
+                            v-on:click="showUserQuestion(index), playContentClickSound()">
                             <div id="rankNum" class="rankVal">
                                 <span>
                                     {{ index + 1 }}
@@ -1030,13 +1065,21 @@
                         </div>
                     </div>
                     <div id="rankingModeChangeWrapper">
-                        <button id="rankingModeChangeBefore" class="modeChangeButton"
-                            v-on:click="rankingModeChangeBefore()">Click: {{
-                            rankingDisplayMode[(modeIndex + 3) % rankingDisplayMode.length] }}
+                        <button id="rankingModeChangeEasy" class="modeChangeButton"
+                            v-on:click="rankingModeChangeEasy(), playContentClickSound()">
+                            Easy
                         </button>
-                        <button id="rankingModeChange" class="modeChangeButton" v-on:click="rankingModeChange()">Click:
-                            {{
-                            rankingDisplayMode[(modeIndex + 1) % rankingDisplayMode.length] }}
+                        <button id="rankingModeChangeNormal" class="modeChangeButton"
+                            v-on:click="rankingModeChangeNormal(), playContentClickSound()">
+                            Normal
+                        </button>
+                        <button id="rankingModeChangeHard" class="modeChangeButton"
+                            v-on:click="rankingModeChangeHard(), playContentClickSound()">
+                            Hard
+                        </button>
+                        <button id="rankingModeChangeLunatic" class="modeChangeButton"
+                            v-on:click="rankingModeChangeLunatic(), playContentClickSound()">
+                            Lunatic
                         </button>
                     </div>
                 </div>
@@ -1051,7 +1094,7 @@
                         }">
                             {{rankingDetailUser}} : {{rankingDetailScore}}
                         </div>
-                        <button id="closeRankingDetail" v-on:click="closeRankingDetail()">←
+                        <button id="closeRankingDetail" v-on:click="closeRankingDetail(), playButtonBackSound()">←
                         </button>
                     </div>
                     <div v-for="(detail, index) in rankingUserDetail"
@@ -1099,7 +1142,7 @@
                     <div class="lunaticTitle" v-if="!isHoveredTitle && mode == 'Lunatic'">
                         {{ target + " Puzzle"}}
                     </div>
-                    <div class="hovorTitle" v-if="isHoveredTitle" v-on:Click="showMenu()">
+                    <div class="hovorTitle" v-if="isHoveredTitle" v-on:Click="showMenu();">
                         Menu
                     </div>
                 </div>
@@ -1250,7 +1293,8 @@
                     </div>
                 </div>
                 <div id="buttonWrapper">
-                    <button type="button" id="startButton" v-on:click="startOrGiveUp()" v-bind:class=" {'lunaticButton LunaticStartButton':mode=='Lunatic'
+                    <button type="button" id="startButton" v-on:click="playOperationClickSound(); startOrGiveUp()"
+                        v-bind:class=" {'lunaticButton LunaticStartButton':mode=='Lunatic'
                         , 'buttons startButton' :mode !='Lunatic' }">
                         <div class="diamondText">
                             <span v-if="isStart">Give Up</span>
@@ -1259,14 +1303,14 @@
                     </button>
                     <button type="button"
                         v-bind:class="{'lunaticButton ':mode == 'Lunatic', 'buttons reloadButton':mode != 'Lunatic', 'disabledButton': reloadCount == 0 || startFlag !== true || disableButton}"
-                        id="reloadButton" v-on:click="reloadClick(); createNum()">
+                        id="reloadButton" v-on:click="playOperationClickSound(); reloadClick(); createNum();">
                         <div class="diamondText">
                             Reload
                         </div>
                     </button>
                     <button type="button"
                         v-bind:class="{'lunaticButton':mode == 'Lunatic', 'buttons':mode != 'Lunatic', 'disabledButton': startFlag !== true}"
-                        id="resetButton" v-on:click="resetFormula">
+                        id="resetButton" v-on:click="playOperationClickSound(); resetFormula();">
                         <div class="diamondText">
                             Reset
                         </div>
@@ -1274,19 +1318,19 @@
                 </div>
                 <div id="modeWrapper">
                     <button v-bind:class="{modeButtons: true, EasylButton: true, btnIsSelect: btnIsSelect[6]}"
-                        v-on:click="modeChangeEasy" style="border-color: white">
+                        v-on:click="modeChangeEasy" style="border-color: white" @click="playModeClickSound">
                         Easy
                     </button>
                     <button v-bind:class="{modeButtons: true, NormalButton: true, btnIsSelect: btnIsSelect[3]}"
-                        v-on:click="modeChangeNormal" style="border-color: white">
+                        v-on:click="modeChangeNormal" style="border-color: white" @click="playModeClickSound">
                         Normal
                     </button>
                     <button v-bind:class="{modeButtons :true, HardsButton: true, btnIsSelect: btnIsSelect[4]}"
-                        v-on:click="modeChangeHard" style="border-color: white">
+                        v-on:click="modeChangeHard" style="border-color: white" @click="playModeClickSound">
                         Hard
                     </button>
                     <button id="lunaticButton" class="lunaticModeChangeButton" v-bind:class="{ lunaticIsSelected: btnIsSelect[5], 
-                        }" v-on:click="modeChangeLunatic">
+                        }" v-on:click="modeChangeLunatic" @click="playModeClickSound">
                         Lunatic
                     </button>
                 </div>
@@ -1411,7 +1455,7 @@
             showRankingLunatic: false,
             rankingDisplayMode: ["Easy", "Normal", "Hard", "Lunatic"],
             inputMode: "Click",
-            modeIndex: 1,
+            modeIndex: 0,
             elements: [
                 'firstBra', 'addSym', 'firstN', 'firstSymbol', 'secondBra', 'secondN', 'thirdBra', 'secondSymbol',
                 'forthBra', 'thirdN', 'fifthBra', 'thirdSymbol', 'fourthN', 'sixthBra', 'ecole', 'answer'
@@ -1469,7 +1513,41 @@
             isHoveredTitle: false,
             rankingDetailUser: "",
             rankingDetailScore: "",
-            registName: ""
+            registName: "",
+            audioMouseOverSEpass: 'audio/mouseOverSE.mp3',
+            audioMouseOverSE: null,
+            audioModeClickSEpass: 'audio/modeClickSE.mp3',
+            audioModeClickSE: null,
+            audioOperationClickSEpass: 'audio/operationClickSE.mp3',
+            audioOperationClickSE: null,
+            audioContentClickSEpass: 'audio/contentClickSE.mp3',
+            audioContentClickSE: null,
+            audioButtonBackSEpass: 'audio/buttonBackSE.mp3',
+            audioButtonBackSE: null,
+            audioResultSEpass: 'audio/resultSE.mp3',
+            audioResultSE: null,
+            audioBraChangeSEpass: 'audio/braChangeSE.mp3',
+            audioBraChangeSE: null,
+            audioSymChangeSEpass: 'audio/symChangeSE.mp3',
+            audioSymChangeSE: null,
+            audioNumChangeSEpass: 'audio/numChangeSE.mp3',
+            audioNumChangeSE: null,
+            audioChangeBGpass: 'audio/correctChangeBG.mp3',
+            audioChangeBG: null,
+            audioCorrectpass: 'audio/correct.mp3',
+            audioCorrect: null,
+            audioEasyBGMpass: 'audio/easyBGM.mp3',
+            audioEasyBGM: null,
+            audioNormalBGMpass: 'audio/normalBGM.mp3',
+            audioNormalBGM: null,
+            audioHardBGMpass: 'audio/hardBGM.mp3',
+            audioHardBGM: null,
+            audioLunaticBGMpass: 'audio/lunaticBGM.mp3',
+            audioLunaticBGM: null,
+            seFlag: true,
+            seFlagDisplay: "On",
+            bgmFlag: true,
+            bgmFlagDisplay: "On",
         },
         watch: {
             answer: function (ansVal) {
@@ -1499,18 +1577,20 @@
 
                             setTimeout(() => {
                                 this.showResult();
-                            }, 1500);
+                            }, 2500);
                         } else {
                             this.showResult();
                         }
+                        this.stopBGM();
+                        this.isPaused = false;
                     } else {
                         if (this.clearEffectFlag == "On") {
                             this.isLoading = true;
                             this.pauseTimer();
-                            setTimeout(this.createNum, 1500);
+                            setTimeout(this.createNum, 1750);
                             setTimeout(() => {
                                 this.isLoading = false;
-                            }, 1500);
+                            }, 1750);
                             if (this.clearCount == 5) {
                                 this.correctText = "Halfway There!"
                             } else if (this.clearCount == 9) {
@@ -1584,6 +1664,82 @@
                 const score = Number(this.score).toFixed(1); // 小数点以下1桁までの数値に変換
                 return score;
             },
+        },
+        created() {
+            // Audioオブジェクトを作成し、音声ファイルを指定する
+            this.audioMouseOverSE = new Audio(this.audioMouseOverSEpass);
+            this.audioMouseOverSE.volume = 0.8;
+            this.audioMouseOverSE.playbackRate = 2;
+
+            this.audioModeClickSE = new Audio(this.audioModeClickSEpass);
+            this.audioModeClickSE.volume = 1;
+            this.audioModeClickSE.playbackRate = 1.3;
+
+            this.audioButtonBackSE = new Audio(this.audioButtonBackSEpass);
+            this.audioButtonBackSE.volume = 0.8;
+            this.audioButtonBackSE.playbackRate = 1;
+
+            this.audioOperationClickSE = new Audio(this.audioOperationClickSEpass);
+            this.audioOperationClickSE.volume = 0.8;
+            this.audioOperationClickSE.playbackRate = 1.2;
+
+            this.audioContentClickSE = new Audio(this.audioContentClickSEpass);
+            this.audioContentClickSE.volume = 0.3;
+            this.audioContentClickSE.playbackRate = 1.3;
+
+            this.audioResultSE = new Audio(this.audioResultSEpass);
+            this.audioResultSE.volume = 0.8;
+
+            this.audioBraChangeSE = new Audio(this.audioBraChangeSEpass);
+            this.audioBraChangeSE.volume = 1;
+            this.audioBraChangeSE.playbackRate = 1;
+
+            this.audioSymChangeSE = new Audio(this.audioSymChangeSEpass);
+            this.audioSymChangeSE.volume = 0.4;
+            this.audioSymChangeSE.playbackRate = 1;
+
+            this.audioNumChangeSE = new Audio(this.audioNumChangeSEpass);
+            this.audioNumChangeSE.volume = 1;
+            this.audioNumChangeSE.playbackRate = 1.5;
+
+            this.audioChangeBG = new Audio(this.audioChangeBGpass);
+            this.audioChangeBG.volume = 1;
+            this.audioChangeBG.playbackRate = 1.2;
+
+            this.audioCorrect = new Audio(this.audioCorrectpass);
+            this.audioCorrect.volume = 0.7;
+
+            this.audioEasyBGM = new Audio(this.audioEasyBGMpass);
+            this.audioEasyBGM.volume = 0.2;
+            this.audioEasyBGM.loop = true;
+
+            this.audioNormalBGM = new Audio(this.audioNormalBGMpass);
+            this.audioNormalBGM.volume = 0.3;
+            this.audioNormalBGM.loop = true;
+
+            this.audioHardBGM = new Audio(this.audioHardBGMpass);
+            this.audioHardBGM.volume = 0.3;
+            this.audioHardBGM.loop = true;
+
+            this.audioLunaticBGM = new Audio(this.audioLunaticBGMpass);
+            this.audioLunaticBGM.volume = 0.3;
+            this.audioLunaticBGM.loop = true;
+
+            this.audioMouseOverSE.preload = 'auto';
+            this.audioModeClickSE.preload = 'auto';
+            this.audioButtonBackSE.preload = 'auto';
+            this.audioOperationClickSE.preload = 'auto';
+            this.audioContentClickSE.preload = 'auto';
+            this.audioResultSE.preload = 'auto';
+            this.audioBraChangeSE.preload = 'auto';
+            this.audioSymChangeSE.preload = 'auto';
+            this.audioNumChangeSE.preload = 'auto';
+            this.audioChangeBG.preload = 'auto';
+            this.audioCorrect.preload = 'auto';
+            this.audioEasyBGM.preload = 'auto';
+            this.audioNormalBGM.preload = 'auto';
+            this.audioHardBGM.preload = 'auto';
+            this.audioLunaticBGM.preload = 'auto';
         },
         mounted() {
             window.addEventListener('keydown', this.handleKeyDown);
@@ -1678,6 +1834,10 @@
                 // this.getItems();
             });
             this.eventBus = eventBus;
+            window.onload = () => {
+                this.eventBus.$emit('dataChanged');
+            }
+
         }, beforeUnmount() {
             window.removeEventListener('keydown', this.handleKeyDown);
         }, beforeDestroy() {
@@ -1686,6 +1846,7 @@
 
         methods: {
             showResult() {
+                this.playResultSound();
                 this.stop();
                 this.startFlag = false;
                 this.subMenuFlag = true;
@@ -1810,6 +1971,7 @@
                 this.subMenuFlag = false;
             },
             closeConfig() {
+                this.playButtonBackSound();
                 this.configFlag = false;
             },
             getEventKeyValue(row, cell) {
@@ -1819,8 +1981,72 @@
                     return this.eventKeyValue[row][cell];
                 }
             },
+            playMouseOverSound() {
+                if (this.seFlag) {
+                    this.audioMouseOverSE.pause();
+                    this.audioMouseOverSE.currentTime = 0;
+                    this.audioMouseOverSE.play();
+                }
+            },
+            playModeClickSound() {
+                if (this.seFlag) {
+                    this.audioModeClickSE.pause();
+                    this.audioModeClickSE.currentTime = 0;
+                    this.audioModeClickSE.play();
+                }
+            },
+            playOperationClickSound() {
+                if (this.seFlag) {
+                    this.audioOperationClickSE.pause();
+                    this.audioOperationClickSE.currentTime = 0;
+                    this.audioOperationClickSE.play();
+                }
+            },
+            playBraClickSound() {
+                if (this.seFlag) {
+                    this.audioBraChangeSE.pause();
+                    this.audioBraChangeSE.currentTime = 0;
+                    this.audioBraChangeSE.play();
+                }
+            },
+            playSymClickSound() {
+                if (this.seFlag) {
+                    this.audioSymChangeSE.pause();
+                    this.audioSymChangeSE.currentTime = 0;
+                    this.audioSymChangeSE.play();
+                }
+            },
+            playNumClickSound() {
+                if (this.seFlag) {
+                    this.audioNumChangeSE.pause();
+                    this.audioNumChangeSE.currentTime = 0;
+                    this.audioNumChangeSE.play();
+                }
+            },
+            playContentClickSound() {
+                if (this.seFlag) {
+                    this.audioContentClickSE.pause();
+                    this.audioContentClickSE.currentTime = 0;
+                    this.audioContentClickSE.play();
+                }
+            },
+            playButtonBackSound() {
+                if (this.seFlag) {
+                    this.audioButtonBackSE.pause();
+                    this.audioButtonBackSE.currentTime = 0;
+                    this.audioButtonBackSE.play();
+                }
+            },
+            playResultSound() {
+                if (this.seFlag) {
+                    this.audioResultSE.pause();
+                    this.audioResultSE.currentTime = 0;
+                    this.audioResultSE.play();
+                }
+            },
             startEditing(row, cell) {
                 if (this.editFlag == false) {
+                    this.playContentClickSound();
                     this.editFlag = true;
                     this.editingRow = row;
                     this.editingCell = cell;
@@ -1880,6 +2106,7 @@
                     if (this.startFlag && !this.isPaused) {
                         event.preventDefault();
                         if (event.key === this.eventKeyValue[0][0] || event.key === this.eventKeyValue[0][1]) {
+                            this.playSymClickSound();
                             if (this.addSym[0] == "+") {
                                 this.addSym.splice(0, 1, "-");
                             } else {
@@ -1887,6 +2114,7 @@
                             }
                         } else if (event.key === this.eventKeyValue[1][0] || event.key === this.eventKeyValue[1][1]) {
                             this.symValue[0] = this.getNextSymbol(this.symValue[0]);
+                            this.playSymClickSound();
                             if (this.symValue[0] == "×") {
                                 this.firstSym.splice(0, 1, "*");
                             } else if (this.symValue[0] == "÷") {
@@ -1896,6 +2124,7 @@
                             };
                         } else if (event.key === this.eventKeyValue[2][0] || event.key === this.eventKeyValue[2][1]) {
                             this.symValue[1] = this.getNextSymbol(this.symValue[1]);
+                            this.playSymClickSound();
                             if (this.symValue[1] == "×") {
                                 this.secondSym.splice(0, 1, "*");
                             } else if (this.symValue[1] == "÷") {
@@ -1904,6 +2133,7 @@
                                 this.secondSym.splice(0, 1, this.symValue[1]);
                             };
                         } else if (event.key === this.eventKeyValue[3][0] || event.key === this.eventKeyValue[3][1]) {
+                            this.playSymClickSound();
                             this.symValue[2] = this.getNextSymbol(this.symValue[2]);
                             if (this.symValue[2] == "×") {
                                 this.thirdSym.splice(0, 1, "*");
@@ -1937,26 +2167,35 @@
                             this.braChange(5);
                         } else if (event.key === this.eventKeyValue[14][0] || event.key === this.eventKeyValue[14][1]) {
                             if (!this.disableButton && this.reloadCount !== 0) {
+                                // リロード
                                 this.reloadClick();
+                                this.playOperationClickSound();
                                 this.createNum();
                             }
                         } else if (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1]) {
-                            if (this.checkDetailFlag) {
-                                this.closeDetail();
-                            } else {
-                                this.startOrGiveUp();
-                            }
+                            // 開始
+                            this.playOperationClickSound();
+                            this.startOrGiveUp();
                         } else if (event.key === this.eventKeyValue[15][0] || event.key === this.eventKeyValue[15][1]) {
+                            // リセット
+                            this.playOperationClickSound();
                             this.resetFormula();
                         }
+                        // else if (event.key === 'z') {
+
+                        // }
                     } else if (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1]) {
+                        this.playOperationClickSound();
                         this.startOrGiveUp();
                     }
-                    // else if (event.key === 'z') {
-                    //     this.moveRegistScreen();
-                    // }
+                    else if (event.key === 'z') {
+                        // this.showResult();
+                    }
                 } else if (this.checkDetailFlag && (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1])) {
+                    // ギブアップ時の詳細を閉じる
+                    this.playButtonBackSound();
                     this.closeDetail();
+
                 }
             },
             clearEffectChange() {
@@ -1966,13 +2205,30 @@
                     this.clearEffectFlag = "On";
                 }
             },
+            seChange() {
+                if (this.seFlag == true) {
+                    this.seFlag = false;
+                    this.seFlagDisplay = "Off";
+                } else {
+                    this.seFlag = true;
+                    this.seFlagDisplay = "On";
+                }
+            },
+            bgmChange() {
+                if (this.bgmFlag == true) {
+                    this.bgmFlag = false;
+                    this.bgmFlagDisplay = "Off";
+                } else {
+                    this.bgmFlag = true;
+                    this.bgmFlagDisplay = "On";
+                }
+            },
             correctProcess() {
                 this.showCorrect = true; // フェードイン開始
                 // 1秒後にフェードインを終了
                 setTimeout(() => {
                     this.showCorrect = false; // 要素を非表示にする
                 }, 1000);
-
             },
             getNextSymbol(symbol) {
                 const symbols = ["-", "×", "÷", "+"];
@@ -1988,6 +2244,7 @@
             },
             changeOpeClick(number) {
                 if (this.inputMode == "Click") {
+                    this.playSymClickSound();
                     if (number == 0) {
                         this.symValue[0] = this.getNextSymbol(this.symValue[0]);
                         if (this.symValue[0] == "×") {
@@ -2089,6 +2346,7 @@
                             }
                             this.lastMousePos.y = event.clientY;
                         }
+                        // this.playSymClickSound();
                     } else {
                         this.lastMousePos = { x: event.clientX, y: event.clientY };
                     }
@@ -2101,6 +2359,14 @@
             selectSym(index) {
                 this.selectedSym = index;
             },
+            stopBGM() {
+                if (this.bgmFlag) {
+                    this.audioEasyBGM.pause();
+                    this.audioNormalBGM.pause();
+                    this.audioHardBGM.pause();
+                    this.audioLunaticBGM.pause();
+                }
+            },
             modeChangeEasy() {
                 this.mode = "Easy";
                 this.btnIsSelect.splice(3, 1, false);
@@ -2109,6 +2375,7 @@
                 this.btnIsSelect.splice(6, 1, true);
                 this.tryAgain();
                 this.target = 10;
+                this.stopBGM();
             },
             modeChangeNormal() {
                 this.mode = "Normal";
@@ -2118,6 +2385,7 @@
                 this.btnIsSelect.splice(6, 1, false);
                 this.tryAgain();
                 this.target = 10;
+                this.stopBGM();
             },
             modeChangeHard() {
                 this.mode = "Hard";
@@ -2127,15 +2395,17 @@
                 this.btnIsSelect.splice(6, 1, false);
                 this.tryAgain();
                 this.target = 10;
+                this.stopBGM();
             },
             modeChangeLunatic() {
-                this.target = "??"
                 this.mode = "Lunatic";
                 this.btnIsSelect.splice(3, 1, false);
                 this.btnIsSelect.splice(4, 1, false);
                 this.btnIsSelect.splice(5, 1, true);
                 this.btnIsSelect.splice(6, 1, false);
                 this.tryAgain();
+                this.target = "??"
+                this.stopBGM();
             },
             //startボタン押下時、もしくはanswer==10の時に数値を変更
             matchCreateNum(nums) {
@@ -2465,13 +2735,26 @@
                     this.changeBackgroundColor(element);
                     setTimeout(() => {
                         this.changeNextElementColor(index + 1);
-                    }, 40);
+                    }, 30);
                 } else {
                     // 全ての要素の背景色変更が完了した後に correctProcess を呼び出す
                     this.correctProcess();
                 }
             },
             startColorChange() {
+                if (this.seFlag) {
+                    this.audioChangeBG.pause();
+                    this.audioChangeBG.currentTime = 0;
+                    this.audioChangeBG.play();
+                    setTimeout(() => {
+                        this.audioChangeBG.pause();
+                    }, 500);
+                    setTimeout(() => {
+                        this.audioCorrect.pause();
+                        this.audioCorrect.currentTime = 0;
+                        this.audioCorrect.play();
+                    }, 650);
+                }
                 this.changeNextElementColor(0);
             },
             addDetail() {
@@ -2492,6 +2775,7 @@
             },
             braChange(braNumber) {
                 if (this.selectedBra[braNumber] == "") {
+                    this.playBraClickSound();
                     if (braNumber == 0) {
                         this.brackets.splice(0, 1, "(");
                         this.brackets.splice(2, 1, ")");
@@ -2540,6 +2824,7 @@
                     // }
                     // this.selectFlag = true;
                 } else {
+                    this.playBraClickSound();
                     this.resetBra();
                 }
                 // else if (this.selectFlag == true) {
@@ -2568,7 +2853,6 @@
                 this.numbers.sort((a, b) => a - b);
                 this.selectedNumTF = false;
             },
-
             resetBra() {
                 for (let i = 0; i < this.brackets.length; i++) {
                     this.selectedBra.splice(i, 1, "");
@@ -2596,6 +2880,7 @@
             },
             numReplace(received) {
                 if (this.selectedNumTF == false) {
+                    this.playNumClickSound();
                     for (let i = 0; i < this.numbers.length; i++) {
                         if (this.passNum[i] == received) {
                             this.selectedNum[i] = this.numbers[i];
@@ -2609,6 +2894,7 @@
                     }
                     this.selectedNumTF = true;
                 } else if (this.selectedNumTF == true) {
+                    this.playNumClickSound();
                     for (let i = 0; i < this.numbers.length; i++) {
                         if (this.passNum[i] == received) {
                             this.selectedNum[i] = this.numbers[i];
@@ -2629,6 +2915,7 @@
                 }
             },
             addSymChange() {
+                this.playSymClickSound();
                 if (all.addSym[0] == "+") {
                     Vue.set(all.addSym, 0, "-");
                     this.symValue.splice(3, 1, "-");
@@ -2638,7 +2925,6 @@
                 }
             },
             reloadClick() {
-
                 this.addDetail();
                 this.answerDetail[this.questionCount].reload = true;
                 if (this.reloadCount > 0) {
@@ -2671,70 +2957,74 @@
                 // this.ansChange();
             },
             startOrGiveUp() {
-                if (this.isStart == true) {
+                if (this.isPaused == false) {
+                    if (this.isStart == true) {
 
-                    let data_tmp = {};
+                        let data_tmp = {};
 
-                    let solvedTime = Date.now();
-                    let intervalTime = solvedTime - this.createQuestionTime;
-                    intervalTime = (Math.round(intervalTime / 100) / 10).toFixed(1);
-                    data_tmp.intervalTime = intervalTime;
+                        let solvedTime = Date.now();
+                        let intervalTime = solvedTime - this.createQuestionTime;
+                        intervalTime = (Math.round(intervalTime / 100) / 10).toFixed(1);
+                        data_tmp.intervalTime = intervalTime;
 
-                    let currentNums = [];
-                    for (let i = 0; i < this.numbers.length; i++) {
-                        currentNums.push(this.numbers[i]);
-                    }
+                        let currentNums = [];
+                        for (let i = 0; i < this.numbers.length; i++) {
+                            currentNums.push(this.numbers[i]);
+                        }
 
-                    data_tmp.formula = currentNums;
-                    data_tmp.answer = this.answerFormula;
-                    if (this.mode == "Lunatic") {
-                        data_tmp.target = this.target;
-                    }
-                    data_tmp.reload = "";
-                    this.answerDetail.push(data_tmp);
-                    this.answerDetail[this.questionCount].reload = true;
-                    this.checkDetailFlag = true;
-                    this.firstSym.splice(0, 1, "+");
-                    this.secondSym.splice(0, 1, "+");
-                    this.thirdSym.splice(0, 1, "+");
-                    this.addSym.splice(0, 1, "+");
-                    for (let i = 0; i < this.symValue.length; i++) {
-                        this.symValue.splice(i, 1, "+");
-                    }
-                    for (let i = 0; i < this.numbers.length; i++) {
-                        this.numbers.splice(i, 1, "");
-                    }
-                    for (let i = 0; i < 3; i++) {
-                        this.btnIsSelect[i] = false;
-                    }
+                        data_tmp.formula = currentNums;
+                        data_tmp.answer = this.answerFormula;
+                        if (this.mode == "Lunatic") {
+                            data_tmp.target = this.target;
+                        }
+                        data_tmp.reload = "";
+                        this.answerDetail.push(data_tmp);
+                        this.answerDetail[this.questionCount].reload = true;
+                        this.checkDetailFlag = true;
+                        this.firstSym.splice(0, 1, "+");
+                        this.secondSym.splice(0, 1, "+");
+                        this.thirdSym.splice(0, 1, "+");
+                        this.addSym.splice(0, 1, "+");
+                        for (let i = 0; i < this.symValue.length; i++) {
+                            this.symValue.splice(i, 1, "+");
+                        }
+                        for (let i = 0; i < this.numbers.length; i++) {
+                            this.numbers.splice(i, 1, "");
+                        }
+                        for (let i = 0; i < 3; i++) {
+                            this.btnIsSelect[i] = false;
+                        }
 
-                    this.startFlag = false;
-                    this.subMenuFlag = true;
-                    this.isStart = false;
-                    this.isStop = true;
-                    this.isReset = false;
-                    this.stop();
-                    // this.time = "00:00:000";
-                    clearTimeout(this.timeoutId);
-                    this.isStop = true;
-                    this.isReset = true;
-                    this.score = "1000.0";
-                    this.elapsedTime = 0;
-                    this.totalTime = 0;
-                    this.checkDupNums = [];
+                        this.startFlag = false;
+                        this.subMenuFlag = true;
+                        this.isStart = false;
+                        this.isStop = true;
+                        this.isReset = false;
+                        this.stop();
+                        // this.time = "00:00:000";
+                        clearTimeout(this.timeoutId);
+                        this.isStop = true;
+                        this.isReset = true;
+                        this.score = "1000.0";
+                        this.elapsedTime = 0;
+                        this.totalTime = 0;
+                        this.checkDupNums = [];
 
-                    this.selectedNumIndexF = -1;
-                    this.selectedNumTF = false;
-                    this.clearedFormula = [];
+                        this.selectedNumIndexF = -1;
+                        this.selectedNumTF = false;
+                        this.clearedFormula = [];
 
-                    if (this.mode == "Lunatic") {
-                        this.target = "??"
+                        this.stopBGM();
+
+                        if (this.mode == "Lunatic") {
+                            this.target = "??"
+                        } else {
+                            this.target = 10
+                        }
                     } else {
-                        this.target = 10
+                        this.start();
+                        this.createNum();
                     }
-                } else {
-                    this.start();
-                    this.createNum();
                 }
             },
             showHowToPlay() {
@@ -2771,6 +3061,7 @@
                 this.tryAgain();
             },
             checkDetail() {
+                this.playContentClickSound();
                 this.subMenuFlag = true;
                 this.checkDetailFlag = true;
             },
@@ -2785,6 +3076,7 @@
                 this.rankingDetailFlag = false;
             },
             moveRegistScreen() {
+                this.playContentClickSound();
                 this.registFlag = true;
                 this.registName = localStorage.getItem('registName');
             },
@@ -2885,18 +3177,36 @@
                 this.subMenuFlag = false;
                 this.registFlag = false;
                 this.resultFlag = false;
+                this.playContentClickSound();
             },
             showMenu() {
                 if (!this.isStart) {
+                    this.playContentClickSound();
                     this.subMenuFlag = true;
                     this.menuFlag = true;
                 }
             },
             showConfig() {
+                this.playContentClickSound();
                 this.configFlag = true;
             },
             showRanking() {
+                this.playContentClickSound();
                 this.eventBus.$emit('dataChanged'); // データを初期化するために dataChanged イベントを発生させる
+                switch (this.mode) {
+                    case "Easy":
+                        this.rankingModeChangeEasy();
+                        break;
+                    case "Normal":
+                        this.rankingModeChangeNormal();
+                        break;
+                    case "Hard":
+                        this.rankingModeChangeHard();
+                        break;
+                    case "Lunatic":
+                        this.rankingModeChangeLunatic();
+                        break;
+                }
                 this.rankingFlag = true;
             },
             showUserQuestion(index) {
@@ -2945,68 +3255,80 @@
                     this.inputMode = "Click";
                 }
             },
-            rankingModeChange() {
-                switch (this.rankingDisplayMode[this.modeIndex]) {
-                    case "Easy":
-                        this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
-                        this.showRankingEasy = false;
-                        this.showRankingNormal = true;
-                        this.showRankingHard = false;
-                        this.showRankingLunatic = false;
-                        break;
-                    case "Normal":
-                        this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
-                        this.showRankingEasy = false;
-                        this.showRankingNormal = false;
-                        this.showRankingHard = true;
-                        this.showRankingLunatic = false;
-                        break;
-                    case "Hard":
-                        this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
-                        this.showRankingEasy = false;
-                        this.showRankingNormal = false;
-                        this.showRankingHard = false;
-                        this.showRankingLunatic = true;
-                        break;
-                    case "Lunatic":
-                        this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
-                        this.showRankingEasy = true;
-                        this.showRankingLunatic = false;
-                        this.showRankingHard = false;
-                        this.showRankingNormal = false;
-                        break;
+            // rankingModeChange() {
+            //     switch (this.rankingDisplayMode[this.modeIndex]) {
+            //         case "Easy":
+            //             this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
+            //             this.showRankingEasy = false;
+            //             this.showRankingNormal = true;
+            //             this.showRankingHard = false;
+            //             this.showRankingLunatic = false;
+            //             break;
+            //         case "Normal":
+            //             this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
+            //             this.showRankingEasy = false;
+            //             this.showRankingNormal = false;
+            //             this.showRankingHard = true;
+            //             this.showRankingLunatic = false;
+            //             break;
+            //         case "Hard":
+            //             this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
+            //             this.showRankingEasy = false;
+            //             this.showRankingNormal = false;
+            //             this.showRankingHard = false;
+            //             this.showRankingLunatic = true;
+            //             break;
+            //         case "Lunatic":
+            //             this.modeIndex = (this.modeIndex + 1) % this.rankingDisplayMode.length;
+            //             this.showRankingEasy = true;
+            //             this.showRankingLunatic = false;
+            //             this.showRankingHard = false;
+            //             this.showRankingNormal = false;
+            //             break;
+            //     }
+            // },
+            rankingModeChangeEasy() {
+                this.modeIndex = 0;
+                this.showRankingEasy = true;
+                this.showRankingNormal = false;
+                this.showRankingHard = false;
+                this.showRankingLunatic = false;
+                if (this.rankingFlag == true) {
+                    const rankingData = document.getElementById('ranking');
+                    rankingData.scrollTop = 0;
                 }
             },
-            rankingModeChangeBefore() {
-                switch (this.rankingDisplayMode[this.modeIndex]) {
-                    case "Easy":
-                        this.modeIndex = (this.modeIndex + 3) % this.rankingDisplayMode.length;
-                        this.showRankingEasy = false;
-                        this.showRankingNormal = false;
-                        this.showRankingHard = false;
-                        this.showRankingLunatic = true;
-                        break;
-                    case "Normal":
-                        this.modeIndex = (this.modeIndex + 3) % this.rankingDisplayMode.length;
-                        this.showRankingEasy = true;
-                        this.showRankingNormal = false;
-                        this.showRankingHard = false;
-                        this.showRankingLunatic = false;
-                        break;
-                    case "Hard":
-                        this.modeIndex = (this.modeIndex + 3) % this.rankingDisplayMode.length;
-                        this.showRankingEasy = false;
-                        this.showRankingNormal = true;
-                        this.showRankingHard = false;
-                        this.showRankingLunatic = false;
-                        break;
-                    case "Lunatic":
-                        this.modeIndex = (this.modeIndex + 3) % this.rankingDisplayMode.length;
-                        this.showRankingEasy = false;
-                        this.showRankingLunatic = false;
-                        this.showRankingHard = true;
-                        this.showRankingNormal = false;
-                        break;
+            rankingModeChangeNormal() {
+                this.modeIndex = 1;
+                this.showRankingEasy = false;
+                this.showRankingNormal = true;
+                this.showRankingHard = false;
+                this.showRankingLunatic = false;
+                if (this.rankingFlag == true) {
+                    const rankingData = document.getElementById('ranking');
+                    rankingData.scrollTop = 0;
+                }
+            },
+            rankingModeChangeHard() {
+                this.modeIndex = 2;
+                this.showRankingEasy = false;
+                this.showRankingNormal = false;
+                this.showRankingHard = true;
+                this.showRankingLunatic = false;
+                if (this.rankingFlag == true) {
+                    const rankingData = document.getElementById('ranking');
+                    rankingData.scrollTop = 0;
+                }
+            },
+            rankingModeChangeLunatic() {
+                this.modeIndex = 3;
+                this.showRankingEasy = false;
+                this.showRankingNormal = false;
+                this.showRankingHard = false;
+                this.showRankingLunatic = true;
+                if (this.rankingFlag == true) {
+                    const rankingData = document.getElementById('ranking');
+                    rankingData.scrollTop = 0;
                 }
             },
             getItems() {
@@ -3080,6 +3402,33 @@
                 this.isReset = false;
             },
             start() {
+                switch (this.mode) {
+                    case "Easy":
+                        if (this.bgmFlag) {
+                            this.audioEasyBGM.currentTime = 0;
+                            this.audioEasyBGM.play();
+                        }
+                        break;
+                    case "Normal":
+                        if (this.bgmFlag) {
+                            this.audioNormalBGM.currentTime = 0;
+                            this.audioNormalBGM.play();
+                        }
+                        break;
+                    case "Hard":
+                        if (this.bgmFlag) {
+                            this.audioHardBGM.currentTime = 0;
+                            this.audioHardBGM.play();
+                        }
+                        break;
+                    case "Lunatic":
+                        if (this.bgmFlag) {
+                            this.audioLunaticBGM.currentTime = 0;
+                            this.audioLunaticBGM.play();
+                        }
+                        break;
+                }
+
                 this.clearCount = 0;
                 this.btnIsSelect.splice(0, 1, true);
                 this.reloadCount = 20;
