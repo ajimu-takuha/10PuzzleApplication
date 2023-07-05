@@ -310,7 +310,7 @@
                     </div>
 
 
-                    <button class="configContent" v-on:click="resetConfigDefault(); playContentClickSound()">Reset
+                    <button class="configContent" v-on:click="resetConfigDefault(); this.playContentClickSound()">Reset
                         Assigned Keys to Default
                     </button>
 
@@ -330,10 +330,35 @@
                     <button class="configContent" v-on:click="bgmChange(); playContentClickSound()">BGM : {{
                         bgmFlagDisplay }}
                     </button>
+
+                    <button class="configContent" v-on:click="countDownFlagChange(); playContentClickSound()">Count Down
+                        : {{
+                        countDownFlagDisplay }}
+                    </button>
+
+                    <button id="disableHowToPlay" class="configContent"
+                        v-on:click="disableHowToPlay(); playContentClickSound()">Disable How To Play : {{
+                        disableHowToPlayFlag }}
+                    </button>
                 </div>
 
 
                 <!-- <div id="correctCube"></div> -->
+
+                <div id="soundAsk" class="result" v-if="soundFlag">
+                    <div id="soundAskTitle">
+                        <span style="color: rgb(255, 255, 255)">
+                            Sound & BGM
+                        </span>
+                    </div>
+                    <button id="soundOn" class="soundContent" v-on:click="soundOn();">
+                        On
+                    </button>
+                    <button id="soundOff" class="soundContent" v-on:click="soundOff();">
+                        Off
+                    </button>
+                </div>
+
 
                 <div id="explanation" class="explanation" v-if="HTPFlag">
                     <div id="itemCovorHTP" class="itemCovor">
@@ -692,10 +717,13 @@
                         「Effect」をクリックすると正解時の演出を消して<br>
                         すぐに次の問題へ進みます<br>
                         <br>
-                        「SE」をクリックするとクリック時等の音を消せます<br>
+                        「SE」をクリックするとクリック時等のSE有無を変更できます<br>
                         <br>
+                        「BGM」をクリックすると挑戦時のBGM有無を変更できます<br>
                         <br>
-                        「BGM」をクリックすると挑戦時のBGMを消せます<br>
+                        「Count Down」は挑戦時のカウントダウン有無を変更できます<br>
+                        <br>
+                        「Disable How To Play」は初めの説明有無を変更できます<br>
                         <br>
                         <br>
                         <br>
@@ -823,11 +851,16 @@
                         バグの報告や要望・感想等がもしあれば<br>
                         <a href="mailto:decoy.dummy.ac@gmail.com">decoy.dummy.ac@gmail.com</a><br>
                         までご連絡ください<br>
-                        <br>
-                        <span style="font-size: 20px;">
-                            ・使用BGM : 魔王魂　　 ・使用SE : 効果音ラボ<br>
-                        </span>
-                        <br>
+                    <p style="font-size: 16px; line-height: 1.3;">
+                        ・使用BGM : MusMus(waston)　　 ・使用SE : 効果音ラボ・MusMus
+                    </p>
+                    <p style="font-size: 16px; line-height: 1.3;">
+                        waston氏が音楽を担当するフリーゲーム「ムラサキ」
+                    </p>
+                    <p style="font-size: 16px; line-height: 1.3;">
+                        みんなもやろう！
+                    </p>
+                    <br>
                     </p>
                 </div>
                 <div id="result" class="result" v-if="resultFlag">
@@ -878,10 +911,12 @@
                         {{evalComment}}
                     </div>
                     <div id="resultButtonWrapper">
-                        <button id="inputUser" class="resultButton" v-on:click="moveRegistScreen()">
+                        <button id="inputUser" class="resultButton" v-on:click="moveRegistScreen()"
+                            @mouseover="playMouseOverSound">
                             Registration
                         </button>
-                        <button id="checkDetail" class="resultButton" v-on:click="checkDetail()">
+                        <button id="checkDetail" class="resultButton" v-on:click="checkDetail()"
+                            @mouseover="playMouseOverSound">
                             Detail
                         </button>
                     </div>
@@ -945,7 +980,8 @@
                                 Enter your name !
                             </p>
                         </div>
-                        <button id="registButton" v-on:click="regist()">Registration
+                        <button id="registButton" v-on:click="regist()" @mouseover="playMouseOverSound">
+                            Registration
                         </button>
                     </div>
                 </div>
@@ -1085,19 +1121,23 @@
                     </div>
                     <div id="rankingModeChangeWrapper">
                         <button id="rankingModeChangeEasy" class="modeChangeButton"
-                            v-on:click="rankingModeChangeEasy(), playContentClickSound()">
+                            v-on:click="rankingModeChangeEasy(), playContentClickSound()"
+                            @mouseover="playMouseOverSound">
                             Easy
                         </button>
                         <button id="rankingModeChangeNormal" class="modeChangeButton"
-                            v-on:click="rankingModeChangeNormal(), playContentClickSound()">
+                            v-on:click="rankingModeChangeNormal(), playContentClickSound()"
+                            @mouseover="playMouseOverSound">
                             Normal
                         </button>
                         <button id="rankingModeChangeHard" class="modeChangeButton"
-                            v-on:click="rankingModeChangeHard(), playContentClickSound()">
+                            v-on:click="rankingModeChangeHard(), playContentClickSound()"
+                            @mouseover="playMouseOverSound">
                             Hard
                         </button>
                         <button id="rankingModeChangeLunatic" class="modeChangeButton"
-                            v-on:click="rankingModeChangeLunatic(), playContentClickSound()">
+                            v-on:click="rankingModeChangeLunatic(), playContentClickSound()"
+                            @mouseover="playMouseOverSound">
                             Lunatic
                         </button>
                     </div>
@@ -1312,8 +1352,7 @@
                     </div>
                 </div>
                 <div id="buttonWrapper">
-                    <button type="button" id="startButton" v-on:click="startOrGiveUp()"
-                        v-bind:class=" {'lunaticButton LunaticStartButton':mode=='Lunatic'
+                    <button type="button" id="startButton" v-on:click="startOrGiveUp()" v-bind:class=" {'lunaticButton LunaticStartButton':mode=='Lunatic'
                         , 'buttons startButton' :mode !='Lunatic' }">
                         <div class="diamondText">
                             <span v-if="isStart">Give Up</span>
@@ -1337,19 +1376,19 @@
                 </div>
                 <div id="modeWrapper">
                     <button v-bind:class="{modeButtons: true, EasylButton: true, btnIsSelect: btnIsSelect[6]}"
-                        v-on:click="modeChangeEasy" style="border-color: white" @click="playModeClickSound">
+                        v-on:click="modeChangeEasy" style="border-color: white">
                         Easy
                     </button>
                     <button v-bind:class="{modeButtons: true, NormalButton: true, btnIsSelect: btnIsSelect[3]}"
-                        v-on:click="modeChangeNormal" style="border-color: white" @click="playModeClickSound">
+                        v-on:click="modeChangeNormal" style="border-color: white">
                         Normal
                     </button>
                     <button v-bind:class="{modeButtons :true, HardsButton: true, btnIsSelect: btnIsSelect[4]}"
-                        v-on:click="modeChangeHard" style="border-color: white" @click="playModeClickSound">
+                        v-on:click="modeChangeHard" style="border-color: white">
                         Hard
                     </button>
                     <button id="lunaticButton" class="lunaticModeChangeButton" v-bind:class="{ lunaticIsSelected: btnIsSelect[5], 
-                        }" v-on:click="modeChangeLunatic" @click="playModeClickSound">
+                        }" v-on:click="modeChangeLunatic">
                         Lunatic
                     </button>
                 </div>
@@ -1425,6 +1464,7 @@
             selectFlag: false,
             startFlag: false,
             ansFlag: false,
+            soundFlag: true,
             clickAct: [false, false, false, false, false, false],
             lunaticClickAct: [false, false, false, false, false, false],
             btnIsSelect: [false, false, false, true, false, false, false],
@@ -1452,6 +1492,9 @@
             checkDetailFlag: false,
             registFlag: false,
             rankingDetailFlag: false,
+            countDownFlag: true,
+            countDownFlagDisplay: "On",
+            isCount: false,
             rankingData: [],
             rankingUserDetail: [],
             isDragging: false,
@@ -1528,6 +1571,7 @@
             editingValue: '',
             keyPressTimeoutID: null,
             HTPFlag: true,
+            disableHowToPlayFlag: false,
             subMenuFlag: true,
             isHoveredTitle: false,
             rankingDetailUser: "",
@@ -1543,6 +1587,8 @@
             audioContentClickSE: null,
             audioButtonBackSEpass: 'audio/buttonBackSE.mp3',
             audioButtonBackSE: null,
+            audioCountDownSEpass: 'audio/countDownSE.mp3',
+            audioCountDownSE: null,
             audioResultSEpass: 'audio/resultSE.mp3',
             audioResultSE: null,
             audioBraChangeSEpass: 'audio/braChangeSE.mp3',
@@ -1685,6 +1731,28 @@
             },
         },
         created() {
+            if (localStorage.getItem('soundFlag')) {
+                this.soundFlag = false;
+            }
+            if (localStorage.getItem("showHTP")) {
+                this.closeHowToPlay();
+                this.disableHowToPlayFlag = true;
+            }
+            if (localStorage.getItem("effectFlag")) {
+                this.clearEffectChange();
+            }
+            if (localStorage.getItem("seFlag")) {
+                this.seChange();
+            }
+            if (localStorage.getItem("bgmFlag")) {
+                this.bgmChange();
+            }
+            if (localStorage.getItem("countDownFlag")) {
+                this.countDownFlagChange();
+            }
+            if (localStorage.getItem("inputMode") === "Flick") {
+                this.inputModeChange();
+            }
             // Audioオブジェクトを作成し、音声ファイルを指定する
             this.audioMouseOverSE = new Audio(this.audioMouseOverSEpass);
             this.audioMouseOverSE.volume = 0.8;
@@ -1709,6 +1777,9 @@
             this.audioResultSE = new Audio(this.audioResultSEpass);
             this.audioResultSE.volume = 0.8;
 
+            this.audioCountDownSE = new Audio(this.audioCountDownSEpass);
+            this.audioCountDownSE.volume = 0.8;
+
             this.audioBraChangeSE = new Audio(this.audioBraChangeSEpass);
             this.audioBraChangeSE.volume = 1;
             this.audioBraChangeSE.playbackRate = 1;
@@ -1729,19 +1800,19 @@
             this.audioCorrect.volume = 0.7;
 
             this.audioEasyBGM = new Audio(this.audioEasyBGMpass);
-            this.audioEasyBGM.volume = 0.2;
+            this.audioEasyBGM.volume = 0.6;
             this.audioEasyBGM.loop = true;
 
             this.audioNormalBGM = new Audio(this.audioNormalBGMpass);
-            this.audioNormalBGM.volume = 0.3;
+            this.audioNormalBGM.volume = 0.6;
             this.audioNormalBGM.loop = true;
 
             this.audioHardBGM = new Audio(this.audioHardBGMpass);
-            this.audioHardBGM.volume = 0.3;
+            this.audioHardBGM.volume = 0.6;
             this.audioHardBGM.loop = true;
 
             this.audioLunaticBGM = new Audio(this.audioLunaticBGMpass);
-            this.audioLunaticBGM.volume = 0.3;
+            this.audioLunaticBGM.volume = 0.5;
             this.audioLunaticBGM.loop = true;
 
             this.audioMouseOverSE.preload = 'auto';
@@ -1749,6 +1820,7 @@
             this.audioButtonBackSE.preload = 'auto';
             this.audioOperationClickSE.preload = 'auto';
             this.audioContentClickSE.preload = 'auto';
+            this.audioCountDownSE.preload = 'auto';
             this.audioResultSE.preload = 'auto';
             this.audioBraChangeSE.preload = 'auto';
             this.audioSymChangeSE.preload = 'auto';
@@ -2063,6 +2135,13 @@
                     this.audioResultSE.play();
                 }
             },
+            playCountDownSound() {
+                if (this.seFlag) {
+                    this.audioCountDownSE.pause();
+                    this.audioCountDownSE.currentTime = 0;
+                    this.audioCountDownSE.play();
+                }
+            },
             startEditing(row, cell) {
                 if (this.editFlag == false) {
                     this.playContentClickSound();
@@ -2195,18 +2274,22 @@
                             this.startOrGiveUp();
                         } else if (event.key === this.eventKeyValue[15][0] || event.key === this.eventKeyValue[15][1]) {
                             // リセット
-                            this.resetFormula();
+                            if (!this.isCount) {
+                                this.resetFormula();
+                            }
                         }
                         // else if (event.key === 'z') {
 
                         // }
                     } else if (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1]) {
-                        this.playOperationClickSound();
-                        this.startOrGiveUp();
+                        if (!this.isCount) {
+                            this.playOperationClickSound();
+                            this.startOrGiveUp();
+                        }
                     }
-                    else if (event.key === 'z') {
-                        // this.showResult();
-                    }
+                    // else if (event.key === 'z') {
+                    //     this.showResult();
+                    // }
                 } else if (this.checkDetailFlag && (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1])) {
                     // ギブアップ時の詳細を閉じる
                     this.playButtonBackSound();
@@ -2216,26 +2299,82 @@
             clearEffectChange() {
                 if (this.clearEffectFlag == "On") {
                     this.clearEffectFlag = "Off";
+                    localStorage.setItem("effectFlag", "false");
                 } else {
                     this.clearEffectFlag = "On";
+                    localStorage.removeItem("effectFlag");
                 }
             },
             seChange() {
                 if (this.seFlag == true) {
                     this.seFlag = false;
                     this.seFlagDisplay = "Off";
+                    localStorage.setItem("seFlag", "false");
                 } else {
                     this.seFlag = true;
                     this.seFlagDisplay = "On";
+                    localStorage.removeItem("seFlag");
                 }
             },
             bgmChange() {
                 if (this.bgmFlag == true) {
                     this.bgmFlag = false;
                     this.bgmFlagDisplay = "Off";
+                    localStorage.setItem("bgmFlag", "false");
                 } else {
                     this.bgmFlag = true;
                     this.bgmFlagDisplay = "On";
+                    localStorage.removeItem("bgmFlag");
+                }
+            },
+            countDown() {
+                if (!this.isCount) {
+                    this.isCount = true;
+                    if (this.countDownFlag) {
+                        let count = 0;
+                        let countText = 3;
+
+                        const execute = () => {
+                            if (count < 4) {
+                                this.correctText = countText;
+                                this.playCountDownSound();
+                                this.showCorrect = true; // フェードイン開始
+
+                                setTimeout(() => {
+                                    this.showCorrect = false; // 要素を非表示にする
+                                    count++;
+                                    countText--;
+
+                                    if (count === 1) {
+                                        setTimeout(execute, 0); // すぐに2回目の実行
+                                    } else if (count === 2) {
+                                        setTimeout(execute, 0);
+                                    } else if (count === 3) {
+                                        this.start();
+                                        this.createNum();
+                                        this.isCount = false;
+                                    }
+                                }, 1000);
+                            }
+                        };
+
+                        execute(); // 最初の実行
+                    } else {
+                        this.isCount = false;
+                        this.start();
+                        this.createNum();
+                    }
+                }
+            },
+            countDownFlagChange() {
+                if (this.countDownFlagDisplay == "On") {
+                    this.countDownFlag = false;
+                    this.countDownFlagDisplay = "Off"
+                    localStorage.setItem("countDownFlag", "false");
+                } else {
+                    this.countDownFlag = true;
+                    this.countDownFlagDisplay = "On"
+                    localStorage.removeItem("countDownFlag");
                 }
             },
             correctProcess() {
@@ -2383,44 +2522,57 @@
                 }
             },
             modeChangeEasy() {
-                this.mode = "Easy";
-                this.btnIsSelect.splice(3, 1, false);
-                this.btnIsSelect.splice(4, 1, false);
-                this.btnIsSelect.splice(5, 1, false);
-                this.btnIsSelect.splice(6, 1, true);
-                this.tryAgain();
-                this.target = 10;
-                this.stopBGM();
+                if (!this.isCount) {
+                    this.playContentClickSound();
+                    this.mode = "Easy";
+                    this.btnIsSelect.splice(3, 1, false);
+                    this.btnIsSelect.splice(4, 1, false);
+                    this.btnIsSelect.splice(5, 1, false);
+                    this.btnIsSelect.splice(6, 1, true);
+                    this.tryAgain();
+                    this.target = 10;
+                    this.stopBGM();
+                }
             },
             modeChangeNormal() {
-                this.mode = "Normal";
-                this.btnIsSelect.splice(3, 1, true);
-                this.btnIsSelect.splice(4, 1, false);
-                this.btnIsSelect.splice(5, 1, false);
-                this.btnIsSelect.splice(6, 1, false);
-                this.tryAgain();
-                this.target = 10;
-                this.stopBGM();
+                if (!this.isCount) {
+                    this.playContentClickSound();
+                    // this.startOrGiveUp();
+                    this.mode = "Normal";
+                    this.btnIsSelect.splice(3, 1, true);
+                    this.btnIsSelect.splice(4, 1, false);
+                    this.btnIsSelect.splice(5, 1, false);
+                    this.btnIsSelect.splice(6, 1, false);
+                    this.tryAgain();
+                    this.target = 10;
+                    this.stopBGM();
+                }
             },
             modeChangeHard() {
-                this.mode = "Hard";
-                this.btnIsSelect.splice(3, 1, false);
-                this.btnIsSelect.splice(4, 1, true);
-                this.btnIsSelect.splice(5, 1, false);
-                this.btnIsSelect.splice(6, 1, false);
-                this.tryAgain();
-                this.target = 10;
-                this.stopBGM();
+                if (!this.isCount) {
+                    this.playContentClickSound()
+                    this.mode = "Hard";
+                    this.btnIsSelect.splice(3, 1, false);
+                    this.btnIsSelect.splice(4, 1, true);
+                    this.btnIsSelect.splice(5, 1, false);
+                    this.btnIsSelect.splice(6, 1, false);
+                    this.tryAgain();
+                    this.target = 10;
+                    this.stopBGM();
+                }
             },
             modeChangeLunatic() {
-                this.mode = "Lunatic";
-                this.btnIsSelect.splice(3, 1, false);
-                this.btnIsSelect.splice(4, 1, false);
-                this.btnIsSelect.splice(5, 1, true);
-                this.btnIsSelect.splice(6, 1, false);
-                this.tryAgain();
-                this.target = "??"
-                this.stopBGM();
+                if (!this.isCount) {
+                    this.playContentClickSound()
+                    this.mode = "Lunatic";
+                    this.btnIsSelect.splice(3, 1, false);
+                    this.btnIsSelect.splice(4, 1, false);
+                    this.btnIsSelect.splice(5, 1, true);
+                    this.btnIsSelect.splice(6, 1, false);
+                    this.tryAgain();
+                    this.target = "??"
+                    this.stopBGM();
+                }
             },
             //startボタン押下時、もしくはanswer==10の時に数値を変更
             matchCreateNum(nums) {
@@ -3030,7 +3182,7 @@
                         this.selectedNumIndexF = -1;
                         this.selectedNumTF = false;
                         this.clearedFormula = [];
-
+                        this.playOperationClickSound();
                         this.stopBGM();
 
                         if (this.mode == "Lunatic") {
@@ -3039,11 +3191,33 @@
                             this.target = 10
                         }
                     } else {
-                        this.start();
-                        this.createNum();
+                        if (!this.countDownFlag) {
+                            this.playOperationClickSound();
+                        }
+                        this.countDown();
                     }
                 }
-                this.playOperationClickSound();
+            },
+            soundOn() {
+                this.playContentClickSound();
+                this.seFlag = true;
+                this.seFlagDisplay = "On";
+                this.bgmFlag = true;
+                this.bgmFlagDisplay = "On";
+                this.soundFlag = false;
+                localStorage.setItem("soundFlag", "false");
+                localStorage.removeItem("seFlag");
+                localStorage.removeItem("bgmFlag");
+            },
+            soundOff() {
+                this.seFlag = false;
+                this.seFlagDisplay = "Off";
+                this.bgmFlag = false;
+                this.bgmFlagDisplay = "Off";
+                this.soundFlag = false;
+                localStorage.setItem("soundFlag", "false");
+                localStorage.setItem("seFlag", "false");
+                localStorage.setItem("bgmFlag", "false");
             },
             showHowToPlay() {
                 this.playContentClickSound();
@@ -3055,6 +3229,15 @@
                     this.subMenuFlag = false;
                 }
                 this.HTPFlag = false;
+            },
+            disableHowToPlay() {
+                if (this.disableHowToPlayFlag) {
+                    this.disableHowToPlayFlag = false;
+                    localStorage.removeItem("showHTP");
+                } else {
+                    this.disableHowToPlayFlag = true;
+                    localStorage.setItem("showHTP", "false");
+                }
             },
             resetNumBraSym() {
                 this.resetBra();
@@ -3199,7 +3382,7 @@
                 this.playContentClickSound();
             },
             showMenu() {
-                if (!this.isStart) {
+                if (!this.isStart && !this.isCount) {
                     this.playContentClickSound();
                     this.subMenuFlag = true;
                     this.menuFlag = true;
@@ -3270,8 +3453,10 @@
             inputModeChange() {
                 if (this.inputMode == "Click") {
                     this.inputMode = "Flick";
+                    localStorage.setItem("inputMode", "Flick");
                 } else {
                     this.inputMode = "Click";
+                    localStorage.removeItem("inputMode");
                 }
             },
             // rankingModeChange() {
@@ -3474,7 +3659,7 @@
                 clearTimeout(this.timeoutId);
                 this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
 
-                this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloadCount)));
+                this.score = (1000 - (this.elapsedTime + 10 * (20 - this.reloadCount))).toFixed(1);
             },
             questionThinkTime() {
                 let solvedTime = Date.now();
