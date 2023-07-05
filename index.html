@@ -347,9 +347,12 @@
 
                 <div id="soundAsk" class="result" v-if="soundFlag">
                     <div id="soundAskTitle">
-                        <span style="color: rgb(255, 255, 255)">
-                            Sound & BGM
-                        </span>
+                        <p style="color: rgb(255, 255, 255); margin:0; font-size: 70px;">
+                            Sound
+                        </p>
+                        <p style="color: rgb(255, 255, 255); margin:0; font-size: 30px;">
+                            ( Menu > Config から再設定可能です )
+                        </p>
                     </div>
                     <button id="soundOn" class="soundContent" v-on:click="soundOn();">
                         On
@@ -1800,19 +1803,19 @@
             this.audioCorrect.volume = 0.7;
 
             this.audioEasyBGM = new Audio(this.audioEasyBGMpass);
-            this.audioEasyBGM.volume = 0.6;
+            this.audioEasyBGM.volume = 0.5;
             this.audioEasyBGM.loop = true;
 
             this.audioNormalBGM = new Audio(this.audioNormalBGMpass);
-            this.audioNormalBGM.volume = 0.6;
+            this.audioNormalBGM.volume = 0.4;
             this.audioNormalBGM.loop = true;
 
             this.audioHardBGM = new Audio(this.audioHardBGMpass);
-            this.audioHardBGM.volume = 0.6;
+            this.audioHardBGM.volume = 0.4;
             this.audioHardBGM.loop = true;
 
             this.audioLunaticBGM = new Audio(this.audioLunaticBGMpass);
-            this.audioLunaticBGM.volume = 0.5;
+            this.audioLunaticBGM.volume = 0.4;
             this.audioLunaticBGM.loop = true;
 
             this.audioMouseOverSE.preload = 'auto';
@@ -2283,7 +2286,6 @@
                         // }
                     } else if (event.key === this.eventKeyValue[13][0] || event.key === this.eventKeyValue[13][1]) {
                         if (!this.isCount) {
-                            this.playOperationClickSound();
                             this.startOrGiveUp();
                         }
                     }
@@ -2330,6 +2332,9 @@
             countDown() {
                 if (!this.isCount) {
                     this.isCount = true;
+                    if (!this.countDownFlag) {
+                            this.playOperationClickSound();
+                        }
                     if (this.countDownFlag) {
                         let count = 0;
                         let countText = 3;
@@ -3191,9 +3196,6 @@
                             this.target = 10
                         }
                     } else {
-                        if (!this.countDownFlag) {
-                            this.playOperationClickSound();
-                        }
                         this.countDown();
                     }
                 }
