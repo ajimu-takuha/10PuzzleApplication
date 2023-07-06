@@ -308,9 +308,22 @@
                             {{ getEventKeyValue(15, 1) }}
                         </div>
                     </div>
+                    <div class="configItem">
+                        <div class="configSpace">
+                        </div>
+                        <div class="changePart items">
+                            Mode Change
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(16,0)">
+                            {{ getEventKeyValue(16, 0) }}
+                        </div>
+                        <div class="assigned items keys" v-on:click="startEditing(16,1)">
+                            {{ getEventKeyValue(16, 1) }}
+                        </div>
+                    </div>
 
 
-                    <button class="configContent" v-on:click="resetConfigDefault(); this.playContentClickSound()">Reset
+                    <button class="configContent" v-on:click="resetConfigDefault(); playContentClickSound()">Reset
                         Assigned Keys to Default
                     </button>
 
@@ -337,8 +350,8 @@
                     </button>
 
                     <button id="disableHowToPlay" class="configContent"
-                        v-on:click="disableHowToPlay(); playContentClickSound()">Disable How To Play : {{
-                        disableHowToPlayFlag }}
+                        v-on:click="disableHowToPlay(); playContentClickSound()">
+                        Disable How To Play : {{　disableHowToPlayFlag }}
                     </button>
                 </div>
 
@@ -493,7 +506,7 @@
                         <br>
                         「Reload」ボタンは今解いている問題を放棄して<br>
                         次の問題を表示させます<br>
-                        一度の挑戦で使用できるのは20回までで<br>
+                        一度の挑戦で使用できるのは10回までで<br>
                         使用するたびにスコアが10ずつ下がります<br>
                         <br>
                         <br>
@@ -701,6 +714,7 @@
                         GiveUp後の詳細画面を閉じることもできます<br>
                         <br>
                         <br>
+                        設定の保存にはlocalStorageを利用しており<br>
                         Cookieを消去するなどのブラウザ機能を利用するまで<br>
                         変更したキー割り当てはサイトを閉じても維持されます<br>
                         (Lunaticモードを解放した際も同様に状態が維持されます)<br>
@@ -896,7 +910,7 @@
                                 Reload :
                             </div>
                             <div class="scoreContent">
-                                {{20 - reloadCount}}
+                                {{10 - reloadCount}}
                             </div>
                         </div>
 
@@ -1216,14 +1230,14 @@
                 </div>
                 <div id="formulaBody">
                     <div id="firstBra"
-                        @mouseenter="isHovered0 = mode !== 'Lunatic', isLunaticHovered0 = mode === 'Lunatic'"
-                        @mouseleave="isHovered0 = false, isLunaticHovered0 = false" v-bind:class="{
+                        @mouseenter="isHovered3 = mode !== 'Lunatic', isLunaticHovered3 = mode === 'Lunatic'"
+                        @mouseleave="isHovered3 = false, isLunaticHovered3 = false" v-bind:class="{
                         'hovered0': isHovered0,
                         'hovered3': isHovered3, 
                         'lunaticHovered0': isLunaticHovered0,
                         'lunaticHovered3': isLunaticHovered3, 
                         'LunaticBra':mode == 'Lunatic', 
-                        'brackets formula':mode != 'Lunatic'}" v-on:click="braChange(0)">
+                        'brackets formula':mode != 'Lunatic'}" v-on:click="braChange(4)">
                         {{ brackets[0] }}
                     </div>
 
@@ -1270,12 +1284,13 @@
                         {{ numbers[1] }}
                     </div>
 
-                    <div @mouseenter="isHovered0 = mode !== 'Lunatic', isLunaticHovered0 = mode === 'Lunatic'"
+                    <div id="thirdBra"
+                        @mouseenter="isHovered0 = mode !== 'Lunatic', isLunaticHovered0 = mode === 'Lunatic'"
                         @mouseleave="isHovered0 = false, isLunaticHovered0 = false" v-bind:class="{
                             'hovered0': isHovered0,
                             'lunaticHovered0': isLunaticHovered0,   
                             'LunaticBra':mode == 'Lunatic', 
-                            'brackets formula':mode != 'Lunatic'}" id="thirdBra" v-on:click="braChange(2)">
+                            'brackets formula':mode != 'Lunatic'}" v-on:click="braChange(2)">
                         {{ brackets[2] }}
                     </div>
 
@@ -1287,12 +1302,13 @@
                         {{ symValue[1] }}
                     </div>
 
-                    <div @mouseenter="isHovered2 = mode !== 'Lunatic', isLunaticHovered2 = mode === 'Lunatic'"
+                    <div id="forthBra"
+                        @mouseenter="isHovered2 = mode !== 'Lunatic', isLunaticHovered2 = mode === 'Lunatic'"
                         @mouseleave="isHovered2 = false, isLunaticHovered2 = false" v-bind:class="{
                             'hovered2': isHovered2, 
                             'lunaticHovered2': isLunaticHovered2, 
                             'LunaticBra':mode == 'Lunatic', 
-                            'brackets formula':mode != 'Lunatic'}" id="forthBra" v-on:click="braChange(3)">
+                            'brackets formula':mode != 'Lunatic'}" v-on:click="braChange(3)">
                         {{ brackets[3] }}
                     </div>
 
@@ -1304,14 +1320,15 @@
                         {{ numbers[2] }}
                     </div>
 
-                    <div @mouseenter="isHovered3 = mode !== 'Lunatic', isLunaticHovered3 = mode === 'Lunatic'"
-                        @mouseleave="isHovered3 = false, isLunaticHovered3 = false" v-bind:class="{
+                    <div id="fifthBra"
+                        @mouseenter="isHovered1 = mode !== 'Lunatic', isLunaticHovered1 = mode === 'Lunatic'"
+                        @mouseleave="isHovered1 = false, isLunaticHovered1 = false" v-bind:class="{
                             'hovered1': isHovered1,  
                             'hovered3': isHovered3, 
                             'lunaticHovered1': isLunaticHovered1,  
                             'lunaticHovered3': isLunaticHovered3, 
                             'LunaticBra':mode == 'Lunatic', 
-                            'brackets formula':mode != 'Lunatic'}" id="fifthBra" v-on:click="braChange(4)">
+                            'brackets formula':mode != 'Lunatic'}" v-on:click="braChange(1)">
                         {{ brackets[4] }}
                     </div>
 
@@ -1332,15 +1349,15 @@
                         {{ numbers[3] }}
                     </div>
 
-                    <div @mouseenter="isHovered4 = mode !== 'Lunatic', isLunaticHovered4 = mode === 'Lunatic'"
+                    <div id="sixthBra"
+                        @mouseenter="isHovered4 = mode !== 'Lunatic', isLunaticHovered4 = mode === 'Lunatic'"
                         @mouseleave="isHovered4 = false, isLunaticHovered4 = false" v-bind:class="{
                             'hovered2': isHovered2, 
                             'hovered4': isHovered4, 
                             'lunaticHovered2': isLunaticHovered2, 
                             'lunaticHovered4': isLunaticHovered4, 
                             'LunaticBra':mode == 'Lunatic', 
-                            'brackets formula':mode != 'Lunatic'}" id="sixthBra" v-on:click="braChange(5)"
-                        style="width:50px">
+                            'brackets formula':mode != 'Lunatic'}" v-on:click="braChange(5)" style="width:50px">
                         {{ brackets[5] }}
                     </div>
 
@@ -1462,7 +1479,7 @@
             reloadFormula: [],
             reloadAnswerFormula: [],
             answerDetail: [],
-            reloadCount: 20,
+            reloadCount: 10,
             answerFormula: "",
             selectFlag: false,
             startFlag: false,
@@ -1548,7 +1565,8 @@
                 ['l', null],
                 ['Enter', null],
                 ['Escape', null],
-                [' ', null]
+                [' ', null],
+                ['Tab', null]
             ],
             eventKeyValueDefault: [
                 ['e', null],
@@ -1566,7 +1584,8 @@
                 ['l', null],
                 ['Enter', null],
                 ['Escape', null],
-                [' ', null]
+                [' ', null],
+                ['Tab', null]
             ],
             editFlag: false,
             editingRow: null,
@@ -2024,33 +2043,36 @@
                     }
 
                 } else if (this.mode == "Lunatic") {
-
-                    if (this.score < 400) {
+                    if(this.score >= 900){
+                        this.evaluation = "Game Clear";
+                        this.evalComment =
+                            "Did you enjoy this game?";
+                    } else if (this.reloadCount == 10) {
+                        this.evaluation = "-LNN-";
+                        this.evalComment = "Lunatic NoReload NoGiveUp"
+                            "I'm proud of you.";
+                    } else if (this.score < 400) {
                         this.evaluation = "Rank - D -";
                         this.evalComment =
-                            "It's not your fault.";
+                            "Just being able to pass the Lunatic is great.";
                     } else if (this.score < 500) {
                         this.evaluation = "Rank - C -";
                         this.evalComment =
                             "Adversity makes a man wise.";
-                    } else if (this.score < 650) {
+                    } else if (this.score < 600) {
                         this.evaluation = "Rank - B -";
                         this.evalComment =
                             "Do you remember how many times you tried?";
-                    } else if (this.score < 800) {
+                    } else if (this.score < 750) {
                         this.evaluation = "Rank - A -";
                         this.evalComment =
                             "Excuse me, are you a Mensa member?"
 
-                    } else if (this.score < 950) {
+                    } else {
                         this.evaluation = "Rank - S -";
                         this.evalComment =
                             "This game is a battle against luck and yourself.";
-                    } else {
-                        this.evaluation = "Game Clear";
-                        this.evalComment =
-                            "Did you enjoy this game?";
-                    }
+                    } 
                 }
                 this.resultFlag = true;
             },
@@ -2077,7 +2099,7 @@
             },
             playMouseOverSound() {
                 if (this.seFlag) {
-                    this.audioMouseOverSE.pause();
+                    // this.audioMouseOverSE.pause();
                     this.audioMouseOverSE.currentTime = 0;
                     this.audioMouseOverSE.play();
                 }
@@ -2200,7 +2222,7 @@
                 this.editFlag = false;
             },
             handleKeyDown(event) {
-                if (event.key == "Enter" || event.keyCode === 32) {
+                if (event.key == "Enter" || event.keyCode === 32 || event.keyCode === 9) {
                     event.preventDefault();
                 }
                 if (!this.subMenuFlag) {
@@ -2280,7 +2302,10 @@
                             if (!this.isCount) {
                                 this.resetFormula();
                             }
-                        }
+                        }　else if (event.key === this.eventKeyValue[16][0] || event.key === this.eventKeyValue[16][1]) {
+                        // モード変更
+                        this.modeChange();
+                    }
                         // else if (event.key === 'z') {
 
                         // }
@@ -2288,6 +2313,9 @@
                         if (!this.isCount) {
                             this.startOrGiveUp();
                         }
+                    } else if (event.key === this.eventKeyValue[16][0] || event.key === this.eventKeyValue[16][1]) {
+                        // モード変更
+                        this.modeChange();
                     }
                     // else if (event.key === 'z') {
                     //     this.showResult();
@@ -2333,8 +2361,8 @@
                 if (!this.isCount) {
                     this.isCount = true;
                     if (!this.countDownFlag) {
-                            this.playOperationClickSound();
-                        }
+                        this.playOperationClickSound();
+                    }
                     if (this.countDownFlag) {
                         let count = 0;
                         let countText = 3;
@@ -2524,6 +2552,26 @@
                     this.audioNormalBGM.pause();
                     this.audioHardBGM.pause();
                     this.audioLunaticBGM.pause();
+                }
+            },
+            modeChange() {
+                switch (this.mode) {
+                    case "Easy":
+                        this.modeChangeNormal();
+                        break;
+                    case "Normal":
+                        this.modeChangeHard();
+                        break;
+                    case "Hard":
+                        if (localStorage.getItem('mode')) {
+                            this.modeChangeLunatic();
+                        } else {
+                            this.modeChangeEasy();
+                        }
+                        break;
+                    case "Lunatic":
+                        this.modeChangeEasy();
+                        break;
                 }
             },
             modeChangeEasy() {
@@ -3120,7 +3168,7 @@
                 // answerFormula.style.display = "";
                 this.clearCount = 0;
                 // this.createCount = 0;
-                this.reloadCount = 20;
+                this.reloadCount = 10;
                 this.startFlag = false;
                 this.ansFlag = false;
                 // this.clearedFormula = [];
@@ -3175,7 +3223,6 @@
                         this.isStop = true;
                         this.isReset = false;
                         this.stop();
-                        // this.time = "00:00:000";
                         clearTimeout(this.timeoutId);
                         this.isStop = true;
                         this.isReset = true;
@@ -3564,7 +3611,7 @@
                 this.elapsedTime = new Date(reCalcTime - this.startTime);
                 this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
 
-                this.score = 1000 - (this.elapsedTime + 10 * (20 - (this.reloadCount)));
+                this.score = 1000 - (this.elapsedTime + 10 * (10 - (this.reloadCount)));
 
                 // const elapsedTime = Date.now() - this.totalPausedTime;
                 // const d = new Date(elapsedTime - this.startTime);
@@ -3637,7 +3684,7 @@
 
                 this.clearCount = 0;
                 this.btnIsSelect.splice(0, 1, true);
-                this.reloadCount = 20;
+                this.reloadCount = 10;
                 this.questionCount = 0;
                 this.startFlag = true;
                 this.ansFlag = false;
@@ -3661,7 +3708,7 @@
                 clearTimeout(this.timeoutId);
                 this.elapsedTime = Math.round((this.elapsedTime) / 100) / 10;
 
-                this.score = (1000 - (this.elapsedTime + 10 * (20 - this.reloadCount))).toFixed(1);
+                this.score = (1000 - (this.elapsedTime + 10 * (10 - this.reloadCount))).toFixed(1);
             },
             questionThinkTime() {
                 let solvedTime = Date.now();
