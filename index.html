@@ -561,7 +561,7 @@
                         <br>
                         リザルト画面で「Registration」ボタンを押すと<br>
                         1~12文字の名前でスコアを登録することができます<br>
-                        公序良俗に反する名前は使用しないでください<br><br>
+                        一般常識で不適切な名前は使用しないでください<br><br>
                         <br>
                         <br>
                         <br>
@@ -1489,8 +1489,8 @@
             soundFlag: true,
             clickAct: [false, false, false, false, false, false],
             lunaticClickAct: [false, false, false, false, false, false],
-            btnIsSelect: [false, false, false, true, false, false, false],
-            mode: "Normal",
+            btnIsSelect: [false, false, false, false, false, false, true],
+            mode: "Easy",
             target: 10,
             score: "1000.0",
             evaluation: "",
@@ -2069,7 +2069,6 @@
                         this.evaluation = "Rank - A -";
                         this.evalComment =
                             "Excuse me, are you a Mensa member?"
-
                     } else {
                         this.evaluation = "Rank - S -";
                         this.evalComment =
