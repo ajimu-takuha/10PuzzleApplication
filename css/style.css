@@ -1611,7 +1611,8 @@ body {
   outline: none;
 }
 
-.lunaticModeChangeButton {
+
+.lunaticDisable {
   transform: rotate(-30deg);
   margin-left: 6px;
   margin-right: 6px;
@@ -1631,19 +1632,40 @@ body {
   transition: 0.2s;
 }
 
-.lunaticModeChangeButton:hover {
-  color: rgb(0, 0, 0);
-  background-color: rgb(150, 0, 0);
+.lunaticAvailable {
+  transform: rotate(-30deg);
+  margin-left: 6px;
+  margin-right: 6px;
+  font-size: 20px;
+  width: 100px;
+  height: 80px;
+  margin-top: 10px;
+  border: groove 2px rgb(255, 255, 255);
+  border-radius: 1%;
+  color: rgb(240, 240, 240);
+  background-color: black;
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+  border-radius: 100%;
+}
+
+.lunaticAvailable:hover {
+  color: black;
+  background-color: white;
 }
 
 .lunaticIsSelected {
+  /* transition: 0.3s;
+  color: black;
+  background-color: rgb(150, 0, 0); */
   transition: 0.3s;
   color: black;
-  background-color: rgb(150, 0, 0);
-  ;
+  background-color: white;
 }
 
-.modeButtonsLunatic {
+/* .modeButtonsLunatic {
   font-size: 20px;
   width: 200px;
   height: 50px;
@@ -1655,7 +1677,7 @@ body {
   color: rgb(110, 0, 0);
   font-family: 'Henny Penny', cursive;
   transition: 0.2s;
-}
+} */
 
 .btnNoSelect {
   pointer-events: none;
